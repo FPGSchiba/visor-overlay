@@ -1,0 +1,52 @@
+@import 'variables.module';
+
+.login {
+    &.login-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        height: 70%;
+        align-items: center;
+    }
+
+    &.login-header {
+        display: flex;
+        justify-self: center;
+        align-self: center;
+        margin-bottom: 25px;
+        margin-right: 2em;
+    }
+
+    &.login-form {
+        &.login-form__wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &.login-form__input {
+            margin-left: 25px;
+            width: 20em;
+            margin-bottom: 10px;
+           
+            label {
+                color: $color-text-primary;
+            }
+
+            div {
+                fieldset {
+                    border-color: $color-secondary-1;
+                }
+            }
+        }
+
+        &.login-form__submit {
+            width: 15em;
+            margin-left: 50px;
+        }
+
+        &.login-form__remember {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+    }
+}

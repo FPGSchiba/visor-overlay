@@ -1,5 +1,9 @@
-import { app, BrowserWindow, globalShortcut } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
 import { overlayWindow } from 'electron-overlay-window';
+/*
+import * as fs from 'fs';
+import * as path from 'path';
+*/
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
 if (require('electron-squirrel-startup')) {
@@ -15,7 +19,8 @@ const createWindow = (): void => {
     height: 900,
     width: 500,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false,
     },
     ...overlayWindow.WINDOW_OPTS,
   });
@@ -68,3 +73,43 @@ app.on('ready', () => {
     process.platform === 'linux' ? 1000 : 0 // https://github.com/electron/electron/issues/16809
   )
 });
+
+/*
+function getDataDir() {
+  const dataDir =  path.join(process.env.APPDATA, 'visor-overlay');
+  fs.access(dataDir, (error) => {
+    if (error) {
+      fs.mkdir(dataDir, (error) => {
+        if (error) {
+          console.error(error);
+          return '';
+        }
+      });
+    }
+  });
+  return dataDir;
+}
+ 
+ipcMain.on('saveLogin', (event, user: {username: string, password: string}) => {
+  const loginFile = path.join(getDataDir(), 'login.json');
+
+  fs.writeFile(loginFile, JSON.stringify(user), (error) => {
+    if (error) {
+      console.error(error);
+    }
+  });
+})
+
+ipcMain.on('isUserLoggedIn', (event) => {
+  const loginFile = path.join(getDataDir(), 'login.json');
+
+  // TODO: Handle this different
+  fs.access(loginFile, (error) => {
+    if (error) {
+      event.returnValue = false;
+    } else {
+      event.returnValue = true;
+    }
+  })
+})
+*/

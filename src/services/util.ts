@@ -1,3 +1,5 @@
+// import { ipcRenderer } from 'electron';
+
 export function CheckUserInfo() {
-    return true;
+    return false; // ipcRenderer.sendSync('isUserLoggedIn');
 }

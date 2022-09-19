@@ -1,0 +1,15 @@
+.slider {
+    &.slider-wrapper {
+        margin-left: 10px;
+    }
+
+    &.slider-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    &.slider-slide {
+        width: 20%;
+        height: 50%;
+    }
+}

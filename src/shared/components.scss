@@ -1,0 +1,10 @@
+@import 'variables.module';
+@import 'slider';
+@import 'login';
+
+.content-wrapper {
+    background-color: $color-background;
+    border-radius: 15px;
+    color: $color-text-primary;
+    height: 50rem;
+}

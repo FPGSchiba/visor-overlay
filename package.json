@@ -83,7 +83,8 @@
     "node-loader": "^2.0.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.1",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -91,13 +92,18 @@
     "@mui/material": "^5.10.5",
     "electron-overlay-window": "^2.0.1",
     "electron-squirrel-startup": "^1.0.0",
+    "formik": "^2.2.9",
     "mousetrap": "^1.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-redux": "^8.0.2",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^6.4.0",
-    "redux": "^4.2.0",
+    "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.1"
+    "redux-thunk": "^2.4.1",
+    "sass": "^1.54.9",
+    "sass-loader": "^13.0.2",
+    "url-loader": "^4.1.1",
+    "yup": "^0.32.11"
   }
 }

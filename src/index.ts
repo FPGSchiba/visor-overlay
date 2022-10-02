@@ -1,9 +1,8 @@
 import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
 import { overlayWindow } from 'electron-overlay-window';
-/*
+import path from 'path';
 import * as fs from 'fs';
-import * as path from 'path';
-*/
+
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
 if (require('electron-squirrel-startup')) {
@@ -21,6 +20,7 @@ const createWindow = (): void => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      preload: path.resolve('./src/preload.ts'),
     },
     ...overlayWindow.WINDOW_OPTS,
   });
@@ -74,7 +74,7 @@ app.on('ready', () => {
   )
 });
 
-/*
+
 function getDataDir() {
   const dataDir =  path.join(process.env.APPDATA, 'visor-overlay');
   fs.access(dataDir, (error) => {
@@ -112,4 +112,3 @@ ipcMain.on('isUserLoggedIn', (event) => {
     }
   })
 })
-*/

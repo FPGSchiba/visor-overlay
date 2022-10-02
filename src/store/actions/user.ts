@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { GET_USER_SUCCESS } from '../constants/user';
 import { AppState, IUser } from '../format';
 import { ErrorResponse } from './shared';
-// import { ipcRenderer } from 'electron';
+const { ipcRenderer } = window.require("electron");
 
 export interface GetUserProfileSuccessAction extends Action<typeof GET_USER_SUCCESS> {
     user: IUser;
@@ -38,7 +38,7 @@ export function doLogin(
         callback(null, result); */
         const result = username == 'test' && password == 'test';
         if (result && remember) {
-            // ipcRenderer.sendSync('saveLogin', {username, password})
+            ipcRenderer.send('saveLogin', {username, password});
         }
         callback(null, result);
       } catch (err: any) {

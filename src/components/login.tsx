@@ -1,10 +1,11 @@
-import { Button, Checkbox, FormControlLabel, TextField, Typography } from "@mui/material";
+import { Alert, Button, Checkbox, CircularProgress, Collapse, FormControlLabel, IconButton, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { doLogin } from "../store/actions/user";
+import CloseIcon from '@mui/icons-material/Close';
 
 export function Login() {
 const [error, setError] = useState(false);
@@ -21,13 +22,17 @@ const [error, setError] = useState(false);
     const { username, password, remember } = formValue;
     setLoading(true);
 
-    dispatch(doLogin(username, password, remember, (error) => {
+    dispatch(doLogin(username, password, remember, (error, result) => {
       setLoading(false);
-      if (error) {
-        setError(true);
-        setErrorMessage(error.message);
-      } else {
+      if (result) {
         navigate('/home');
+      } else {
+        setError(true);
+        if (error) {
+          setErrorMessage(error.message);
+        } else {
+          setErrorMessage('Username or Password Incorrect.');
+        }
       }
     }));
   };
@@ -75,8 +80,31 @@ const [error, setError] = useState(false);
                         className="login login-form login-form__remember"
                     />
                     <Button variant="contained" type="submit" color="primary" className="login login-form login-form__submit">Login</Button>
+                    {loading ? (
+                    <CircularProgress />
+                  ): null}
                 </div>
             </form>
+            <Collapse in={error} className="login login-form login-form__collapse">
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    size="small"
+                    color='inherit'
+                    onClick={() => {
+                      setError(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                className='login login-form login-form__error'
+              >
+                {errorMessage}
+              </Alert>
+            </Collapse>
         </div>
     )
 }

@@ -48,5 +48,21 @@
             margin-left: 25px;
             margin-bottom: 20px;
         }
+
+        &.login-form__error {
+            background-color: $color-error;
+            color: $color-text-primary;
+
+            div {
+                svg {
+                    color: $color-text-primary;
+                }
+            }
+        }
+
+        &.login-form__collapse {
+            position: absolute;
+            top: 8%;
+        }
     }
 }

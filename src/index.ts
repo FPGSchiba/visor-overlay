@@ -25,7 +25,7 @@ const createWindow = (): void => {
     ...overlayWindow.WINDOW_OPTS,
   });
 
-  window.webContents.openDevTools({ mode: 'detach', activate: false });
+  window.webContents.openDevTools({ mode: 'detach', activate: true });
 
   window.setIgnoreMouseEvents(false);
 

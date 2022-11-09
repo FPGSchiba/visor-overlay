@@ -1,10 +1,19 @@
 @import 'variables.module';
 @import 'slider';
 @import 'login';
+@import 'home';
+@import 'not-found';
 
-.content-wrapper {
+.content-wrapper-left {
     background-color: $color-background;
     border-radius: 15px;
     color: $color-text-primary;
     height: 50rem;
+}
+
+.content-wrapper-right {
+    background-color: $color-background;
+    border-radius: 15px;
+    color: $color-text-primary;
+    height: 70rem;
 }

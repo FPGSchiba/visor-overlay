@@ -1,6 +1,12 @@
 .slider {
     &.slider-wrapper {
         margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    &.slider-container {
+        display: flex;
+        width: 100%;
     }
 
     &.slider-image {
@@ -8,8 +14,14 @@
         height: 100px;
     }
 
-    &.slider-slide {
+    &.slider-left-slide {
         width: 20%;
         height: 50%;
+    }
+
+    &.slider-right-slide {
+        margin-left: auto;
+        width: 30%;
+        height: 70%;
     }
 }

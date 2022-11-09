@@ -17,19 +17,19 @@ function AppWithCallbackAfterRender() {
     <ThemeProvider theme={theme}>
       <Router >
         <React.StrictMode>
-          <CollapseWrapper>
-            <div className='content-wrapper'>
-              <Routes>
-                <Route path={"/"} element={<PrivateRoute />}>
-                  <Route path={"/"} element={<Home />} />
-                  <Route path={"/home"} element={<Home />} />
-                </Route>
-                <Route path="/login" element={<Login />} />
-                <Route path="/not-found" element={<NotFound />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </div>
-          </CollapseWrapper>
+            <CollapseWrapper>
+              <div className='content-wrapper-left'>
+                <Routes>
+                  <Route path={"/"} element={<PrivateRoute />}>
+                    <Route path={"/"} element={<Home />} />
+                    <Route path={"/home"} element={<Home />} />
+                  </Route>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/not-found" element={<NotFound />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
+            </CollapseWrapper>
         </React.StrictMode>
       </Router>
     </ThemeProvider>

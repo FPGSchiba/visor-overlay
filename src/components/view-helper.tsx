@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from "react";
 
 export function ViewHelper() {
     
 
     return (
         <div>
-            <h1>Testing</h1>
+            <iframe src="https://drive.google.com/file/d/16A7hZX2ybHntMV-p5J0wqpcFTrUKBnC1/view?usp=drivesdk"></iframe>
         </div>
     )
 }

@@ -2,8 +2,10 @@ import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
 import { overlayWindow } from 'electron-overlay-window';
 import path from 'path';
 import * as fs from 'fs';
+import { IVISORReport } from './store/format/report.format';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -21,6 +23,7 @@ const createWindow = (): void => {
       nodeIntegration: true,
       contextIsolation: false,
       preload: path.resolve('./src/preload.ts'),
+      webSecurity: false
     },
     ...overlayWindow.WINDOW_OPTS,
   });
@@ -112,3 +115,31 @@ ipcMain.on('isUserLoggedIn', (event) => {
     }
   })
 })
+
+// Local Reports
+function getLocalDirectory() {
+  const localDir =  path.join(getDataDir(), 'local-reports');
+  fs.access(localDir, (error) => {
+    if (error) {
+      fs.mkdir(localDir, (error) => {
+        if (error) {
+          console.error(error);
+          return '';
+        }
+      });
+    }
+  });
+  return localDir;
+}
+
+ipcMain.on('localGetAllReports', (event) => {
+  const dir = getLocalDirectory();
+});
+
+ipcMain.on('localGetReportByName', (event, name: string) => {
+  const dir = getLocalDirectory();
+});
+
+ipcMain.on('localSaveReport', (event, name: string, report: IVISORReport) => {
+  const dir = getLocalDirectory();
+});

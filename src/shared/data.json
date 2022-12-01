@@ -1,0 +1,38 @@
+{
+    "dropDown": {
+        "systems": {
+            "Stanton": [
+                "ArcCorp",
+                "Crusader",
+                "Hurston",
+                "microTech"
+            ],
+            "Pyro": [
+                "Pyro I",
+                "Pyro II",
+                "Pyro III",
+                "Pyro IV",
+                "Pyro V",
+                "Pyro VI"
+            ]
+        },
+        "pois": [
+            "City",
+            "Trading Post",
+            "Outpost",
+            "Cave",
+            "Crash Site",
+            "Satellite",
+            "Race Track",
+            "Other"
+        ],
+        "visorCodes": [
+            "Initial Visit",
+            "Followup",
+            "PVE Mission",
+            "PVP Mission",
+            "ORG Mission",
+            "CMD Mission"
+        ]
+    }
+}

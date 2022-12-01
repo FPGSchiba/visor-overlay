@@ -3,6 +3,10 @@
 @import 'login';
 @import 'home';
 @import 'not-found';
+@import 'functions/create-new';
+@import 'functions/list-all';
+@import 'functions/list-local';
+@import 'functions/search';
 
 .content-wrapper-left {
     background-color: $color-background;

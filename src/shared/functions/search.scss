@@ -1,0 +1,19 @@
+.search {
+    &.search-header {
+        display: flex;
+        justify-content: center;
+    }
+
+    &.search-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 20px;
+        text-align: center;
+
+        &.search-content__button {
+            width: 200px;
+            height: 50px;
+        }
+    }
+}

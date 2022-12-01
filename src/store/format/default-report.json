@@ -1,0 +1,118 @@
+{
+    "name": "somename",
+    "location": {
+        "system": "some-system",
+        "object": "some-object",
+        "poiType": "some-poi-type",
+        "jurisdiction": "UEE"
+    },
+    "reportMeta": {
+        "rsiHandle": "FPG Schiba",
+        "visorCode": 5,
+        "visorCodeJustification": "something", //Optional
+        "scVersion": "3.17.4",
+        "date": "some-date",
+        "followupTrailblazers": false,
+        "followupDiscovery": false,
+        "followupJustification": "something" //Optional
+    },
+    "locationDetails": {
+        "classification": "something",
+        "surroundings": "something",
+        "trade": "", //optional
+        "services": "", //optional
+        "hostiles": "", //optional
+        "defenses": "", //optional
+        "occupants": "", //optional
+        "lethalForce": "", //optional
+        "remainingOccupants": "", //optional
+        "zones": {
+            "noFly": false,
+            "armistice": false,
+            "other": "" //optional
+        }
+    },
+    "navigation": {
+        "om1": 12.12,
+        "om2": 123.12,
+        "om3": 123.12,
+        "om4": 123.12,
+        "om5": 123.65,
+        "om6": 13.123,
+        "straightLineOms": [
+            {
+                "om": "om1|om2|om3|om4|om5|om6",
+                "distance": 123.123
+            }
+        ],
+        "refuelingGroundPoi": {
+            "name": "somename",
+            "distance": 123.12,
+            "bearing": 123.12 //optional
+        },
+        "spaceStation": {
+            "name": "somename",
+            "distance": 1278.12
+        }
+    },
+    "fuelConsumptions": [ // Optional
+        {
+            "ship": "someship",
+            "drive": "somedrive",
+            "fuelConsumption": 1234.123,
+            "pointA": {
+                "name": "somename",
+                "distance": 1234.12
+            },
+            "pointB": {
+                "name": "somename",
+                "distance": 123.12
+            }
+        }
+    ],
+    "virs": {
+        "temperatureMeasures": [ // optional
+            12.23,
+            72.5
+        ],
+        "breathable": false,
+        "externalPressure": 1234.1, // optional
+        "composition": "somecomp", // optional
+        "pads": { // optional
+            "ground": 12,
+            "ship": 12
+        },
+        "surfaceElevation": 1236, //optional
+        "radiation": 1234, //optional
+        "gravity": 123.123, //optional
+        "consoles": {
+            "trading": false,
+            "mining": false,
+            "finePayment": false,
+            "security": false,
+            "weaponSales": {
+                "personal": false,
+                "ship": false
+            },
+            "shipComponents": false,
+            "shipRental": false,
+            "landing": false,
+            "habitation": false,
+            "fuel": {
+                "hydrogen": false,
+                "quantanium": false
+            },
+            "repair": false,
+            "rearm": false
+        }
+    },
+    "screenShots": [ //optional
+        {
+            "description": "something",
+            "picture": "location / base64"
+        }
+    ],
+    "keyWords": [
+        "someWord"
+    ]
+}

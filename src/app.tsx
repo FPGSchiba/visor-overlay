@@ -4,6 +4,10 @@ import * as ReactDOMClient from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Routes, Route, HashRouter as Router } from "react-router-dom";
 import { CollapseWrapper } from './components/collapase-wrapper';
+import { CreateNew } from './components/functions/create-new';
+import { ListAll } from './components/functions/list-all';
+import { ListLocal } from './components/functions/list-local';
+import { Search } from './components/functions/search';
 import { Home } from './components/home';
 import { Login } from './components/login';
 import { NotFound } from './components/not-found';
@@ -23,6 +27,10 @@ function AppWithCallbackAfterRender() {
                   <Route path={"/"} element={<PrivateRoute />}>
                     <Route path={"/"} element={<Home />} />
                     <Route path={"/home"} element={<Home />} />
+                    <Route path={"/create-new"} element={<CreateNew />} />
+                    <Route path={"/list-all"} element={<ListAll />} />
+                    <Route path={"/search"} element={<Search />} />
+                    <Route path={"/list-local"} element={<ListLocal />} />
                   </Route>
                   <Route path="/login" element={<Login />} />
                   <Route path="/not-found" element={<NotFound />} />

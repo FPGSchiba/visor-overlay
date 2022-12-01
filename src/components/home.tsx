@@ -12,16 +12,33 @@ export function Home() {
     const navigateToTest = () => {
         navigateTo('/test');
     }
+
+    const navigateToCreateNew = () => {
+        navigateTo('/create-new');
+    }
     
+    const navigateToListAll = () => {
+        navigateTo('/list-all');
+    }
+
+    const navigateToSearch = () => {
+        navigateTo('/search');
+    }
+
+    const navigateToListLocal = () => {
+        navigateTo('/list-local');
+    }
+
     return (
         <div className="home">
             <div className="home home-header">
                 <h1>VISOR 2.0 Navigation</h1>
             </div>
             <div className="home home-navigation">
-                <Button variant="contained" onClick={navigateToTest} color="primary" className="home home-navigation home-navigation__button">Test</Button>
-                <Button variant="contained" onClick={navigateToTest} color="primary" className="home home-navigation home-navigation__button">Test</Button>
-                <Button variant="contained" onClick={navigateToTest} color="primary" className="home home-navigation home-navigation__button">Test</Button>
+                <Button variant="contained" onClick={navigateToCreateNew} color="primary" className="home home-navigation home-navigation__button">Create New</Button>
+                <Button variant="contained" onClick={navigateToListAll} color="primary" className="home home-navigation home-navigation__button">List All</Button>
+                <Button variant="contained" onClick={navigateToSearch} color="primary" className="home home-navigation home-navigation__button">Search</Button>
+                <Button variant="contained" onClick={navigateToListLocal} color="primary" className="home home-navigation home-navigation__button">List Local</Button>
                 <Button variant="contained" onClick={navigateToTest} color="primary" className="home home-navigation home-navigation__button">Test</Button>
             </div>
             <div className="home home-footer">

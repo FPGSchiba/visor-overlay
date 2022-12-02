@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Report() {
+export function DetailReport() {
     return (
         <div>Test</div>
     )

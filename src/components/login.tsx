@@ -8,7 +8,7 @@ import { doLogin } from "../store/actions/user";
 import CloseIcon from '@mui/icons-material/Close';
 
 export function Login() {
-const [error, setError] = useState(false);
+  const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();

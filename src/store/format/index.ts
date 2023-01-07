@@ -1,5 +1,5 @@
 export interface AppState {
-    currentUser: IUser
+    authState: AuthState;
 }
 
 /* Session handling
@@ -9,7 +9,18 @@ export interface UserState {
 } 
 */
 
+export interface AuthState {
+    currentUser: IUser
+    currentOrg: IOrg
+}
+
+export interface IOrg {
+    token: string,
+    name: string
+}
+
 export interface IUser {
-    username: string, 
-    password: string
+    token: string, 
+    handle: string,
+    role: string,
 }

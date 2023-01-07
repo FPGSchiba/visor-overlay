@@ -9,7 +9,7 @@ import { ListAll } from './components/functions/list-all';
 import { ListLocal } from './components/functions/list-local';
 import { Search } from './components/functions/search';
 import { Home } from './components/home';
-import { Login } from './components/login';
+import { Login } from './components/login-org';
 import { NotFound } from './components/not-found';
 import PrivateRoute from './components/private-route';
 import { theme } from './shared/theme';

@@ -3,6 +3,7 @@ import { overlayWindow } from 'electron-overlay-window';
 import path from 'path';
 import * as fs from 'fs';
 import { IVISORReport } from './store/format/report.format';
+import { PathOrFileDescriptor } from 'original-fs';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
@@ -93,7 +94,7 @@ function getDataDir() {
   return dataDir;
 }
  
-ipcMain.on('saveLogin', (event, user: {username: string, password: string}) => {
+ipcMain.on('saveLogin', (event, user: {userToken: string, orgToken: string}) => {
   const loginFile = path.join(getDataDir(), 'login.json');
 
   fs.writeFile(loginFile, JSON.stringify(user), (error) => {
@@ -103,10 +104,9 @@ ipcMain.on('saveLogin', (event, user: {username: string, password: string}) => {
   });
 })
 
-ipcMain.on('isUserLoggedIn', (event) => {
+ipcMain.on('hasLoginFile', (event) => {
   const loginFile = path.join(getDataDir(), 'login.json');
 
-  // TODO: Handle this different
   fs.access(loginFile, (error) => {
     if (error) {
       event.returnValue = false;
@@ -114,7 +114,20 @@ ipcMain.on('isUserLoggedIn', (event) => {
       event.returnValue = true;
     }
   })
-})
+});
+
+ipcMain.on('getLoginFromFile', (event) => {
+	const loginFile = path.join(getDataDir(), 'login.json');
+
+	fs.readFile(loginFile, { encoding: 'utf-8'}, (err: NodeJS.ErrnoException, data: Buffer) => {
+		if (!err) {
+			event.returnValue = JSON.parse(data.toString());
+		} else {
+			console.error(err);
+			event.returnValue = {};
+		}
+	})
+});
 
 // Local Reports
 function getLocalDirectory() {

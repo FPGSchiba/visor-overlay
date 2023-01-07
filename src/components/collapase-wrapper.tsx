@@ -2,14 +2,14 @@
 import  React, { useEffect, useState } from 'react';
 import { IconButton, Slide, Box, FormControlLabel } from '@mui/material';
 import Logo from '../resources/logo.png';
-import { CheckUserInfo } from '../services/util';
+import { checkUserInfo } from '../services/util';
 import { ViewHelper } from './view-helper';
 import { useLocation } from 'react-router-dom';
 
 export function CollapseWrapper(props: any) {
     const { children } = props;
     const [checked, setChecked] = useState(false);
-    const auth = CheckUserInfo();
+    const auth = checkUserInfo();
     const [usesData, setUsesData] = useState(false);
     const location = useLocation();
     const dataLocations = [

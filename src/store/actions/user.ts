@@ -1,46 +1,82 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { GET_USER_SUCCESS } from '../constants/user';
-import { AppState, IUser } from '../format';
+import { setUserInfoToCookies } from '../../services/util';
+import visorBackend from '../../services/visor.backend';
+import { GET_USER_SUCCESS, GET_ORG_SUCCESS } from '../constants/user';
+import { AppState, IOrg, IUser } from '../format';
 import { ErrorResponse } from './shared';
 const { ipcRenderer } = window.require("electron");
 
-export interface GetUserProfileSuccessAction extends Action<typeof GET_USER_SUCCESS> {
+export interface GetUserSuccessAction extends Action<typeof GET_USER_SUCCESS> {
     user: IUser;
-  }
+}
+
+export interface GetOrgSuccessAction extends Action<typeof GET_ORG_SUCCESS> {
+	org: IOrg;
+}
 
 export type UserActionTypes =
-  | GetUserProfileSuccessAction;
+  | GetUserSuccessAction
+  | GetOrgSuccessAction;
 
 type ThunkResult<R> = ThunkAction<R, AppState, undefined, UserActionTypes>;
 
+export function getUserSuccess(handle: string, token: string, role: string): GetUserSuccessAction {
+	return {
+		type: GET_USER_SUCCESS,
+		user: {
+			handle,
+			role,
+			token
+		}
+	};
+}
+
+export function getOrgSuccess(name: string, token: string): GetOrgSuccessAction {
+	return {
+		type: GET_ORG_SUCCESS,
+		org: {
+			name,
+			token
+		}
+	}
+}
+
 export function doLogin(
-    username: string,
-    password: string,
+    orgToken: string,
+    userToken: string,
     remember: boolean,
     callback: (
       err?: ErrorResponse,
-      /*data?: {
-        message: string;
-        token: string;
-        expirationTime: string;
-      }*/
-      data?: boolean
     ) => void,
   ): ThunkResult<void> {
     return async function (dispatch: (arg0: any) => void) {
       try {
-        /* TODO: Handle user Login
-        const result = await userManagementService.login(username, Hash(password));
-        dispatch(getUserProfileSuccess(result.user, result.token));
-        setUserInfoToCookies({ expiredTime: result.expirationTime, user: result.user });
-        setTokenToCookies(result.token, new Date(result.expirationTime));
-        callback(null, result); */
-        const result = username == 'test' && password == 'test';
-        if (result && remember) {
-            ipcRenderer.send('saveLogin', {username, password});
-        }
-        callback(null, result);
+        const result = await visorBackend.getUserInfo(orgToken, userToken);
+        if (result.success) {
+			if (remember) {
+				ipcRenderer.send('saveLogin', {userToken, orgToken});
+			}
+			if (result.handle && result.role && result.orgName) {
+				dispatch(getUserSuccess(result.handle, userToken, result.role));
+				dispatch(getOrgSuccess(result.orgName, orgToken));
+				const org: IOrg = {
+					name: result.orgName,
+					token: orgToken,
+				}
+				const user: IUser = {
+					handle: result.handle,
+					role: result.role,
+					token: userToken,
+				}
+				setUserInfoToCookies({org, user});
+				callback(null);
+			} else {
+				callback({ message: result.message })
+			}
+        } else {
+			callback({ message: result.message })
+		}
       } catch (err: any) {
         const error = err.response?.data || err;
         callback(error);

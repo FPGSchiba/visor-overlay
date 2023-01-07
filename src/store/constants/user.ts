@@ -1,1 +1,2 @@
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_ORG_SUCCESS = 'GET_ORG_SUCCESS';

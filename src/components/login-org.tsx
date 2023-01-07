@@ -14,32 +14,33 @@ export function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('This field is required!'),
-    password: Yup.string().required('This field is required!'),
+    userToken: Yup.string().required('This field is required!'),
+    orgToken: Yup.string().required('This field is required!'),
     remember: Yup.bool()
   });
-  const handleLogin = (formValue: { username: string; password: string, remember: boolean }) => {
-    const { username, password, remember } = formValue;
+  const handleLogin = (formValue: { userToken: string; orgToken: string, remember: boolean }) => {
+    const { userToken, orgToken, remember } = formValue;
     setLoading(true);
 
-    dispatch(doLogin(username, password, remember, (error, result) => {
+    dispatch(doLogin(orgToken, userToken, remember, (error) => {
       setLoading(false);
-      if (result) {
+      if (!error) {
+        console.log('navigating')
         navigate('/home');
       } else {
         setError(true);
         if (error) {
           setErrorMessage(error.message);
         } else {
-          setErrorMessage('Username or Password Incorrect.');
+          setErrorMessage('userToken or orgToken Incorrect.');
         }
       }
     }));
   };
 
   const initialValues = {
-    username: '',
-    password: '',
+    userToken: '',
+    orgToken: '',
     remember: false,
   };
 
@@ -52,22 +53,21 @@ export function Login() {
             <form onSubmit={formik.handleSubmit}>
                 <div className="login login-form login-form__wrapper">
                     <TextField 
-                        label={"Username"}
-                        name='username'
-                        value={formik.values.username}
+                        label={"User Token"}
+                        name='userToken'
+                        value={formik.values.userToken}
                         onChange={formik.handleChange}
-                        error={formik.touched.username && Boolean(formik.errors.username)}
-                        helperText={formik.errors.username}
+                        error={formik.touched.userToken && Boolean(formik.errors.userToken)}
+                        helperText={formik.errors.userToken}
                         className='login login-form login-form__input'
                     />
                     <TextField 
-                        label={"Password"}
-                        name='password'
-                        value={formik.values.password}
+                        label={"Organization Token"}
+                        name='orgToken'
+                        value={formik.values.orgToken}
                         onChange={formik.handleChange}
-                        error={formik.touched.password && Boolean(formik.errors.password)}
-                        type='password'
-                        helperText={formik.touched.password && formik.errors.password}
+                        error={formik.touched.orgToken && Boolean(formik.errors.orgToken)}
+                        helperText={formik.touched.orgToken && formik.errors.orgToken}
                         className='login login-form login-form__input'
                     />
                     <FormControlLabel control={

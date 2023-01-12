@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { PermissionWrapper } from "./users/permission-wrapper";
 
 export function Home() {
     const navigate = useNavigate();
@@ -29,6 +30,10 @@ export function Home() {
         navigateTo('/list-local');
     }
 
+    const navigateToUsers = () => {
+        navigateTo('/users');
+    }
+
     return (
         <div className="home">
             <div className="home home-header">
@@ -39,7 +44,9 @@ export function Home() {
                 <Button variant="contained" onClick={navigateToListAll} color="primary" className="home home-navigation home-navigation__button">List All</Button>
                 <Button variant="contained" onClick={navigateToSearch} color="primary" className="home home-navigation home-navigation__button">Search</Button>
                 <Button variant="contained" onClick={navigateToListLocal} color="primary" className="home home-navigation home-navigation__button">List Local</Button>
-                <Button variant="contained" onClick={navigateToTest} color="primary" className="home home-navigation home-navigation__button">Test</Button>
+                <PermissionWrapper roles={['Admin']}>
+                    <Button variant="contained" onClick={navigateToUsers} color="primary" className="home home-navigation home-navigation__button">Users</Button>
+                </PermissionWrapper>
             </div>
             <div className="home home-footer">
                 <h4>This Overlay is brought by you by: FPGSchiba</h4>

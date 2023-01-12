@@ -8,12 +8,23 @@
 @import 'functions/list-local';
 @import 'functions/search';
 @import 'navigation';
+@import 'functions/user-info';
+@import 'functions/user-list';
+@import 'functions/edit-user';
 
 .content-wrapper-left {
     background-color: $color-background;
     border-radius: 15px;
     color: $color-text-primary;
     height: 50rem;
+}
+
+.content-wrapper-top {
+    background-color: $color-background;
+    border-radius: 15px;
+    color: $color-text-primary;
+    height: 100px;
+    width: 24rem;
 }
 
 .content-wrapper-right {

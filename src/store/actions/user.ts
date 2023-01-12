@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { setUserInfoToCookies } from '../../services/util';
+import { getUserInfoFromCookies, setUserInfoToCookies } from '../../services/util';
 import visorBackend from '../../services/visor.backend';
 import { GET_USER_SUCCESS, GET_ORG_SUCCESS } from '../constants/user';
 import { AppState, IOrg, IUser } from '../format';
@@ -82,4 +82,35 @@ export function doLogin(
         callback(error);
       }
     };
+}
+
+export function updateUserInfo(): ThunkResult<void>{
+	return async function (dispatch: (arg0: any) => void) {
+	  const currentAuth = await getUserInfoFromCookies();
+	  const {user, org} = currentAuth;
+	  if (user) dispatch(getUserSuccess(user.handle, user.token, user.role));
+	  if (org) dispatch(getOrgSuccess(org.name, org.token));
+	}
+}
+
+export function getUsersList(orgToken: string, userToken: string, callback: (err?: ErrorResponse, data?: IUser[]) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0:any) => void) {
+		const result = await visorBackend.listUsers(orgToken, userToken);
+		if (result.success && result.users) {
+			callback(null, result.users);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function getSpecificUser(orgToken: string, userToken: string, handle: string, callback: (err?: ErrorResponse, data?: IUser) => void) {
+	return async function (dispatch: (arg0:any) => void) {
+		const result = await visorBackend.getUser(orgToken, userToken, handle);
+		if (result.success && result.user) {
+			callback(null, result.user);
+		} else {
+			callback({message: result.message});
+		}
+	}
 }

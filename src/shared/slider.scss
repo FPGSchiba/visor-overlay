@@ -2,11 +2,20 @@
     &.slider-wrapper {
         margin-left: 10px;
         margin-right: 10px;
+        margin-top: 10px;
     }
 
     &.slider-container {
         display: flex;
         width: 100%;
+    }
+
+    &.slider-label {
+        display: inline-block;
+        margin-bottom: 15px;
+        width: 100px;
+        height: 100px;
+        position: fixed;
     }
 
     &.slider-image {
@@ -23,5 +32,36 @@
         margin-left: auto;
         width: 30%;
         height: 70%;
+    }
+
+    &.slider-user-slide {
+        display: inline-block;
+        margin-bottom: 15px;
+        margin-left: 5%;
+        position: fixed;
+    }
+
+    &.slider-opener-slide {
+        display: inline-block;
+        margin-bottom: 15px;
+        margin-left: 5%;
+    }
+
+    &.slider-userOpener {
+        &.slider-userOpener__wrapper {
+            display: inline-block;
+            height: 100px;
+        }
+
+        &.slider-userOpener__button {
+            height: 120px;
+            width: 120px;
+
+            svg {
+                height: 100%;
+                width: 100%;
+                color: $color-primary-1;
+            }
+        }
     }
 }

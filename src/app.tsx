@@ -10,8 +10,10 @@ import { ListLocal } from './components/functions/list-local';
 import { Search } from './components/functions/search';
 import { Home } from './components/home';
 import { Login } from './components/login-org';
+import { NoAccess } from './components/no-access';
 import { NotFound } from './components/not-found';
 import PrivateRoute from './components/private-route';
+import { Users } from './components/users/users';
 import { theme } from './shared/theme';
 import store from './store';
 
@@ -31,6 +33,8 @@ function AppWithCallbackAfterRender() {
                     <Route path={"/list-all"} element={<ListAll />} />
                     <Route path={"/search"} element={<Search />} />
                     <Route path={"/list-local"} element={<ListLocal />} />
+                    <Route path={'/users'} element={<Users />} />
+                    <Route path={'/no-access'} element={<NoAccess />} />
                   </Route>
                   <Route path="/login" element={<Login />} />
                   <Route path="/not-found" element={<NotFound />} />

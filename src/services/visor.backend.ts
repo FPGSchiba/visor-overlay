@@ -2,6 +2,7 @@
 import axios, { AxiosInstance } from "axios";
 import https from 'https';
 import { response } from "express";
+import { IUser } from "../store/format";
 const UNAUTHORIZED_CODE = 401;
 
 /**
@@ -58,6 +59,59 @@ class VISORApi {
                 handle: data.data.handle,
                 role: data.data.role,
                 orgName: data.data.orgName
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message
+            }
+        }
+    }
+
+    @wrapInit
+    public async listUsers(
+        orgToken: string,
+        userToken: string
+    ):Promise<{ success: boolean, message: string, users?: IUser[] }>{
+        try {
+            const { data } = await VISORApi.endpoint.get('/users/list', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                users: data.data.users
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message
+            }
+        }
+    }
+
+    @wrapInit
+    public async getUser(
+        orgToken: string,
+        userToken: string,
+        handle: string
+    ):Promise<{ success: boolean, message: string, user?: IUser }>{
+        try {
+            const { data } = await VISORApi.endpoint.get(`/users/get?handle=${handle}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                user: data.data
             };
         } catch (reason) {
             return {

@@ -1,0 +1,29 @@
+.userList {
+    &.userList-wrapper {
+        border-top: 2px solid $color-divider;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.userList-button {
+        display: flex;
+        width: 160px;
+        align-self: flex-end;
+        margin: 10px 10px 0 0;
+    }
+
+    &.userList-list {
+        &.userList-list__item {
+            border-top: 1px solid $color-divider;
+        }
+
+        &.userList-list__text {
+            margin-left: 10px;
+        }
+
+        &.userList-list__button {
+            margin-right: 10px;
+        }
+    }
+}

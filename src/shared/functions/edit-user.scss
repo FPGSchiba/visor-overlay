@@ -1,0 +1,37 @@
+.userEdit {
+    &.userEdit-wrapper {
+        width: 31.8rem;
+        height: 49.7rem;
+        background-color: $color-opa-background;
+        border-radius: 15px;
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+    }
+
+    &.userEdit-heading {
+        min-width: 28rem;
+    }
+
+    &.userEdit-button {
+        width: 50px;
+        height: 50px;
+
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    &.userEdit-form {
+        &.userEdit-form__select {
+            width: 250px;
+            color: $color-text-primary;
+        }
+    }
+}
+
+#userEdit-form__select {
+    color: $color-text-primary;
+}

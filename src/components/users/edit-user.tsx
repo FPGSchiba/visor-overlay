@@ -1,13 +1,12 @@
-import { CircularProgress, IconButton, MenuItem, Select, Typography } from "@mui/material";
+import { Button, CircularProgress, IconButton, MenuItem, Select, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState, IUser } from "../../store/format";
 import CloseIcon from '@mui/icons-material/Close';
-import { getSpecificUser } from "../../store/actions/user";
-import { ErrorResponse } from "@remix-run/router";
+import { getSpecificUser, updateUser } from "../../store/actions/user";
 
-export function EditUser(props: {handle: string, setOpen: (open: boolean) => void}) {
-    const {setOpen, handle} = props;
+export function EditUser(props: {handle: string, setOpen: (open: boolean) => void, fetchUserData: () => void}) {
+    const {setOpen, handle, fetchUserData} = props;
     const dispatch = useDispatch();
     const [currentRole, setCurrentRole] = useState('');
     const [loading, setLoading] = useState(true);
@@ -21,11 +20,20 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
     }
 
     const handleChange = (event: any) => {
-        setCurrentRole(event.target.value);
+        setRole(event.target.value);
     }
 
     const handleUpdate = () => {
-        // TODO: uUpdate User
+        dispatch(
+            updateUser(orgToken, userToken, {handle, role}, (err) => {
+                if (!err) {
+                    fetchUserData();
+                    setOpen(false);
+                } else {
+                    console.error(err);
+                }
+            })
+        );
     }
 
     useEffect(() => {
@@ -51,11 +59,13 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
                         onChange={handleChange}
                         className='userEdit userEdit-form userEdit-form__select'
                         labelId="userEdit-form__select"
+                        defaultValue={currentRole}
                     >
                         <MenuItem value={'Admin'}>Admin</MenuItem>
                         <MenuItem value={'Contributor'}>Contributor</MenuItem>
                         <MenuItem value={'Editor'}>Editor</MenuItem>
                     </Select>
+                    <Button variant="contained" onClick={handleUpdate} className="userEdit userEdit-form userEdit-form__button">Update</Button>
                 </div>
             ) : <CircularProgress />}
         </div>

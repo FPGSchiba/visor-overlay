@@ -11,7 +11,9 @@
     }
 
     &.userEdit-heading {
-        min-width: 28rem;
+        min-width: 27rem;
+        margin-top: 2rem;
+        margin-left: 15px;
     }
 
     &.userEdit-button {
@@ -28,6 +30,12 @@
         &.userEdit-form__select {
             width: 250px;
             color: $color-text-primary;
+            margin-top: 2rem;
+            margin-left: 15px;
+        }
+
+        &.userEdit-form__button {
+            margin-left: 20px;
         }
     }
 }

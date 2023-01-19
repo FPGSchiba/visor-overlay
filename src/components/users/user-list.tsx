@@ -2,34 +2,21 @@ import { Button, CircularProgress, IconButton, List, ListItem, ListItemText } fr
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsersList } from "../../store/actions/user";
+import { useSelector } from "react-redux";
 import { AppState, IUser } from "../../store/format";
 import EditIcon from '@mui/icons-material/Edit';
 
-export function UserList(props: {setEditUserOpen: (open: boolean) => void, setEditUserHandle: (handle: string) => void}) {
-    const { setEditUserOpen, setEditUserHandle } = props;
+export function UserList(props: {setEditUserOpen: (open: boolean) => void, setEditUserHandle: (handle: string) => void, fetchUserData: () => void, users: IUser[]}) {
+    const { setEditUserOpen, setEditUserHandle, fetchUserData, users } = props;
     const [loading, setLoading] = useState(true);
-    const [users, setUsers] = useState([] as IUser[]);
-    const dispatch = useDispatch();
+    const currentHandle = useSelector((state: AppState) => state.authState.currentUser.handle);
     const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
     const userToken = useSelector((state: AppState) => state.authState.currentUser.token);
-    const currentHandle = useSelector((state: AppState) => state.authState.currentUser.handle);
-
-    const fetchUserData = () => {
-        dispatch(getUsersList(orgToken, userToken, (err, data) => {
-            if (!err) {
-                setUsers(data);
-                setLoading(false);
-            } else {
-                console.log(err);
-            }
-        }))
-    }
 
     const handleRefresh = () => {
         setLoading(true);
         fetchUserData();
+        setLoading(false);
     }
 
     const handleUserEdit = (handle: string) => {
@@ -39,6 +26,7 @@ export function UserList(props: {setEditUserOpen: (open: boolean) => void, setEd
 
     useEffect(() => {
         fetchUserData();
+        setLoading(false);
     }, [orgToken, userToken])
 
     return (

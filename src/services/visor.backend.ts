@@ -120,6 +120,40 @@ class VISORApi {
             }
         }
     }
+
+    @wrapInit
+    public async updateUser(
+        orgToken: string,
+        userToken: string,
+        handle: string,
+        role: string
+    ): Promise<{ success: boolean, message: string}> {
+        try {
+            const { data } = await VISORApi.endpoint.post('/users/update',
+            {
+                handle,
+                update: {
+                    role
+                }
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
 }
 
 export default new VISORApi();

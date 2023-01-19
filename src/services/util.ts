@@ -12,19 +12,18 @@ export function getUserInfoFromCookies(): { org: IOrg; user: IUser } | undefined
     return Object.keys(data).length ? data : undefined;
 }
 
-export async function checkUserInfo(): Promise<boolean> {
+export function checkUserInfo(callback: (currentAuth: boolean) => void) {
     const userInfo = getUserInfoFromCookies();
-    if (!userInfo) {
-      return await checkUserFromSaved();
-    }
-  
-    const userToken = userInfo.user.token;
-    const orgToken = userInfo.org.token;
-    const result = await visorBackend.getUserInfo(orgToken, userToken);
-    if (result.success) {
-        return true;
+    if (userInfo) {
+        const userToken = userInfo.user ? userInfo.user.token : '';
+        const orgToken = userInfo.org ? userInfo.org.token : '';
+        visorBackend.getUserInfo(orgToken, userToken).then((value) => {
+            callback(value.success);
+        });
     } else {
-        return false;
+        checkUserFromSaved().then((value) => {
+            callback(value);
+        })
     }
 }
 
@@ -38,6 +37,9 @@ async function checkUserFromSaved(): Promise<boolean> {
             const orgToken = credentials.orgToken;
             const result = await visorBackend.getUserInfo(orgToken, userToken);
             if (result.success) {
+                const org = {token: orgToken, name: result.orgName};
+                const user = {handle: result.handle, token: userToken, role: result.role};
+                setUserInfoToCookies({org, user})
                 return true;
             } else {
                 return false;
@@ -51,6 +53,13 @@ async function checkUserFromSaved(): Promise<boolean> {
 }
 
 export function eraseCookies(): void {
-    Cookies.remove('token');
-    return Cookies.remove('userInfo');
+    Cookies.remove('userInfo');
+}
+
+export function logoutUser() {
+    const hasLoginFile = ipcRenderer.sendSync('hasLoginFile');
+    if (hasLoginFile) {
+        ipcRenderer.sendSync('removeLoginFile');
+    }
+    eraseCookies();
 }

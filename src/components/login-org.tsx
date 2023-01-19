@@ -25,7 +25,6 @@ export function Login() {
     dispatch(doLogin(orgToken, userToken, remember, (error) => {
       setLoading(false);
       if (!error) {
-        console.log('navigating')
         navigate('/home');
       } else {
         setError(true);

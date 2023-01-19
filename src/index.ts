@@ -129,6 +129,16 @@ ipcMain.on('getLoginFromFile', (event) => {
 	})
 });
 
+ipcMain.on('removeLoginFile', (event) => {
+	const loginFile = path.join(getDataDir(), 'login.json');
+
+	fs.rm(loginFile, (err: NodeJS.ErrnoException) => {
+		if (err) {
+			console.error(err);
+		}
+	})
+});
+
 // Local Reports
 function getLocalDirectory() {
   const localDir =  path.join(getDataDir(), 'local-reports');

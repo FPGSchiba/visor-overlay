@@ -4,12 +4,10 @@ import { IconButton, Slide, Box, FormControlLabel, Button } from '@mui/material'
 import Logo from '../resources/logo.png';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ViewHelper } from './view-helper';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { UserInfo } from './users/user-info';
-import { clearUser, updateUserInfo } from '../store/actions/user';
+import { updateUserInfo } from '../store/actions/user';
 import { useDispatch } from 'react-redux';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { logoutUser } from '../services/util';
 
 export function CollapseWrapper(props: any) {
     const { children } = props;
@@ -18,7 +16,6 @@ export function CollapseWrapper(props: any) {
     const [showUserInfo, setShowUserInfo] = useState(true);
     const dispatch = useDispatch();
     const location = useLocation();
-    const navigate = useNavigate();
     const dataLocations = [
         "\/test"
     ]
@@ -51,13 +48,6 @@ export function CollapseWrapper(props: any) {
         setShowUserInfo((prev) => !prev);
     }
 
-    const handleLogout = () => {
-        logoutUser();
-        dispatch(
-            clearUser()
-        )
-        navigate('/login');
-    }
 
     return (
         <Box className='slider slider-wrapper'>
@@ -77,7 +67,6 @@ export function CollapseWrapper(props: any) {
                 <div>
                     <div className='slider slider-userOpener slider-userOpener__wrapper'>
                         <IconButton aria-label="collapse" onClick={handleUserInfo} className='slider slider-userOpener slider-userOpener__button'><AccountCircleIcon /></IconButton>
-                        <IconButton aria-label="collapse" onClick={handleLogout} className='slider slider-userOpener slider-userOpener__button'><LogoutIcon /></IconButton>
                     </div>
                 </div>
             </Slide>

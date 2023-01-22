@@ -32,7 +32,7 @@ class VISORApi {
             rejectUnauthorized: false,
         });
 
-        const apiURL = "http://localhost:3000"
+        const apiURL = "http://192.168.1.202:3000"
 
         VISORApi.endpoint = axios.create({
             baseURL: apiURL,
@@ -135,6 +135,71 @@ class VISORApi {
                 update: {
                     role
                 }
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async createUser(
+        orgToken: string,
+        userToken: string,
+        handle: string,
+        role: string
+    ): Promise<{ success: boolean, message: string, userKey?: string}> {
+        try {
+            const { data } = await VISORApi.endpoint.post('/users/create',
+            {
+                handle,
+                role,
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                userKey: data.data.userKey
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async deleteUser(
+        orgToken: string,
+        userToken: string,
+        token: string,
+        reason: string
+    ): Promise<{ success: boolean, message: string}> {
+        try {
+            const { data } = await VISORApi.endpoint.post('/users/delete',
+            {
+                token,
+                reason,
             },
             {
                 headers: {

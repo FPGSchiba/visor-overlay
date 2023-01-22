@@ -90,9 +90,9 @@ export interface IVISORNavigation {
     om4: number;
     om5: number;
     om6: number;
-    straightLineOms: IVISORNavigationStraightOM[];
-    refuelingGroundPoi: IVISORNavigationGround;
-    spaceStation: IVISORNavigationStation;
+    straightLineOms?: IVISORNavigationStraightOM[];
+    refuelingGroundPoi?: IVISORNavigationGround;
+    spaceStation?: IVISORNavigationStation;
 }
 
 export interface IVISORLocationDetailsZones {
@@ -116,7 +116,7 @@ export interface IVISORLocationDetails {
 
 export interface IVISORReportMeta {
     rsiHandle: string;
-    visorCode: string;
+    visorCode: number;
     visorCodeJustification?: string;
     scVersion: string;
     date: Date;
@@ -127,19 +127,46 @@ export interface IVISORReportMeta {
 
 export interface IVISORLocation {
     system: string;
-    object: string;
+    stellarObject: string;
+    planetLevelObject?: string;
     poiType: string;
     jurisdiction: string;
 }
 
 export interface IVISORReport {
-    name: string;
-    location: IVISORLocation;
+    id: string;
+    reportName: string;
+    approved: boolean;
+    public: boolean;
+    visorLocation: IVISORLocation;
     reportMeta: IVISORReportMeta;
     locationDetails: IVISORLocationDetails;
     navigation: IVISORNavigation;
-    fuelConsumptions: IVISORFuelConsumption[];
-    virs: IVISORVirs;
-    screenShots: IVISORScreenshot[];
-    keywords: string[];
+    fuelConsumptions?: IVISORFuelConsumption[];
+    virs?: IVISORVirs;
+    screenShots?: IVISORScreenshot[];
+    keywords?: string[];
+}
+
+export interface IVISORInput {
+    reportName: string;
+    public: boolean;
+    visorLocation: IVISORLocation;
+    reportMeta: IVISORReportMeta;
+    locationDetails: IVISORLocationDetails;
+    navigation: IVISORNavigation;
+    fuelConsumptions?: IVISORFuelConsumption[];
+    virs?: IVISORVirs;
+    screenShots?: IVISORScreenshot[];
+    keywords?: string[];
+}
+
+export interface IVISORSmall {
+    reportName: string;
+    id: string;
+    public: boolean;
+    location: IVISORLocation;
+    approved: boolean;
+    reportMeta: IVISORReportMeta;
+    keywords?: string[];
 }

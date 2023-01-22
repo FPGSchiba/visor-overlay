@@ -139,3 +139,34 @@ export function updateUser(
 		}
 	}
 }
+
+export function createUser(
+	orgToken: string,
+	userToken: string,
+	data: {handle: string, role: string},
+	callback: (err: ErrorResponse, userKey?: string) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0:any) => void) {
+		const result = await visorBackend.createUser(orgToken, userToken, data.handle, data.role);
+		if (result.success && result.userKey) {
+			callback(null, result.userKey);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function deleteUser(
+	orgToken: string,
+	userToken: string,
+	token: string,
+	reason: string,
+	callback: (err: ErrorResponse) => void): ThunkResult<void> {
+		return async function (dispatch: (arg0:any) => void) {
+		const result = await visorBackend.deleteUser(orgToken, userToken, token, reason);
+		if (result.success) {
+			callback(null);
+		 } else {
+			callback({message: result.message});
+		}
+	}
+}

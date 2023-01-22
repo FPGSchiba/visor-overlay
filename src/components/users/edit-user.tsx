@@ -8,12 +8,16 @@ import { getSpecificUser, updateUser } from "../../store/actions/user";
 export function EditUser(props: {handle: string, setOpen: (open: boolean) => void, fetchUserData: () => void}) {
     const {setOpen, handle, fetchUserData} = props;
     const dispatch = useDispatch();
-    const [currentRole, setCurrentRole] = useState('');
     const [loading, setLoading] = useState(true);
     const [role, setRole] = useState('');
 
     const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
     const userToken = useSelector((state: AppState) => state.authState.currentUser.token);
+
+    const clearForm = () => {
+        setRole('');
+        setLoading(true);
+    }
 
     const handleClose = () => {
         setOpen(false);
@@ -37,10 +41,10 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
     }
 
     useEffect(() => {
-        if (handle) {
+        if (handle != '') {
             dispatch(getSpecificUser(orgToken, userToken, handle, (err, data) => {
                 if(!err && data) {
-                    setCurrentRole(data.role);
+                    setRole(data.role);
                     setLoading(false);
                 }
             }))
@@ -51,7 +55,7 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
         <div className="userEdit userEdit-wrapper">
             <Typography className="userEdit userEdit-heading" variant="h5" >Editing User: {handle}</Typography>
             <IconButton className="userEdit userEdit-button" onClick={handleClose}><CloseIcon /></IconButton>
-            { !loading && currentRole ? (
+            { !loading ? (
                 <div className="userEdit userEdit-form">
                     <Select
                         value={role}
@@ -59,7 +63,6 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
                         onChange={handleChange}
                         className='userEdit userEdit-form userEdit-form__select'
                         labelId="userEdit-form__select"
-                        defaultValue={currentRole}
                     >
                         <MenuItem value={'Admin'}>Admin</MenuItem>
                         <MenuItem value={'Contributor'}>Contributor</MenuItem>

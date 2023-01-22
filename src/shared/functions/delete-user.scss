@@ -1,0 +1,86 @@
+.userDelete {
+    &.userDelete-wrapper {
+        width: 31.8rem;
+        height: 49.7rem;
+        background-color: $color-opa-background;
+        border-radius: 15px;
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: flex-end;
+        align-items: flex-start;
+    }
+
+    &.userDelete-heading {
+        min-width: 27rem;
+        margin-top: 2rem;
+        margin-left: 15px;
+    }
+
+    &.userDelete-subheading {
+        min-width: 27rem;
+        margin-top: 2rem;
+        margin-left: 15px;
+    }
+
+    &.userDelete-button {
+        width: 50px;
+        height: 50px;
+
+        svg {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    &.userDelete-form {
+        &.userDelete-form__wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+        }
+
+        &.userDelete-form__select {
+            width: 250px;
+            color: $color-text-primary;
+            margin-top: 2rem;
+            margin-left: 15px;
+
+            label {
+                color: $color-text-secondary;
+            }
+
+            div input {
+                color: $color-text-primary;
+            }
+        }
+
+        &.userDelete-form__input {
+            width: 80%;
+            color: $color-text-primary;
+            margin-top: 2rem;
+            margin-left: 15px;
+
+            label {
+                color: $color-text-secondary;
+            }
+
+            div input {
+                color: $color-text-primary;
+            }
+        }
+
+        &.userDelete-form__button {
+            margin-top: 2rem;
+            margin-left: 20px;
+            width: 250px;
+            align-self: flex-end;
+        }
+    }
+}
+
+#userDelete-form__select {
+    color: $color-text-primary;
+}

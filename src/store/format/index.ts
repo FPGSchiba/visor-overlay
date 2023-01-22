@@ -2,13 +2,6 @@ export interface AppState {
     authState: AuthState;
 }
 
-/* Session handling
-export interface UserState {
-    sessionToken: string,
-    user: IUser
-} 
-*/
-
 export interface AuthState {
     currentUser: IUser
     currentOrg: IOrg

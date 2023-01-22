@@ -30,8 +30,8 @@ export function UserInfo(props: {setUserInfoOpen: (open: boolean) => void }) {
         dispatch(
             clearUser()
         )
-        setUserInfoOpen(false);
         navigate('/login');
+        setUserInfoOpen(false);
     }
 
     return (
@@ -45,6 +45,7 @@ export function UserInfo(props: {setUserInfoOpen: (open: boolean) => void }) {
             </div>
             <IconButton onClick={handleClick} className='userInfo userInfo-button'><CloseIcon /></IconButton>
             <IconButton onClick={handleLogout} className='userInfo userInfo-button'><LogoutIcon /></IconButton>
+            // TODO: Add button to copy Org Token to clipboard
         </div>
     )
 }

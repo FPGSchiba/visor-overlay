@@ -11,6 +11,8 @@
 @import 'functions/user-info';
 @import 'functions/user-list';
 @import 'functions/edit-user';
+@import 'functions/create-user';
+@import 'functions/delete-user';
 
 .content-wrapper-left {
     background-color: $color-background;

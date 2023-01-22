@@ -135,7 +135,10 @@ ipcMain.on('removeLoginFile', (event) => {
 	fs.rm(loginFile, (err: NodeJS.ErrnoException) => {
 		if (err) {
 			console.error(err);
-		}
+      event.returnValue = false;
+		} else {
+      event.returnValue = true;
+    }
 	})
 });
 

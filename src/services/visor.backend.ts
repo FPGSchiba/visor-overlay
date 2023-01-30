@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosInstance } from "axios";
 import https from 'https';
-import { response } from "express";
 import { IUser } from "../store/format";
+import { ICompleteSystem, ISystem, ISystemSmall } from "../store/format/system.format";
 const UNAUTHORIZED_CODE = 401;
 
 /**
@@ -211,6 +211,61 @@ class VISORApi {
             return {
                 message: data.message,
                 success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async getSystems(
+        orgToken: string,
+        userToken: string,
+    ): Promise<{ success: boolean, message: string, systems?: ISystemSmall[]}> {
+        try {
+            const { data } = await VISORApi.endpoint.get('/data/get-systems',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                systems: data.data,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async getSystem(
+        orgToken: string,
+        userToken: string,
+        id: string
+    ): Promise<{success: boolean, message: string, system?: ICompleteSystem}> {
+        try {
+            const { data } = await VISORApi.endpoint.get(`/data/get-system?id=${id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                system: data.data,
             };
         } catch (reason) {
             return {

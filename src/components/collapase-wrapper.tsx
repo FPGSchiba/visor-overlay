@@ -14,10 +14,12 @@ export function CollapseWrapper(props: any) {
     const [checked, setChecked] = useState(false);
     const [usesData, setUsesData] = useState(false);
     const [showUserInfo, setShowUserInfo] = useState(true);
-    const dispatch = useDispatch();
     const location = useLocation();
+    const dispatch = useDispatch();
+    
     const dataLocations = [
-        "\/test"
+        "\/test",
+        "\/create-new"
     ]
 
     const checkIfDataLocation = (loc: string) => {

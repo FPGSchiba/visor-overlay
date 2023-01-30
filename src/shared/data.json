@@ -1,21 +1,5 @@
 {
     "dropDown": {
-        "systems": {
-            "Stanton": [
-                "ArcCorp",
-                "Crusader",
-                "Hurston",
-                "microTech"
-            ],
-            "Pyro": [
-                "Pyro I",
-                "Pyro II",
-                "Pyro III",
-                "Pyro IV",
-                "Pyro V",
-                "Pyro VI"
-            ]
-        },
         "pois": [
             "City",
             "Trading Post",
@@ -27,12 +11,31 @@
             "Other"
         ],
         "visorCodes": [
-            "Initial Visit",
-            "Followup",
-            "PVE Mission",
-            "PVP Mission",
-            "ORG Mission",
-            "CMD Mission"
+            {
+                "name": "Initial Visit",
+                "code": 1
+            },
+            {
+                "name": "Followup",
+                "code": 2
+            },
+            {
+                "name": "PVE Mission",
+                "code": 3
+            },
+            {
+                "name": "PVP Mission",
+                "code": 4
+            },
+            {
+                "name": "ORG Mission",
+                "code": 5
+            },
+            {
+                "name": "CMD Mission",
+                "code": 6
+            }
         ]
-    }
+    },
+    "version": "1.17.5"
 }

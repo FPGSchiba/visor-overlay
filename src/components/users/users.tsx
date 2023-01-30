@@ -28,7 +28,7 @@ export function Users() {
             if (!err) {
                 setUsers(data);
             } else {
-                console.log(err);
+                console.error(err);
             }
         }))
     }

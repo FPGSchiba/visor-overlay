@@ -1,12 +1,12 @@
 import React from "react";
-import { MandatoryReport } from "../report/mandatory-report";
+import { CreateNewMandatory } from "../report/create-new-mandatory";
 import { NavigationHeader } from "./utils/navigation-header";
 
 export function CreateNew() {
     return (
         <div className="create-new">
             <NavigationHeader header="Create New" />
-            <MandatoryReport />
+            <CreateNewMandatory />
         </div>
     )
 }

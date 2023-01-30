@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { checkUserInfo, getUserInfoFromCookies, setUserInfoToCookies } from '../../services/util';
+import { getUserInfoFromCookies, setUserInfoToCookies } from '../../services/util';
 import visorBackend from '../../services/visor.backend';
 import { GET_USER_SUCCESS, GET_ORG_SUCCESS } from '../constants/user';
 import { AppState, IOrg, IUser } from '../format';

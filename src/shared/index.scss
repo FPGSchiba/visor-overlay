@@ -5,3 +5,7 @@ body {
     margin: 0;
     @import 'components';
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

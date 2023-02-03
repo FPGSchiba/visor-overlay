@@ -37,5 +37,17 @@
             }
         ]
     },
-    "version": "1.17.5"
+    "version": "1.17.5",
+    "tooltips": {
+        "classification": "Describes the specific point of interest that is the subject of this report",
+        "surroundings": "Describes the atmosphere, terrain, weather, type of biome if identifiable (also check MobiGlass for External Atmospheric information and enter the details in the table under Cartography below)",
+        "trade": "Identifies what commodities/minerals/harvestables can be bought/sold/mined",
+        "services": "Identifies services and locations of Trade, Mining, Fine Payment, Rental, Weapon and Ship component terminals, Landing Pads (ship/ground vehicles), refuel/repair services etc.",
+        "hostiles": "Were hostile contacts encountered? Provides details.",
+        "defenses": "Identifies/describes any defenses present and indicates the number.",
+        "occupants": "Were there any occupants encountered? Provides details.",
+        "lethalForce": "Was lethal force used and what was the justification?",
+        "remainingOccupants": "Was the location cleared or do occupants remain? Are they hostile?",
+        "other": "Anything else of note that you think worthy of recording/mentioning"
+    }
 }

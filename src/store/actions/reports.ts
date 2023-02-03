@@ -5,6 +5,7 @@ import { AppState } from "../format";
 import { ICompleteSystem, ISystem, ISystemSmall } from "../format/system.format";
 import { ErrorResponse } from "./shared";
 import { DUMMY_ACTION } from "../constants/dummy";
+import { IVISORInput } from "../format/report.format";
 
 export interface SystemDummyAction extends Action<typeof DUMMY_ACTION> {}
 
@@ -44,3 +45,14 @@ export function getSystem(
 			}
 		}
 	}
+
+export function createReport(orgToken: string, userToken: string, visor: IVISORInput, callback: (err: ErrorResponse, id?: string) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0:any) => void) {
+		const result = await visorBackend.createReport(orgToken, userToken, visor);
+		if (result.success) {
+			callback(null, result.id);
+		 } else {
+			callback({message: result.message});
+		}
+	}
+}

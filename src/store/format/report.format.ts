@@ -98,6 +98,7 @@ export interface IVISORNavigation {
 export interface IVISORLocationDetailsZones {
     noFly: boolean;
     armistice: boolean;
+    restricted: boolean;
     other?: string;
 }
 
@@ -119,7 +120,7 @@ export interface IVISORReportMeta {
     visorCode: number;
     visorCodeJustification?: string;
     scVersion: string;
-    date: Date;
+    date: number;
     followupTrailblazers: boolean;
     followupDiscovery: boolean;
     followupJustification?: string;
@@ -137,7 +138,7 @@ export interface IVISORReport {
     id: string;
     reportName: string;
     approved: boolean;
-    public: boolean;
+    published: boolean;
     visorLocation: IVISORLocation;
     reportMeta: IVISORReportMeta;
     locationDetails: IVISORLocationDetails;
@@ -150,7 +151,7 @@ export interface IVISORReport {
 
 export interface IVISORInput {
     reportName: string;
-    public: boolean;
+    published: string;
     visorLocation: IVISORLocation;
     reportMeta: IVISORReportMeta;
     locationDetails: IVISORLocationDetails;
@@ -164,9 +165,37 @@ export interface IVISORInput {
 export interface IVISORSmall {
     reportName: string;
     id: string;
-    public: boolean;
+    published: boolean;
     location: IVISORLocation;
     approved: boolean;
     reportMeta: IVISORReportMeta;
     keywords?: string[];
+}
+
+export interface ILocationFilter {
+    system?: string;
+    stellarObject?: string;
+    planetLevelObject?: string;
+    poiType?: string;
+    jurisdiction?: string;
+}
+
+export interface IMetaFilter {
+    followupTrailblazers?: string;
+    followupDiscovery?: string;
+    visorCode?: string;
+    scVersion?: string;
+    rsiHandle?: string;   
+}
+
+export interface ISearchFilter {
+    name?: string;
+    location?: ILocationFilter;
+    meta?: IMetaFilter;
+    published?: string;
+    approved?: string;
+    keyword?: string;
+    length?: number;
+    from?: number;
+    to?: number;
 }

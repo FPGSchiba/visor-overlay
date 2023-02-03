@@ -18,8 +18,7 @@ export function CollapseWrapper(props: any) {
     const dispatch = useDispatch();
     
     const dataLocations = [
-        "\/test",
-        "\/create-new"
+        "\/test"
     ]
 
     const checkIfDataLocation = (loc: string) => {

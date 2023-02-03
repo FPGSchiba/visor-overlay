@@ -1,0 +1,157 @@
+.mReport {
+
+    form {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mReport-form {
+        &.mReport-form__wrapper {
+            height: 100%;
+        }
+
+        &.mReport-form__navigation {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        &.mReport-form__textfield {
+            width: 14rem;
+            margin-bottom: 10px;
+
+            &.visorCode-explanation {
+                margin-left: 10px;
+            }
+
+            &.right-hand-text {
+                margin-left: 10px;
+            }
+
+            &.other-textfield {
+                width: 28rem;
+            }
+        }
+
+        &.mReport-form__select {
+            width: 14rem;
+        }
+
+        &.mReport-form__date {
+            width: 14rem;
+            margin-left: 10px;
+        }
+
+        &.mReport-form__systems {
+            display: inline-block;
+            width: 14rem;
+            margin-bottom: 10px;
+        }
+
+        &.mReport-form__objects {
+            display: inline-block;
+            width: 14rem;
+            margin-bottom: 10px;
+        }
+
+        &.mReport-form__plo {
+            display: inline-block;
+            width: 14rem;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+
+        &.mReport-form__tab {
+            padding: 10px;
+        }
+
+        &.mReport-form__filler {
+            display: inline-block;
+            width: 14rem;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        &.mReport-form__plo-wrapper {
+            display: inline-flex;
+            width: 14rem;
+            height: 3.5rem;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            flex-direction: row-reverse;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        &.mReport-form__plo-text {
+            font-size: 14px;
+        }
+
+        &.mReport-form__poi {
+            display: inline-block;
+            width: 14rem;
+        }
+
+        &.mReport-form__oms-left {
+            display: inline-block;
+            width: 14rem;
+        }
+
+        &.mReport-form__oms-right {
+            display: inline-block;
+            width: 14rem;
+            margin-left: 10px;
+        }
+
+        &.mReport-form__om-input {
+            width: 14rem;
+        }
+
+        &.mReport-form__submit-wrapper {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        &.mReport-form__submit-button {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        &.mReport-form__published {
+            margin-left: 10px;
+        }
+    }
+}
+
+.MuiCalendarOrClockPicker-root {
+    background-color: $color-background;
+}
+
+.MuiDayPicker-header {
+    span {
+        color: $color-text-primary;
+    }
+}
+
+.MuiPickersDay-dayWithMargin {
+    background-color: $color-divider;
+    color: $color-text-primary;
+}
+
+.MuiPickersFadeTransitionGroup-root {
+    color: $color-text-primary;
+}
+
+.MuiPickersCalendarHeader-switchViewButton {
+    color: $color-text-primary;
+}
+
+.MuiPickersArrowSwitcher-button {
+    color: $color-text-primary;
+}
+
+.create-new {
+    height: 89%;
+}

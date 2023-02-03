@@ -5,7 +5,7 @@ import { Checkbox, Typography } from '@mui/material';
 import { ICompleteSystem, ISystem, ISystemSmall } from '../../../store/format/system.format';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../store/format';
-import { getSystem, getSystems } from '../../../store/actions/systems';
+import { getSystem, getSystems } from '../../../store/actions/reports';
 
 const filter = createFilterOptions<SystemOptionType>();
 
@@ -142,7 +142,7 @@ export function ObjectSelect(props: {className: string, value: SystemOptionType 
           });
           setPlanetLevelObject(false);
         } else {
-          setValue(newValue);
+          setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
           if (newValue.label) {
             if (system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects && system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects.length > 0) {
               setPlanetLevelObject(true);
@@ -206,8 +206,8 @@ export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boo
   }, [hasPlanetLevelObject])
 
   return (
-    <div>
-      <Typography className='mReport mReport-form mReport-form__plo-text' variant='body2' >Is POI on a Planet Level Object?</Typography>
+    <div className='mReport mReport-form mReport-form__plo-wrapper'>
+      <Typography className='mReport mReport-form mReport-form__plo-text' variant='body1' >POI is a Planet Level Object</Typography>
       <Checkbox
         onChange={handleChange}
         value={value}
@@ -260,10 +260,7 @@ export function PLOSelect(props: {className: string, value: SystemOptionType | n
             label: newValue.inputValue,
           });
         } else {
-          setValue(newValue);
-          if (newValue.label) {
-            
-          }
+          setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
         }
       }}
       filterOptions={(options, params) => {

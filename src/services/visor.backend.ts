@@ -2,6 +2,7 @@
 import axios, { AxiosInstance } from "axios";
 import https from 'https';
 import { IUser } from "../store/format";
+import { IVISORInput } from "../store/format/report.format";
 import { ICompleteSystem, ISystem, ISystemSmall } from "../store/format/system.format";
 const UNAUTHORIZED_CODE = 401;
 
@@ -266,6 +267,34 @@ class VISORApi {
                 message: data.message,
                 success: true,
                 system: data.data,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async createReport(
+        orgToken: string,
+        userToken: string,
+        visor: IVISORInput
+    ): Promise<{success: boolean, message: string, id?: string}> {
+        try {
+            const { data } = await VISORApi.endpoint.post(`/visor/create`, visor,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                id: data.data.id,
             };
         } catch (reason) {
             return {

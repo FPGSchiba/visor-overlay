@@ -1,0 +1,25 @@
+.backdrop {
+    &.backdrop-create {
+        &.backdrop-create__loading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            span {
+                margin-top: 27rem;
+                margin-left: 14rem;
+            }
+        }
+
+        &.backdrop-create__error {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            .MuiAlert-standard {
+                margin-top: 8rem;
+                margin-left: 33rem;
+            }
+        }
+    }
+}

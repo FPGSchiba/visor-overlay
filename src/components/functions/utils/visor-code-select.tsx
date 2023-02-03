@@ -9,7 +9,7 @@ export function VISORCodeSelect(props: {formik: any}) {
     return (
         <div className="mReport mReport-form mReport-form__visorCode-wrapper">
             <Select
-                className="mReport mReport-form mReport-form__select"
+                className="mReport mReport-form mReport-form__select visorCode"
                 value={formik.values.visorCode}
                 labelId="visor-code-label"
                 label="VISOR Code"
@@ -20,7 +20,7 @@ export function VISORCodeSelect(props: {formik: any}) {
                 }}
             >
                 { codes.map((value) => {
-                    return (<MenuItem key={value.code} value={value.code}>{value.name}</MenuItem>)
+                    return (<MenuItem key={value.code} value={value.code}>{`[${value.code}] ${value.name}`}</MenuItem>)
                 })}
             </Select>
             <TextField 
@@ -30,7 +30,7 @@ export function VISORCodeSelect(props: {formik: any}) {
                 onChange={formik.handleChange}
                 error={formik.touched.visorCodeJustification && Boolean(formik.errors.visorCodeJustification)}
                 helperText={formik.errors.visorCodeJustification}
-                className='mReport mReport-form mReport-form__textfield'
+                className='mReport mReport-form mReport-form__textfield visorCode-explanation'
                 disabled={!(formik.values.visorCode == 5 || formik.values.visorCode == 6)}
             />
         </div>

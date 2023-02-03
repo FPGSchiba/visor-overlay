@@ -13,6 +13,8 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
   const { value, setValue, setId } = props;
   const dispatch = useDispatch();
 
+  // TODO: Fix deleting a value
+
   const [systems, setSystems] = useState<SystemOptionType[]>([]);
   const [remoteSystems, setRemoteSystems] = useState<ISystemSmall[]>([]);
 

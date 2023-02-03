@@ -75,7 +75,7 @@ export function CreateNewMandatory() {
     const validationSchema = Yup.object().shape({
         reportName: Yup.string().required('ThiYou need to give your Report a unique Name!'),
         published: Yup.bool(),
-        jurisdiction: Yup.string().required('Please enter a jurisdiction!'),
+        jurisdiction: Yup.string(),
         rsiHandle: Yup.string(),
         visorCode: Yup.number().required('You need to select a VISOR Code!'),
         visorCodeJustification: Yup.string().when('visorCode', {

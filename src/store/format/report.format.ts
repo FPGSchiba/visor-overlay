@@ -131,7 +131,7 @@ export interface IVISORLocation {
     stellarObject: string;
     planetLevelObject?: string;
     poiType: string;
-    jurisdiction: string;
+    jurisdiction?: string;
 }
 
 export interface IVISORReport {
@@ -166,7 +166,7 @@ export interface IVISORSmall {
     reportName: string;
     id: string;
     published: boolean;
-    location: IVISORLocation;
+    visorLocation: IVISORLocation;
     approved: boolean;
     reportMeta: IVISORReportMeta;
     keywords?: string[];

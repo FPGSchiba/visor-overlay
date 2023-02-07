@@ -1,19 +1,206 @@
-.list-all {
-    &.list-all-header {
-        display: flex;
-        justify-content: center;
+.listAll {
+    &.listAll-filter {
+        &.listAll-filter__checkboxes {
+            display: inline-block;
+            width: 14rem;
+            margin-left: 10px;
+
+            label {
+                height: 20px;
+            }
+        }
+
+        &.listAll-filter__navigation {
+            display: flex;
+            justify-content: center;
+        }
+
+        &.listAll-filter__tab {
+            height: 16rem;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        &.listAll-filter__wrapper {
+            position: absolute;
+            left: 33rem;
+            width: 30rem;
+            background-color: rgba($color: #000000, $alpha: 0.0);
+            color: $color-text-primary;
+            box-shadow: 0;
+            border-radius: 15px;
+        }
+
+        &.listAll-filter__content {
+            box-shadow: 0;
+            background-color: $color-background-light;
+        }
+
+        &.listAll-filter__header {
+            background-color: $color-background;
+        }
+
+        &.listAll-filter__textfield {
+            width: 14rem;
+            margin-bottom: 10px;
+
+            &.stellarObject {
+                margin-left: 10px;
+            }
+
+            &.poiType {
+                margin-left: 10px;
+            }
+        }
+
+        &.listAll-filter__icon {
+            color: $color-text-primary;
+            width: 40px;
+            height: 40px;
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        &.listAll-filter__button {
+            margin-top: 10x;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            width: 6rem;
+        }
+
+        &.listAll-filter__search {
+            display: flex;
+            justify-self: flex-end;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            margin-left: auto;
+            width: 6rem;
+        }
+
+        &.listAll-filter__select {
+            width: 14rem;
+            margin-right: 10px;
+        }
     }
 
-    &.list-all-content {
+    &.listAll-content {
+        &.listAll-content__tab {
+            height: 41.5rem;
+            overflow: scroll;
+        }
+
+        &.listAll-content__wrapper {
+            height: 100%;
+        }
+    }
+
+    &.listAll-wrapper {
+        height: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        padding: 0 20px;
-        text-align: center;
+    }
 
-        &.list-all-content__button {
-            width: 200px;
-            height: 50px;
+    &.listAll-pagination {
+        &.listAll-pagination__wrapper {
+            position: sticky;
+            display: flex;
+            justify-content: center;
+            justify-self: flex-end;
+            background-color: $color-divider;
+            height: 3.7rem;
+            border-radius: 15px;
+
+            nav {
+                display: flex;
+                align-content: center;
+            }
+        }
+
+        &.listAll-pagination__pagination {
+            color: $color-text-primary;
+        }
+
+        &.listAll-pagination__search {
+            display: flex;
+            height: 2rem;
+            width: 6rem;
+            align-self: center;
+            margin-left: 3rem;
+            margin-right: 10px;
+        }
+
+        &.listAll-pagination__total {
+            align-self: center;
+            color: $color-text-black;
+        }
+    }
+
+    &.listAll-sReport {
+        &.listAll-sReport__wrapper {
+            margin: 0 10px 10px 10px;
+        }
+
+        &.listAll-sReport__filler {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            margin-right: 5px;
+        }
+
+        &.listAll-sReport__heading {
+            display: inline-flex;
+            width: 18rem;
+        }
+
+        &.listAll-sReport__icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            padding: 0;
+            margin-right: 5px;
+
+            &.init {
+                color: $color-primary-1;
+            }
+
+            &.published {
+                color: #669900;
+            }
+
+            &.approved {
+                color: #66ff66;
+            }
+        }
+
+        &.listAll-sReport__icons {
+            height: 1.5rem;
+        }
+
+        &.listAll-sReport__header-info {
+            color: $color-primary-2;
+        }
+
+        &.listAll-sReport__header-edit {
+            color: $color-primary-1;
+        }
+
+        &.listAll-sReport__header-approve {
+            color: #66ff66;
+        }
+
+        &.listAll-sReport__header-delete {
+            color: $color-error;
+        }
+
+        &.listAll-sReport__wrapper {
+            background-color: $color-background-light;
+        }
+
+        &.listAll-sReport__cell {
+            border-bottom: 1px solid $color-divider;
         }
     }
 }

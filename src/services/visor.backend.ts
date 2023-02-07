@@ -2,7 +2,7 @@
 import axios, { AxiosInstance } from "axios";
 import https from 'https';
 import { IUser } from "../store/format";
-import { IVISORInput } from "../store/format/report.format";
+import { ISearchFilter, IVISORInput, IVISORReport, IVISORSmall } from "../store/format/report.format";
 import { ICompleteSystem, ISystem, ISystemSmall } from "../store/format/system.format";
 const UNAUTHORIZED_CODE = 401;
 
@@ -19,6 +19,39 @@ function wrapInit(target: VISORApi, propertyKey: string | symbol, descriptor: Pr
       return originalMethod(...args);
     };
     descriptor.value = newMethod.bind(target);
+}
+
+function buildParams(filter: ISearchFilter) {
+    let params = '';
+    if (filter.location && typeof(filter.location) == 'object') {
+        params += `&location=${JSON.stringify(filter.location)}`;
+    }
+    if (filter.meta && typeof(filter.meta) == 'object') {
+        params += `&meta=${JSON.stringify(filter.meta)}`;
+    }
+    if (filter.approved && typeof(filter.approved) == 'string') {
+        params += `&approved=${filter.approved}`;
+    }
+    if (filter.keyword && typeof(filter.keyword) == 'string') {
+        params += `&keyword=${filter.keyword}`;
+    }
+    if (filter.name && typeof(filter.name) == 'string') {
+        params += `&name=${filter.name}`;
+    }
+    if (filter.published && typeof(filter.published) == 'string') {
+        params += `&published=${filter.published}`;
+    }
+    if (filter.from && typeof(filter.from) == 'number') {
+        params += `&from=${filter.from}`;
+    }
+    if (filter.length && typeof(filter.length) == 'number') {
+        params += `&length=${filter.length}`;
+    }
+    if (filter.to && typeof(filter.to) == 'number') {
+        params += `&to=${filter.to}`;
+    }
+
+    return params.replace(/^&/, '?');
 }
 
 class VISORApi {
@@ -295,6 +328,64 @@ class VISORApi {
                 message: data.message,
                 success: true,
                 id: data.data.id,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async getReport(
+        orgToken: string,
+        userToken: string,
+        id: string
+    ): Promise<{success: boolean, message: string, report?: IVISORReport}> {
+        try {
+            const { data } = await VISORApi.endpoint.get(`/visor/get?${id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                report: data.data,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async listReports(
+        orgToken: string,
+        userToken: string,
+        filter: ISearchFilter
+    ): Promise<{success: boolean, message: string, count?: number, reports?: IVISORSmall[]}> {
+        try {
+            const params = buildParams(filter);
+            const { data } = await VISORApi.endpoint.get(`/visor/list${params}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                reports: data.data.reports,
+                count: data.data.count
             };
         } catch (reason) {
             return {

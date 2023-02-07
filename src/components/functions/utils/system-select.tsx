@@ -13,8 +13,6 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
   const { value, setValue, setId } = props;
   const dispatch = useDispatch();
 
-  // TODO: Fix deleting a value
-
   const [systems, setSystems] = useState<SystemOptionType[]>([]);
   const [remoteSystems, setRemoteSystems] = useState<ISystemSmall[]>([]);
 
@@ -49,9 +47,13 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
             label: newValue.inputValue,
           });
         } else {
-          setValue(newValue);
-          if (newValue.label) {
-            setId(remoteSystems.filter((value) => value.name === newValue.label)[0].id || '');
+          if (newValue != null) {
+            setValue(newValue);
+            if (newValue.label) {
+              setId(remoteSystems.filter((value) => value.name === newValue.label)[0].id || '');
+            }
+          } else {
+            setValue(undefined);
           }
         }
       }}
@@ -144,15 +146,20 @@ export function ObjectSelect(props: {className: string, value: SystemOptionType 
           });
           setPlanetLevelObject(false);
         } else {
-          setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
-          if (newValue.label) {
-            if (system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects && system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects.length > 0) {
-              setPlanetLevelObject(true);
+          if (newValue != null) {
+            setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
+            if (newValue.label) {
+              if (system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects && system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects.length > 0) {
+                setPlanetLevelObject(true);
+              } else {
+                setPlanetLevelObject(false);
+              }
             } else {
               setPlanetLevelObject(false);
             }
           } else {
             setPlanetLevelObject(false);
+            setValue(undefined);
           }
         }
       }}
@@ -262,7 +269,11 @@ export function PLOSelect(props: {className: string, value: SystemOptionType | n
             label: newValue.inputValue,
           });
         } else {
-          setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
+          if (newValue != null) {
+            setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
+          } else {
+            setValue(undefined);
+          }
         }
       }}
       filterOptions={(options, params) => {

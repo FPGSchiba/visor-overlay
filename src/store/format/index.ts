@@ -1,5 +1,8 @@
+import { IVISORReport, IVISORSmall } from "./report.format";
+
 export interface AppState {
     authState: AuthState;
+    reportState: IReportState;
 }
 
 export interface AuthState {
@@ -16,4 +19,16 @@ export interface IUser {
     token: string, 
     handle: string,
     role: string,
+}
+
+export interface IReportState {
+    updateState: IUpdateState;
+    reportList?: IVISORSmall[];
+    fetched?: number;
+    total?: number;
+}
+
+export interface IUpdateState {
+    updating: boolean;
+    report?: IVISORReport;
 }

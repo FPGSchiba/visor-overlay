@@ -1,6 +1,6 @@
 import { Alert, Backdrop, Box, Button, Checkbox, CircularProgress, FormControlLabel, Tab, Tabs, TextField, Tooltip, Typography } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
-import React, { useState, version } from "react";
+import React, { useEffect, useState, version } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "../../store/format";
 import * as Yup from 'yup';
@@ -148,7 +148,7 @@ export function CreateNewMandatory() {
         armistice: false,
         restricted: false,
         other: ''
-      };
+    };
 
     const handleCreation = (values: {
         published: boolean; reportName: string; jurisdiction: string; rsiHandle: string; visorCode: number; visorCodeJustification: string; scVersion: string; date: number; followUpTrailblazers: boolean; followUpDiscovery: boolean; followUpJustification: string; om1: number; om2: number; om3: number; om4: number; om5: number; om6: number; classification: string; surroundings: string; trade: string; services: string; hostiles: string; defenses: string; occupants: string; lethalForce: string; remainingOccupants: string; noFly: boolean; armistice: boolean; restricted: boolean; other: string; resetForm: () => void
@@ -221,11 +221,11 @@ export function CreateNewMandatory() {
             }
         }
 
-        dispatch(createReport(orgToken, userToken, report, (err: any, id: string) => {
-            if (!err && id) {
+        dispatch(createReport(orgToken, userToken, report, (err: any) => {
+            if (!err) {
                 setLoading(false);
                 setSuccess(true);
-                navigate('/home');
+                navigate('/list-all');
             } else {
                 setError(err.message);
                 setLoading(false);
@@ -417,7 +417,12 @@ export function CreateNewMandatory() {
                     </TabPanel>
                 </div>
                 <div className="mReport mReport-form mReport-form__submit-wrapper">
-                    <Button variant="contained" type="submit" className="mReport mReport-form mReport-form__submit-button">Create</Button>
+                    { value != 0 ? (
+                        <Button variant="contained" onClick={() => setValue((value) => { console.log(value); return value - 1; })} className="mReport mReport-form mReport-form__submit-button">Back</Button>
+                    ) : null }
+                    { value >= 2 ? (
+                        <Button variant="contained" type="submit" className="mReport mReport-form mReport-form__submit-button">Create</Button>
+                    ) : <Button variant="contained" onClick={() => setValue((value) => { console.log(value); return value + 1; })} className="mReport mReport-form mReport-form__submit-button">Next</Button>}
                 </div>
                 <Backdrop
                     open={loading}

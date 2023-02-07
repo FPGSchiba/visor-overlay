@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { CreateNewHelper } from "./report/create-new-helper";
 
 export function ViewHelper() {
     const location = useLocation();
@@ -15,10 +14,6 @@ export function ViewHelper() {
     }, [location])
 
     return (
-        <>
-            { createNew ? (
-                <CreateNewHelper />
-            ) : null}
-        </>
+        <></>
     )
 }

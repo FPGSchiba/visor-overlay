@@ -37,7 +37,7 @@
             }
         ]
     },
-    "version": "1.17.5",
+    "version": "3.17.5",
     "tooltips": {
         "classification": "Describes the specific point of interest that is the subject of this report",
         "surroundings": "Describes the atmosphere, terrain, weather, type of biome if identifiable (also check MobiGlass for External Atmospheric information and enter the details in the table under Cartography below)",

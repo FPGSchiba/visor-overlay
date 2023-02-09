@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../store/format';
 import data from "../../../shared/data.json";
 
 export interface SystemOptionType {
@@ -13,8 +11,8 @@ export interface SystemOptionType {
 
 const filter = createFilterOptions<SystemOptionType>();
 
-export function POITypeSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>> }) {
-    const { value, setValue } = props;
+export function POITypeSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, disabled: boolean }) {
+    const { value, setValue, disabled } = props;
     const [types, setTypes] = useState<SystemOptionType[]>([]);
   
     useEffect(() => {
@@ -78,6 +76,7 @@ export function POITypeSelect(props: {className: string, value: SystemOptionType
           <TextField {...params} label="POI Type" />
         )}
         className={props.className}
+        disabled={disabled}
       />
     );
 }

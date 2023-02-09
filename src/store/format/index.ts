@@ -23,12 +23,10 @@ export interface IUser {
 
 export interface IReportState {
     updateState: IUpdateState;
-    reportList?: IVISORSmall[];
-    fetched?: number;
-    total?: number;
 }
 
 export interface IUpdateState {
     updating: boolean;
+    open: boolean;
     report?: IVISORReport;
 }

@@ -134,7 +134,6 @@
 
         &.listAll-pagination__total {
             align-self: center;
-            color: $color-text-black;
         }
     }
 
@@ -181,10 +180,18 @@
 
         &.listAll-sReport__header-info {
             color: $color-primary-2;
+
+            &.Mui-disabled {
+                color: $color-background;
+            }
         }
 
         &.listAll-sReport__header-edit {
             color: $color-primary-1;
+
+            &.Mui-disabled {
+                color: $color-background;
+            }
         }
 
         &.listAll-sReport__header-approve {

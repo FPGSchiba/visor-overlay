@@ -21,7 +21,7 @@ interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
-    className: string;
+    className?: string;
   }
   
 function TabPanel(props: TabPanelProps) {
@@ -41,7 +41,7 @@ function TabPanel(props: TabPanelProps) {
         )}
       </div>
     );
-  }
+}
   
 function a11yProps(index: number) {
     return {
@@ -295,13 +295,13 @@ export function CreateNewMandatory() {
                         <FollowUpHelper formik={formik} />
                     </TabPanel>
                     <TabPanel value={value} index={1} className="mReport mReport-form mReport-form__tab nav-info">
-                        <SystemSelect className="mReport mReport-form mReport-form__systems" value={system} setValue={setSystem} setId={setSystemId} />
-                        <PlanetLevelOverwrite hasPlanetLevelObject={hasPlanetLevelObject} setHasPlanetLevelObject={setHasPlanetLevelObject} />
-                        <ObjectSelect className="mReport mReport-form mReport-form__objects" value={object} setValue={setObject} selectedSystem={system} selectedId={systemId} setPlanetLevelObject={setHasPlanetLevelObject} />
+                        <SystemSelect disabled={false} className="mReport mReport-form mReport-form__systems" value={system} setValue={setSystem} setId={setSystemId} />
+                        <PlanetLevelOverwrite disabled={false} hasPlanetLevelObject={hasPlanetLevelObject} setHasPlanetLevelObject={setHasPlanetLevelObject} />
+                        <ObjectSelect disabled={false} className="mReport mReport-form mReport-form__objects" value={object} setValue={setObject} selectedSystem={system} selectedId={systemId} setPlanetLevelObject={setHasPlanetLevelObject} />
                         { hasPlanetLevelObject ? (
-                            <PLOSelect className="mReport mReport-form mReport-form__plo" value={plo} setValue={setPLO} selectedId={systemId} selectedStellarObject={object} />
+                            <PLOSelect disabled={false} className="mReport mReport-form mReport-form__plo" value={plo} setValue={setPLO} selectedId={systemId} selectedStellarObject={object} />
                         ) : <div className="mReport mReport-form mReport-form__filler"></div>}
-                        <POITypeSelect className="mReport mReport-form mReport-form__poi" value={poiType} setValue={setPoiType} />
+                        <POITypeSelect disabled={false} className="mReport mReport-form mReport-form__poi" value={poiType} setValue={setPoiType} />
                         <TextField 
                             label={"Jurisdiction"}
                             name='jurisdiction'
@@ -418,11 +418,11 @@ export function CreateNewMandatory() {
                 </div>
                 <div className="mReport mReport-form mReport-form__submit-wrapper">
                     { value != 0 ? (
-                        <Button variant="contained" onClick={() => setValue((value) => { console.log(value); return value - 1; })} className="mReport mReport-form mReport-form__submit-button">Back</Button>
+                        <Button variant="contained" onClick={() => setValue((value) => { return value - 1; })} className="mReport mReport-form mReport-form__submit-button">Back</Button>
                     ) : null }
                     { value >= 2 ? (
                         <Button variant="contained" type="submit" className="mReport mReport-form mReport-form__submit-button">Create</Button>
-                    ) : <Button variant="contained" onClick={() => setValue((value) => { console.log(value); return value + 1; })} className="mReport mReport-form mReport-form__submit-button">Next</Button>}
+                    ) : <Button variant="contained" onClick={() => setValue((value) => { return value + 1; })} className="mReport mReport-form mReport-form__submit-button">Next</Button>}
                 </div>
                 <Backdrop
                     open={loading}

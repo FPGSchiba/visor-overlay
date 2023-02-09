@@ -9,8 +9,8 @@ import { getSystem, getSystems } from '../../../store/actions/reports';
 
 const filter = createFilterOptions<SystemOptionType>();
 
-export default function SystemSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, setId: (id: string) => void }) {
-  const { value, setValue, setId } = props;
+export default function SystemSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, setId: (id: string) => void, disabled: boolean }) {
+  const { value, setValue, setId, disabled } = props;
   const dispatch = useDispatch();
 
   const [systems, setSystems] = useState<SystemOptionType[]>([]);
@@ -18,6 +18,8 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
 
   const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
   const userToken = useSelector((state: AppState) => state.authState.currentUser.token);
+
+  console.log(value);
 
   useEffect(() => {
     dispatch(getSystems(orgToken, userToken, (err: any, data: ISystemSmall[]) => {
@@ -89,9 +91,10 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label="System" />
+        <TextField {...params} value={value && value.label ? value.label : ''} label="System" />
       )}
       className={props.className}
+      disabled={disabled}
     />
   );
 }
@@ -102,8 +105,8 @@ export interface SystemOptionType {
 }
 
 
-export function ObjectSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedSystem: SystemOptionType, selectedId: string, setPlanetLevelObject: (has: boolean) => void }) {
-  const { value, setValue, selectedSystem, selectedId, setPlanetLevelObject } = props;
+export function ObjectSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedSystem: SystemOptionType, selectedId: string, setPlanetLevelObject: (has: boolean) => void, disabled: boolean }) {
+  const { value, setValue, selectedSystem, selectedId, setPlanetLevelObject, disabled } = props;
   const dispatch = useDispatch();
   const [system, setSystem] = useState<ICompleteSystem>();
   const [objects, setObjects] = useState<SystemOptionType[]>([]);
@@ -197,13 +200,13 @@ export function ObjectSelect(props: {className: string, value: SystemOptionType 
         <TextField {...params} label="Stellar Object" />
       )}
       className={props.className}
-      disabled={selectedSystem ? false : true}
+      disabled={selectedSystem ? disabled : true}
     />
   );
 }
 
-export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boolean) => void, hasPlanetLevelObject: boolean}) {
-  const {hasPlanetLevelObject, setHasPlanetLevelObject} = props;
+export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boolean) => void, hasPlanetLevelObject: boolean, disabled: boolean}) {
+  const {hasPlanetLevelObject, setHasPlanetLevelObject, disabled} = props;
   const [value, setValue] = useState(false);
 
   const handleChange = (event: any) => {
@@ -216,19 +219,20 @@ export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boo
 
   return (
     <div className='mReport mReport-form mReport-form__plo-wrapper'>
-      <Typography className='mReport mReport-form mReport-form__plo-text' variant='body1' >POI is a Planet Level Object</Typography>
+      <Typography color={ disabled ? '#aaa' : '#fff'} className='mReport mReport-form mReport-form__plo-text' variant='body1' >POI is a Planet Level Object</Typography>
       <Checkbox
         onChange={handleChange}
         value={value}
         checked={value}
         className='mReport mReport-form mReport-form__plo-checkbox'
+        disabled={disabled}
       />
     </div>
   )
 }
 
-export function PLOSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedId: string, selectedStellarObject: SystemOptionType }) {
-  const { value, setValue, selectedId, selectedStellarObject } = props;
+export function PLOSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedId: string, selectedStellarObject: SystemOptionType, disabled: boolean }) {
+  const { value, setValue, selectedId, selectedStellarObject, disabled } = props;
   const dispatch = useDispatch();
   const [objects, setObjects] = useState<SystemOptionType[]>([]);
   const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
@@ -310,7 +314,7 @@ export function PLOSelect(props: {className: string, value: SystemOptionType | n
         <TextField {...params} label="Planet Level Object" />
       )}
       className={props.className}
-      disabled={selectedStellarObject ? false : true}
+      disabled={selectedStellarObject ? disabled : true}
     />
   );
 }

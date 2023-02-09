@@ -1,0 +1,206 @@
+.helper {
+    &.helper-header {
+        &.helper-header__wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        &.helper-header_button {
+            align-self: flex-end;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+
+        &.helper-header__tab-wrapper {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    &.helper-footer {
+        &.helper-footer__wrapper {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            height: 100%;
+        }
+
+        &.helper-footer__button-back {
+            width: 6rem;
+        }
+
+        &.helper-footer__button-submit {
+            width: 6rem;
+            margin-left: 2rem;
+        }
+
+        &.helper-footer__button-next {
+            width: 6rem;
+            margin-left: 2rem;
+        }
+    }
+    &.helper-form {
+        &.helper-form__wrapper {
+            height: 60rem;
+            overflow: scroll;
+        }
+    }
+
+    &.helper-basic {
+        &.helper-basic__textfield {
+            width: 22rem;
+            margin-bottom: 10px;
+
+            &.handle {
+                margin-left: 10px;
+            }
+
+            &.visorCode-explanation {
+                margin-left: 10px;
+            }
+
+            &.justification {
+                margin-left: 10px;
+            }
+        }
+
+        &.helper-basic__wrapper {
+            height: 100%;
+            padding: 10px;
+            padding-top: 20px;
+        }
+
+        &.helper-basic__date {
+            width: 22rem;
+            margin-left: 10px;
+        }
+
+        &.helper-basic__followup-wrapper {
+            display: inline-flex;
+            flex-direction: column;
+            width: 22rem;
+            height: 3rem;
+
+            label {
+                display: flex;
+                height: 1.5rem;
+                flex-direction: row-reverse;
+                margin: 2px 0;
+            }
+        }
+
+        &.helper-basic__select {
+            width: 22rem;
+            margin-bottom: 10px;
+        }
+
+        &.helper-basic__autocomplete {
+            width: calc(44rem + 10px);
+        }
+    }
+
+    &.helper-loc {
+        &.helper-loc__wrapper {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            padding: 10px;
+            padding-top: 20px;
+        }
+
+        &.helper-loc__textfield {
+            width: 22rem;
+            margin-bottom: 10px;
+
+            &.right {
+                margin-left: 10px;
+            }
+        }
+
+        &.helper-loc__heading {
+            margin-bottom: 10px;
+        }
+
+        &.helper-loc__basic-wrapper {
+            border-bottom: 1px solid $color-divider;
+            margin-bottom: 10px;
+        }
+    }
+
+    &.helper-nav {
+        &.helper-nav__wrapper {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            padding: 10px;
+            padding-top: 20px;
+        }
+
+        &.helper-nav__om-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        &.helper-nav__oms-left {
+            display: flex;
+            flex-direction: column;
+            width: 22rem;
+        }
+
+        &.helper-nav__oms-right {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            width: 22rem;
+        }
+
+        &.helper-nav__om-header {
+            width: 100%;
+        }
+
+        &.helper-nav__om-select {
+            width: 6rem;
+            margin-right: 10px;
+        }
+        &.helper-nav__straight {
+            width: calc(44rem + 10px);
+            margin-top: 10px;
+        }
+
+        &.helper-nav__station {
+            margin-top: 10px;
+        }
+
+        &.helper-nav__textfield {
+            width: 22rem;
+        }
+
+        &.helper-nav__distance {
+            width: 11rem;
+            margin-left: 10px;
+        }
+
+        &.helper-nav__bearing {
+            width: 11rem;
+            margin-left: 10px;
+        }
+    }
+}
+
+#adornment-update {
+    p {
+        color: $color-text-primary;
+    }
+}
+
+#adornment-view {
+    p {
+        color: #aaa;
+    }
+}

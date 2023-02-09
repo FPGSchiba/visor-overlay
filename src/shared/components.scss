@@ -14,6 +14,7 @@
 @import 'functions/edit-user';
 @import 'functions/create-user';
 @import 'functions/delete-user';
+@import 'functions/helper';
 
 .content-wrapper-left {
     background-color: $color-background;
@@ -31,7 +32,7 @@
 }
 
 .content-wrapper-right {
-    background-color: $color-background;
+    background-color: $color-background-light;
     border-radius: 15px;
     color: $color-text-primary;
     height: 70rem;

@@ -10,6 +10,12 @@ export const theme= createTheme({
     },
     background: {
       default: '#404040',
+      paper: '#606060',
     },
+    text: {
+      primary: '#fff',
+      secondary: '#fff',
+      disabled: '#aaa'
+    }
   },
 });

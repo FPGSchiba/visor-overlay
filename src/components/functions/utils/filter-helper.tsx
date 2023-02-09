@@ -169,6 +169,8 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
         setTabValue(newValue);
     };
 
+    // TODO: Implement not Published & not Approved && not Followups
+
     const codes = data.dropDown.visorCodes;
 
     return (

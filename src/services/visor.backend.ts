@@ -66,7 +66,7 @@ class VISORApi {
             rejectUnauthorized: false,
         });
 
-        const apiURL = "http://192.168.1.202:3000"
+        const apiURL = "http://192.168.1.224:3000"
 
         VISORApi.endpoint = axios.create({
             baseURL: apiURL,
@@ -344,7 +344,7 @@ class VISORApi {
         id: string
     ): Promise<{success: boolean, message: string, report?: IVISORReport}> {
         try {
-            const { data } = await VISORApi.endpoint.get(`/visor/get?${id}`,
+            const { data } = await VISORApi.endpoint.get(`/visor/get?id=${id}`,
             {
                 headers: {
                     'Content-Type': 'application/json',

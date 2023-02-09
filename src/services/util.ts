@@ -22,6 +22,7 @@ export function checkUserInfo(callback: (currentAuth: boolean) => void) {
         });
     } else {
         checkUserFromSaved().then((value) => {
+            console.log(value);
             callback(value);
         })
     }
@@ -39,7 +40,9 @@ async function checkUserFromSaved(): Promise<boolean> {
             if (result.success) {
                 const org = {token: orgToken, name: result.orgName};
                 const user = {handle: result.handle, token: userToken, role: result.role};
-                setUserInfoToCookies({org, user})
+                const userInfo = {org, user};
+                console.log(userInfo);
+                setUserInfoToCookies(userInfo);
                 return true;
             } else {
                 return false;

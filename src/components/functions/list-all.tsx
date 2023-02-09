@@ -1,7 +1,7 @@
 import { Alert, Backdrop, Button, CircularProgress, Pagination, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listReports } from "../../store/actions/reports";
+import { listReports, openReport, setUpdatingReport } from "../../store/actions/reports";
 import { AppState } from "../../store/format";
 import { ISearchFilter, IVISORSmall } from "../../store/format/report.format";
 import { FilterHelper } from "./utils/filter-helper";
@@ -46,6 +46,7 @@ export function ListAll() {
     const [hasError, setHasError] = useState(false);
     
     const dispatch = useDispatch();
+    const reportOpen = useSelector((state: AppState) => state.reportState.updateState.open);
     const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
     const userToken = useSelector((state: AppState) => state.authState.currentUser.token);
 
@@ -56,7 +57,22 @@ export function ListAll() {
     }
 
     const handleOpenReport = (id: string, update: boolean) => {
-        console.log(`Open Report: ${id} - Updating: ${update}`);
+        if (!reportOpen) {
+            dispatch(openReport(orgToken, userToken, update, id, (err) => {
+                if (err) {
+                    setError(err.message);
+                    setHasError(true);
+                }
+            }))
+        } else {
+            dispatch(setUpdatingReport(false, false, undefined));
+            dispatch(openReport(orgToken, userToken, update, id, (err) => {
+                if (err) {
+                    setError(err.message);
+                    setHasError(true);
+                }
+            }))
+        }
     }
 
     const handleApproveReport = (id: string) => {

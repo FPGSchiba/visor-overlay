@@ -79,7 +79,7 @@ export enum OMName {
 }
 
 export interface IVISORNavigationStraightOM {
-    om: OMName;
+    om: string;
     distance: number;
 }
 

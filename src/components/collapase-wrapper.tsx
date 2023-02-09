@@ -7,35 +7,18 @@ import { ViewHelper } from './view-helper';
 import { useLocation } from 'react-router-dom';
 import { UserInfo } from './users/user-info';
 import { updateUserInfo } from '../store/actions/user';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '../store/format';
 
 export function CollapseWrapper(props: any) {
     const { children } = props;
     const [checked, setChecked] = useState(false);
-    const [usesData, setUsesData] = useState(false);
+    const usesData = useSelector((state: AppState) => state.reportState.updateState.open);
     const [showUserInfo, setShowUserInfo] = useState(true);
     const location = useLocation();
     const dispatch = useDispatch();
-    
-    const dataLocations = [
-        "\/test"
-    ]
-
-    const checkIfDataLocation = (loc: string) => {
-        let setData = false;
-        dataLocations.forEach(element => {
-            if (loc.match(element)) {
-                setUsesData(true)
-                setData = true;
-            }
-        });
-        if (!setData) {
-            setUsesData(false);
-        }
-    }
 
     useEffect(() => {
-        checkIfDataLocation(location.pathname);
         dispatch(
             updateUserInfo()
         );

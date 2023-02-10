@@ -36,6 +36,7 @@ export function CreateUser(props: {setOpen: (open: boolean) => void, fetchUserDa
                 } else {
                     console.error(err);
                 }
+                formik.resetForm();
             })
         );
     }

@@ -1,4 +1,4 @@
-import { Alert, Backdrop, Box, Button, Checkbox, CircularProgress, FormControlLabel, Tab, Tabs, TextField, Tooltip, Typography } from "@mui/material";
+import { Alert, Autocomplete, Backdrop, Box, Button, Checkbox, Chip, CircularProgress, FormControlLabel, Tab, Tabs, TextField, Tooltip, Typography } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
 import React, { useEffect, useState, version } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -73,7 +73,7 @@ export function CreateNewMandatory() {
         setValue(newValue);
     };
     const validationSchema = Yup.object().shape({
-        reportName: Yup.string().required('ThiYou need to give your Report a unique Name!'),
+        reportName: Yup.string().required('You need to give your Report a unique Name!'),
         published: Yup.bool(),
         jurisdiction: Yup.string(),
         rsiHandle: Yup.string(),
@@ -114,7 +114,8 @@ export function CreateNewMandatory() {
         noFly: Yup.bool(),
         armistice: Yup.bool(),
         restricted: Yup.bool(),
-        other:  Yup.string()
+        other:  Yup.string(),
+        keywords: Yup.array(Yup.string())
     });
 
     const initialValues = {
@@ -147,16 +148,18 @@ export function CreateNewMandatory() {
         noFly: false,
         armistice: false,
         restricted: false,
-        other: ''
+        other: '',
+        keywords: [] as string[]
     };
 
     const handleCreation = (values: {
-        published: boolean; reportName: string; jurisdiction: string; rsiHandle: string; visorCode: number; visorCodeJustification: string; scVersion: string; date: number; followUpTrailblazers: boolean; followUpDiscovery: boolean; followUpJustification: string; om1: number; om2: number; om3: number; om4: number; om5: number; om6: number; classification: string; surroundings: string; trade: string; services: string; hostiles: string; defenses: string; occupants: string; lethalForce: string; remainingOccupants: string; noFly: boolean; armistice: boolean; restricted: boolean; other: string; resetForm: () => void
+        published: boolean; reportName: string; jurisdiction: string; rsiHandle: string; visorCode: number; visorCodeJustification: string; scVersion: string; date: number; followUpTrailblazers: boolean; followUpDiscovery: boolean; followUpJustification: string; om1: number; om2: number; om3: number; om4: number; om5: number; om6: number; classification: string; surroundings: string; trade: string; services: string; hostiles: string; defenses: string; occupants: string; lethalForce: string; remainingOccupants: string; noFly: boolean; armistice: boolean; restricted: boolean; other: string; keywords: string[]; resetForm: () => void
     }, formikHelpers: FormikHelpers<{
+        keywords: any;
             published: boolean; reportName: string; jurisdiction: string; rsiHandle: string; visorCode: number; visorCodeJustification: string; scVersion: string; date: number; followUpTrailblazers: boolean; followUpDiscovery: boolean; followUpJustification: string; om1: number; om2: number; om3: number; om4: number; om5: number; om6: number; classification: string; surroundings: string; trade: string; services: string; hostiles: string; defenses: string; occupants: string; lethalForce: string; remainingOccupants: string; noFly: boolean; armistice: boolean; restricted: boolean; other: string; 
     }>) => {
         setLoading(true);
-        const { reportName, published, jurisdiction, rsiHandle, visorCode, visorCodeJustification, scVersion, date, followUpTrailblazers: followupTrailblazers, followUpDiscovery: followupDiscovery, followUpJustification: followupJustification, om1, om2, om3, om4, om5, om6, classification, surroundings, trade, services, hostiles, defenses, occupants, lethalForce, remainingOccupants, noFly, armistice, restricted, other, resetForm } = values;
+        const { reportName, published, jurisdiction, rsiHandle, visorCode, visorCodeJustification, scVersion, date, followUpTrailblazers: followupTrailblazers, followUpDiscovery: followupDiscovery, followUpJustification: followupJustification, om1, om2, om3, om4, om5, om6, classification, surroundings, trade, services, hostiles, defenses, occupants, lethalForce, remainingOccupants, noFly, armistice, restricted, other, keywords, resetForm } = values;
 
         if (!(system && system.label)) {
             setError('Please select a system, where is your Report?');
@@ -218,7 +221,8 @@ export function CreateNewMandatory() {
                 om4,
                 om5,
                 om6
-            }
+            },
+            keywords
         }
 
         dispatch(createReport(orgToken, userToken, report, (err: any) => {
@@ -249,7 +253,7 @@ export function CreateNewMandatory() {
                     </Box>
                     <TabPanel value={value} index={0} className="mReport mReport-form mReport-form__tab basic">
                         <TextField 
-                            label={"Report Name"}
+                            label={"Report Name*"}
                             name='reportName'
                             value={formik.values.reportName}
                             onChange={formik.handleChange}
@@ -259,7 +263,7 @@ export function CreateNewMandatory() {
                         />
                         <FormControlLabel className="mReport mReport-form mReport-form__published" control={<Checkbox name="published" value={formik.values.published} onChange={formik.handleChange} />} label="Public Report?" />
                         <TextField 
-                                label={"RSI Handle"}
+                                label={"RSI Handle*"}
                                 name='rsiHandle'
                                 value={formik.values.rsiHandle}
                                 onChange={formik.handleChange}
@@ -270,7 +274,7 @@ export function CreateNewMandatory() {
                         />
                         <VISORCodeSelect formik={formik}/>
                         <TextField 
-                                label={"Star Citizen Version"}
+                                label={"Star Citizen Version*"}
                                 name='scVersion'
                                 value={formik.values.scVersion}
                                 onChange={formik.handleChange}
@@ -285,7 +289,7 @@ export function CreateNewMandatory() {
                                     <TextField
                                         error={Boolean(formik.touched.date && formik.errors.date)}
                                         helperText={formik.touched.date && formik.errors.date}
-                                        label="Date"
+                                        label="Date*"
                                         name="date"
                                         {...params}
                                     />
@@ -293,6 +297,30 @@ export function CreateNewMandatory() {
                                 className="mReport mReport-form mReport-form__date"
                         />
                         <FollowUpHelper formik={formik} />
+                        <Tooltip title="Enter a Keyword and press 'Enter' to add it.">
+                            <Autocomplete
+                                value={formik.values.keywords}
+                                multiple
+                                className="mReport mReport-form mReport-form__autocomplete"
+                                options={[]}
+                                noOptionsText={'Please enter your Keywords to add.'}
+                                freeSolo
+                                renderTags={(value: string[], getTagProps) =>
+                                    value.map((option: string, index: number) => (
+                                        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                    ))
+                                }
+                                onChange={(e, value) => formik.setFieldValue('keywords', value)}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        variant="outlined"
+                                        label="Keywords"
+                                        placeholder="Enter Keywords"
+                                    />
+                                )}
+                            />
+                        </Tooltip>
                     </TabPanel>
                     <TabPanel value={value} index={1} className="mReport mReport-form mReport-form__tab nav-info">
                         <SystemSelect disabled={false} className="mReport mReport-form mReport-form__systems" value={system} setValue={setSystem} setId={setSystemId} />
@@ -316,7 +344,7 @@ export function CreateNewMandatory() {
                     <TabPanel value={value} index={2} className="mReport mReport-form mReport-form__tab surroundings">
                         <Tooltip title={classification} arrow placement="right">
                             <TextField 
-                                label={"Location Classification"}
+                                label={"Location Classification*"}
                                 name='classification'
                                 value={formik.values.classification}
                                 onChange={formik.handleChange}
@@ -327,7 +355,7 @@ export function CreateNewMandatory() {
                         </Tooltip>
                         <Tooltip title={surroundings} arrow placement="right">
                             <TextField 
-                                label={"Surroundings"}
+                                label={"Surroundings*"}
                                 name='surroundings'
                                 value={formik.values.surroundings}
                                 onChange={formik.handleChange}

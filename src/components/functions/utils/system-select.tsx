@@ -91,7 +91,7 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} value={value && value.label ? value.label : ''} label="System" />
+        <TextField {...params} value={value && value.label ? value.label : ''} label="System*" />
       )}
       className={props.className}
       disabled={disabled}
@@ -197,7 +197,7 @@ export function ObjectSelect(props: {className: string, value: SystemOptionType 
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label="Stellar Object" />
+        <TextField {...params} label="Stellar Object*" />
       )}
       className={props.className}
       disabled={selectedSystem ? disabled : true}

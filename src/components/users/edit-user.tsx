@@ -20,6 +20,7 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
     }
 
     const handleClose = () => {
+        clearForm();
         setOpen(false);
     }
 
@@ -36,6 +37,7 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
                 } else {
                     console.error(err);
                 }
+                clearForm();
             })
         );
     }

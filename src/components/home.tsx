@@ -26,10 +26,6 @@ export function Home() {
         navigateTo('/search');
     }
 
-    const navigateToListLocal = () => {
-        navigateTo('/list-local');
-    }
-
     const navigateToUsers = () => {
         navigateTo('/users');
     }
@@ -43,7 +39,6 @@ export function Home() {
                 <Button variant="contained" onClick={navigateToCreateNew} color="primary" className="home home-navigation home-navigation__button">Create New</Button>
                 <Button variant="contained" onClick={navigateToListAll} color="primary" className="home home-navigation home-navigation__button">List All</Button>
                 <Button variant="contained" onClick={navigateToSearch} color="primary" className="home home-navigation home-navigation__button">Search</Button>
-                <Button variant="contained" onClick={navigateToListLocal} color="primary" className="home home-navigation home-navigation__button">List Local</Button>
                 <PermissionWrapper roles={['Admin']}>
                     <Button variant="contained" onClick={navigateToUsers} color="primary" className="home home-navigation home-navigation__button">Users</Button>
                 </PermissionWrapper>

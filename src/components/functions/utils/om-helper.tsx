@@ -21,7 +21,7 @@ export function OMHelper(props: {formik: any}) {
                         onChange={formik.handleChange}
                         error={formik.touched.om1 && Boolean(formik.errors.om1)}
                     />
-                    <FormLabel id="filled-weight-helper-text-om1">OM 1</FormLabel>
+                    <FormLabel id="filled-weight-helper-text-om1">OM 1*</FormLabel>
                 </FormControl>
                 <FormControl variant="filled" className="mReport mReport-form mReport-form__om-input">
                     <FilledInput
@@ -37,7 +37,7 @@ export function OMHelper(props: {formik: any}) {
                         onChange={formik.handleChange}
                         error={formik.touched.om3 && Boolean(formik.errors.om3)}
                     />
-                    <FormLabel id="filled-weight-helper-text-om3">OM 3</FormLabel>
+                    <FormLabel id="filled-weight-helper-text-om3">OM 3*</FormLabel>
                 </FormControl>
                 <FormControl variant="filled" className="mReport mReport-form mReport-form__om-input">
                     <FilledInput
@@ -53,7 +53,7 @@ export function OMHelper(props: {formik: any}) {
                         onChange={formik.handleChange}
                         error={formik.touched.om5 && Boolean(formik.errors.om5)}
                     />
-                    <FormLabel id="filled-weight-helper-text-om5">OM 5</FormLabel>
+                    <FormLabel id="filled-weight-helper-text-om5">OM 5*</FormLabel>
                 </FormControl>
             </div>
             <div className="mReport mReport-form mReport-form__oms-right">
@@ -71,7 +71,7 @@ export function OMHelper(props: {formik: any}) {
                         onChange={formik.handleChange}
                         error={formik.touched.om2 && Boolean(formik.errors.om2)}
                     />
-                    <FormLabel id="filled-weight-helper-text-om2">OM 2</FormLabel>
+                    <FormLabel id="filled-weight-helper-text-om2">OM 2*</FormLabel>
                 </FormControl>
                 <FormControl variant="filled" className="mReport mReport-form mReport-form__om-input">
                     <FilledInput
@@ -87,7 +87,7 @@ export function OMHelper(props: {formik: any}) {
                         onChange={formik.handleChange}
                         error={formik.touched.om4 && Boolean(formik.errors.om4)}
                     />
-                    <FormLabel id="filled-weight-helper-text-om4">OM 4</FormLabel>
+                    <FormLabel id="filled-weight-helper-text-om4">OM 4*</FormLabel>
                 </FormControl>
                 <FormControl variant="filled" className="mReport mReport-form mReport-form__om-input">
                     <FilledInput
@@ -103,7 +103,7 @@ export function OMHelper(props: {formik: any}) {
                         onChange={formik.handleChange}
                         error={formik.touched.om6 && Boolean(formik.errors.om6)}
                     />
-                    <FormLabel id="filled-weight-helper-text-om6">OM 6</FormLabel>
+                    <FormLabel id="filled-weight-helper-text-om6">OM 6*</FormLabel>
                 </FormControl>
             </div>
         </div>

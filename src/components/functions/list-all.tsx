@@ -156,7 +156,7 @@ export function ListAll() {
             </div>
             <div className="listAll listAll-pagination listAll-pagination__wrapper">
                 <Pagination siblingCount={0} count={getPageCount()} page={page} onChange={handlePageChange} showFirstButton showLastButton className="listAll listAll-pagination listAll-pagination__pagination" />
-                <Typography variant="body1" className="listAll listAll-pagination listAll-pagination__total">Results: {total}</Typography>
+                <Typography variant="body1" className="listAll listAll-pagination listAll-pagination__total">Total: {total}</Typography>
                 <Button variant="contained" onClick={() => handleSearch(false)} className="listAll listAll-pagination listAll-pagination__search">Search</Button>
             </div>
             <Backdrop

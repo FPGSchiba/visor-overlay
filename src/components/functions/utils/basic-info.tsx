@@ -1,4 +1,4 @@
-import { Autocomplete, AutocompleteRenderInputParams, Checkbox, Chip, FormControlLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Autocomplete, AutocompleteRenderInputParams, Checkbox, Chip, FormControlLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "../../../store/format";
@@ -88,29 +88,31 @@ export function BasicInfo(props: {formik: any, updating: boolean}) {
                 className='helper helper-basic helper-basic__textfield justification'
                 disabled={!(formik.values.reportMeta.followupTrailblazers || formik.values.reportMeta.followupDiscovery) || !updating}
             />
-            <Autocomplete
-                value={formik.values.keywords}
-                multiple
-                className="helper helper-basic helper-basic__autocomplete"
-                options={[]}
-                noOptionsText={'Please enter your Keywords to add.'}
-                freeSolo
-                renderTags={(value: string[], getTagProps) =>
-                    value.map((option: string, index: number) => (
-                        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                    ))
-                }
-                onChange={(e, value) => formik.setFieldValue('keywords', value)}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        variant="outlined"
-                        label="Keywords"
-                        placeholder="Enter Keywords"
-                    />
-                )}
-                disabled={!updating}
-            />
+            <Tooltip title="Enter a Keyword and press 'Enter' to add it.">
+                <Autocomplete
+                    value={formik.values.keywords}
+                    multiple
+                    className="helper helper-basic helper-basic__autocomplete"
+                    options={[]}
+                    noOptionsText={'Please enter your Keywords to add.'}
+                    freeSolo
+                    renderTags={(value: string[], getTagProps) =>
+                        value.map((option: string, index: number) => (
+                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                        ))
+                    }
+                    onChange={(e, value) => formik.setFieldValue('keywords', value)}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            variant="outlined"
+                            label="Keywords"
+                            placeholder="Enter Keywords"
+                        />
+                    )}
+                    disabled={!updating}
+                />
+            </Tooltip>
         </div>
     )
 }

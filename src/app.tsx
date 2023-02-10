@@ -7,7 +7,6 @@ import { Routes, Route, HashRouter as Router } from "react-router-dom";
 import { CollapseWrapper } from './components/collapase-wrapper';
 import { CreateNew } from './components/functions/create-new';
 import { ListAll } from './components/functions/list-all';
-import { ListLocal } from './components/functions/list-local';
 import { Search } from './components/functions/search';
 import { Home } from './components/home';
 import { Login } from './components/login-org';
@@ -35,7 +34,6 @@ function AppWithCallbackAfterRender() {
                       <Route path={"/create-new"} element={<CreateNew />} />
                       <Route path={"/list-all"} element={<ListAll />} />
                       <Route path={"/search"} element={<Search />} />
-                      <Route path={"/list-local"} element={<ListLocal />} />
                       <Route path={'/users'} element={<Users />} />
                       <Route path={'/no-access'} element={<NoAccess />} />
                     </Route>

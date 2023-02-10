@@ -73,7 +73,7 @@ export function POITypeSelect(props: {className: string, value: SystemOptionType
         sx={{ width: 300 }}
         freeSolo
         renderInput={(params) => (
-          <TextField {...params} label="POI Type" />
+          <TextField {...params} label="POI Type*" />
         )}
         className={props.className}
         disabled={disabled}

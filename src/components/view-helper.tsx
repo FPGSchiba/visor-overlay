@@ -10,6 +10,7 @@ import { BasicInfo } from "./functions/utils/basic-info";
 import { Location } from './functions/utils/location';
 import { Navigation } from "./functions/utils/navigation";
 import { VIRS } from "./functions/utils/virs";
+import { Screenshots } from "./functions/utils/screenshot-helper";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -56,12 +57,13 @@ export function ViewHelper() {
     }
 
 
-    // Header: Switch to view / updating mode & Close View Helper & Tabs
-    // Tab: Basic Info (reportName, approved, published, reportMeta, keywords)
-    // Tab: Location (visorLocation, locationDetails)
-    // Tab: Navigation (navigation, fuelConsumptions)
+    // Header: Switch to view / updating mode & Close View Helper & Tabs Done
+    // Tab: Basic Info (reportName, approved, published, reportMeta, keywords) Done
+    // Tab: Location (visorLocation, locationDetails) Done
+    // Tab: Navigation (navigation, fuelConsumptions) Done
     // Tab: VIRS (virs)
-    // Footer: Back & Create & Next Buttons
+    // Tab: Screenshots (own api)
+    // Footer: Back & Create & Next Buttons (Done)
     return (
         <div className="helper helper-wrapper">
             <div className="helper helper-header helper-header__wrapper">
@@ -77,6 +79,7 @@ export function ViewHelper() {
                         <Tab label="Location" />
                         <Tab label="Navigation" />
                         <Tab label="VIRS" />
+                        <Tab label="Screenshots" />
                     </Tabs>
                 </Box>
             </div>
@@ -94,11 +97,14 @@ export function ViewHelper() {
                     <TabPanel value={value} index={3} className="helper helper-form helper-form__tab virs">
                         <VIRS formik={formik} updating={updating} />
                     </TabPanel>
+                    <TabPanel value={value} index={4} className="helper helper-form helper-form__tab screenshots">
+                        <Screenshots formik={formik} updating={updating} />
+                    </TabPanel>
                 </div>
                 <div className="helper helper-footer helper-footer__wrapper">
                     <Button variant="contained" disabled={value == 0} onClick={() => setValue((value) => { return value - 1; })} className="helper helper-footer helper-footer__button-back">Back</Button>
                     <Button variant="contained" type="submit" disabled={!updating} className="helper helper-footer helper-footer__button-submit">Update</Button>
-                    <Button variant="contained" disabled={value >= 3} onClick={() => setValue((value) => { return value + 1; })} className="helper helper-footer helper-footer__button-next">Next</Button>
+                    <Button variant="contained" disabled={value >= 4} onClick={() => setValue((value) => { return value + 1; })} className="helper helper-footer helper-footer__button-next">Next</Button>
                 </div>
             </form>
         </div>

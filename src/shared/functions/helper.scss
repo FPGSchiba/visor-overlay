@@ -179,6 +179,19 @@
 
         &.helper-nav__textfield {
             width: 22rem;
+
+            &.pointA {
+                margin-bottom: 10px;
+            }
+
+            &.pointB {
+                margin-left: 10px;
+                margin-bottom: 10px;
+            }
+
+            &.drive {
+                margin-left: 10px;
+            }
         }
 
         &.helper-nav__distance {
@@ -186,9 +199,51 @@
             margin-left: 10px;
         }
 
+        &.helper-nav__fuel-distance {
+            width: 11rem;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
         &.helper-nav__bearing {
             width: 11rem;
             margin-left: 10px;
+        }
+
+        &.helper-nav__consumption {
+            width: 11rem;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        &.helper-nav__fuel-wrapper {
+            margin-top: 20px;
+        }
+
+        &.helper-nav__station {
+            margin-top: 20px;
+        }
+
+        &.helper-nav__ground {
+            margin-top: 20px;
+        }
+
+        &.helper-nav__fuel-view {
+            margin-top: 10px;
+        }
+
+        &.helper-nav__add {
+            width: 6rem;
+        }
+
+        &.helper-nav__add-wrapper {
+            display: inline-flex;
+            height: 5rem;
+            width: 22rem;
+            margin-left: 10px;
+            justify-content: center;
+            align-items: center;
         }
     }
 }

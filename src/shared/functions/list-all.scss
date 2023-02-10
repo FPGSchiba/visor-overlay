@@ -120,6 +120,7 @@
         }
 
         &.listAll-pagination__pagination {
+            min-width: 22rem;
             color: $color-text-primary;
         }
 
@@ -128,12 +129,13 @@
             height: 2rem;
             width: 6rem;
             align-self: center;
-            margin-left: 3rem;
+            margin-left: 10px;
             margin-right: 10px;
         }
 
         &.listAll-pagination__total {
             align-self: center;
+            text-align: center;
         }
     }
 
@@ -152,6 +154,7 @@
         &.listAll-sReport__heading {
             display: inline-flex;
             width: 18rem;
+            overflow: hidden;
         }
 
         &.listAll-sReport__icon {

@@ -57,6 +57,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={classification} arrow placement="right">
                     <TextField 
                         label={"Location Classification"}
+                        multiline
                         name='locationDetails.classification'
                         value={formik.values.locationDetails.classification}
                         onChange={formik.handleChange}
@@ -67,6 +68,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={surroundings} arrow placement="right">
                     <TextField 
                         label={"Surroundings"}
+                        multiline
                         name='locationDetails.surroundings'
                         value={formik.values.locationDetails.surroundings}
                         onChange={formik.handleChange}
@@ -77,6 +79,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={trade} arrow placement="right">
                     <TextField 
                         label={"Trade Details"}
+                        multiline
                         name='locationDetails.trade'
                         value={formik.values.locationDetails.trade}
                         onChange={formik.handleChange}
@@ -87,6 +90,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={services} arrow placement="right">
                     <TextField 
                         label={"Services"}
+                        multiline
                         name='locationDetails.services'
                         value={formik.values.locationDetails.services}
                         onChange={formik.handleChange}
@@ -97,6 +101,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={hostiles} arrow placement="right">
                     <TextField 
                         label={"Hostiles"}
+                        multiline
                         name='locationDetails.hostiles'
                         value={formik.values.locationDetails.hostiles}
                         onChange={formik.handleChange}
@@ -107,6 +112,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={defenses} arrow placement="right">
                     <TextField 
                         label={"Defenses"}
+                        multiline
                         name='locationDetails.defenses'
                         value={formik.values.locationDetails.defenses}
                         onChange={formik.handleChange}
@@ -117,6 +123,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={occupants} arrow placement="right">
                     <TextField 
                         label={"Occupants"}
+                        multiline
                         name='locationDetails.occupants'
                         value={formik.values.locationDetails.occupants}
                         onChange={formik.handleChange}
@@ -127,6 +134,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={lethalForce} arrow placement="right">
                     <TextField 
                         label={"Lethal Force"}
+                        multiline
                         name='locationDetails.lethalForce'
                         value={formik.values.locationDetails.lethalForce}
                         onChange={formik.handleChange}
@@ -137,6 +145,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={remainingOccupants} arrow placement="right">
                     <TextField 
                         label={"Remaining Occupants"}
+                        multiline
                         name='locationDetails.remainingOccupants'
                         value={formik.values.locationDetails.remainingOccupants}
                         onChange={formik.handleChange}
@@ -147,6 +156,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                 <Tooltip title={other} arrow placement="right">
                     <TextField 
                         label={"Other zone"}
+                        multiline
                         name='locationDetails.zones.other'
                         value={formik.values.locationDetails.zones.other}
                         onChange={formik.handleChange}

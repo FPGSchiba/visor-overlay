@@ -1,8 +1,3 @@
-export interface IVISORScreenshot {
-    description: string;
-    picture: string;
-}
-
 export interface IVISORVirsConsolesFuel {
     hydrogen: boolean;
     quantanium: boolean;
@@ -47,13 +42,13 @@ export interface IVISORVirs {
 
 export interface IVISORFuelConsumptionPoint {
     name: string;
-    distance: number;
 }
 
 export interface IVISORFuelConsumption {
     ship: string;
     drive: string;
-    fuelConsumption: string;
+    fuelConsumption: number;
+    distance: number;
     pointA: IVISORFuelConsumptionPoint;
     pointB: IVISORFuelConsumptionPoint;
 }
@@ -145,7 +140,7 @@ export interface IVISORReport {
     navigation: IVISORNavigation;
     fuelConsumptions?: IVISORFuelConsumption[];
     virs?: IVISORVirs;
-    screenShots?: IVISORScreenshot[];
+    screenShots?: string[];
     keywords?: string[];
 }
 
@@ -158,7 +153,6 @@ export interface IVISORInput {
     navigation: IVISORNavigation;
     fuelConsumptions?: IVISORFuelConsumption[];
     virs?: IVISORVirs;
-    screenShots?: IVISORScreenshot[];
     keywords?: string[];
 }
 

@@ -100,8 +100,79 @@ export function openReport(orgToken: string, userToken: string, updating: boolea
 	}
 }
 
+export function reOpenReport(orgToken: string, userToken: string, updating: boolean, id: string): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		dispatch(setUpdatingReport(false, updating, undefined));
+		const data = await visorBackend.getReport(orgToken, userToken, id);
+		if (data.success && data.report) {
+			dispatch(getUpdatingReport(updating, true, data.report));
+		}
+	}
+}
+
 export function setUpdatingReport(open: boolean, updating: boolean, report?: IVISORReport): ThunkResult<void> {
 	return async function (dispatch: (arg0: any) => void) {
 		dispatch(getUpdatingReport(open, updating, report));
+	}
+}
+
+export function updateReport(orgToken: string, userToken: string, id: string, report: IVISORReport, callback: (err: ErrorResponse, id?: string) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		delete report.approved;
+		delete report.id;
+		const input: IVISORInput = {
+			...report,
+			published: `${report.published}`
+		};
+		const result = await visorBackend.updateReport(orgToken, userToken, id, input);
+		if (result.success && result.id) {
+			callback(undefined, result.id);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function deleteReport(orgToken: string, userToken: string, id: string, reason: string, callback: (err: ErrorResponse) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.deleteReport(orgToken, userToken, id, reason);
+		if (result.success) {
+			callback(null);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function approveReport(orgToken: string, userToken: string, id: string, handle: string, reason: string, callback: (err: ErrorResponse) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.approveReport(orgToken, userToken, id, handle, reason);
+		if (result.success) {
+			callback(null);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function uploadImage(orgToken: string, userToken: string, id: string, image: File, callback: (err: ErrorResponse) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.uploadImage(orgToken, userToken, id, image);
+		if (result.success) {
+			callback(null)
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function getImages(orgToken: string, userToken: string, id: string, callback: (err: ErrorResponse, images?: string[]) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.getImages(orgToken, userToken, id);
+		if (result.success && result.images) {
+			callback(null, result.images);
+		} else {
+			callback({message: result.message});
+		}
 	}
 }

@@ -108,6 +108,7 @@ export function BasicInfo(props: {formik: any, updating: boolean}) {
                             variant="outlined"
                             label="Keywords"
                             placeholder="Enter Keywords"
+                            multiline
                         />
                     )}
                     disabled={!updating}

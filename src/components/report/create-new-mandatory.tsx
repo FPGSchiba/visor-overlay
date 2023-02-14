@@ -1,4 +1,4 @@
-import { Alert, Autocomplete, Backdrop, Box, Button, Checkbox, Chip, CircularProgress, FormControlLabel, Tab, Tabs, TextField, Tooltip, Typography } from "@mui/material";
+import { Alert, Autocomplete, Backdrop, Box, Button, Checkbox, Chip, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Tab, Tabs, TextField, Tooltip, Typography } from "@mui/material";
 import { FormikHelpers, useFormik } from "formik";
 import React, { useEffect, useState, version } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -458,19 +458,28 @@ export function CreateNewMandatory() {
                 >
                     <CircularProgress />
                 </Backdrop>
-                <Backdrop
-                    open={errorOpen}
-                    className='backdrop backdrop-create backdrop-create__error'
-                    onClick={() => setErrorOpen(false)}
-                >
-                    <Alert severity="error">{error}</Alert>
-                </Backdrop>
-                <Backdrop
-                    open={success}
-                    onClick={() => setSuccess(false)}
-                >
-                    <Alert severity="info">Created Report!</Alert>
-                </Backdrop>
+                <Dialog open={errorOpen} onClose={() => setErrorOpen(false)}>
+                    <div id={'error-dialog'}>
+                        <DialogTitle>There was a Error</DialogTitle>
+                        <DialogContent>
+                            <Typography variant="body1">{error}</Typography>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button color="error" variant="contained" onClick={() => setErrorOpen(false)}>Close</Button>
+                        </DialogActions>
+                    </div>
+                </Dialog>
+                <Dialog open={success} onClose={() => setSuccess(false)}>
+                    <div>
+                        <DialogTitle>There was a Error</DialogTitle>
+                        <DialogContent>
+                            <Typography variant="body1">Created Report!</Typography>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button color="error" variant="contained" onClick={() => setSuccess(false)}>Close</Button>
+                        </DialogActions>
+                    </div>
+                </Dialog>
             </form>
         </div>
     )

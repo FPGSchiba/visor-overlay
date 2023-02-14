@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { IVISORReport } from "../store/format/report.format";
 import { AppState } from "../store/format";
 import { useFormik } from "formik";
-import { Box, Button, IconButton, Tab, Tabs, TextField } from "@mui/material";
-import { setUpdatingReport } from "../store/actions/reports";
+import { Alert, Backdrop, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { openReport, reOpenReport, setUpdatingReport, updateReport } from "../store/actions/reports";
 import CloseIcon from '@mui/icons-material/Close';
 import { BasicInfo } from "./functions/utils/basic-info";
 import { Location } from './functions/utils/location';
@@ -41,16 +41,39 @@ function TabPanel(props: TabPanelProps) {
 export function ViewHelper() {
     const currentReport = useSelector((state: AppState) => state.reportState.updateState.report);
     const updating = useSelector((state: AppState) => state.reportState.updateState.updating);
+    const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
+    const userToken = useSelector((state: AppState) => state.authState.currentUser.token);
+    const dispatch = useDispatch();
 
     const initialValues: IVISORReport = currentReport;
     const handleSubmit = (values: IVISORReport) => {
-        console.log(values);
-    } 
+        setUpdateValues(values);
+        setUpdateDialog(true);
+    }
 
     const formik = useFormik({initialValues, onSubmit: handleSubmit});
     const [value, setValue] = useState(0);
+    const [updateDialog, setUpdateDialog] = useState(false);
+    const [updateValues, setUpdateValues] = useState({ ...formik.values } as IVISORReport);
+    const [hasError, setHasError] = useState(false);
+    const [error, setError] = useState('');
 
-    const dispatch = useDispatch();
+    const handleCloseDialog = () => {
+        setUpdateDialog(false);
+    }
+
+    const handleUpdateReport = () => {
+        console.log(updateValues);
+        dispatch(updateReport(orgToken, userToken, updateValues.id, updateValues, (err, id) => {
+            if (err && !id) {
+                setError(err.message);
+                setHasError(true);
+            } else {
+                dispatch(reOpenReport(orgToken, userToken, updating, id))
+            }
+        }))
+        setUpdateDialog(false);
+    }
 
     const handleClose = () => {
         dispatch(setUpdatingReport(false, false, undefined));
@@ -60,8 +83,8 @@ export function ViewHelper() {
     // Header: Switch to view / updating mode & Close View Helper & Tabs Done
     // Tab: Basic Info (reportName, approved, published, reportMeta, keywords) Done
     // Tab: Location (visorLocation, locationDetails) Done
-    // Tab: Navigation (navigation, fuelConsumptions) Done
-    // Tab: VIRS (virs)
+    // Tab: Navigation (navigation) Done
+    // Tab: VIRS (virs) Done
     // Tab: Screenshots (own api)
     // Footer: Back & Create & Next Buttons (Done)
     return (
@@ -107,6 +130,30 @@ export function ViewHelper() {
                     <Button variant="contained" disabled={value >= 4} onClick={() => setValue((value) => { return value + 1; })} className="helper helper-footer helper-footer__button-next">Next</Button>
                 </div>
             </form>
+            <Dialog open={updateDialog} onClose={handleCloseDialog}>
+                <form>
+                    <DialogTitle>Confirmation</DialogTitle>
+                    <DialogContent>
+                        <Typography variant="body1">Are you sure you want to Update this Report?</Typography>
+                        <Typography variant="body2">This is a point of no return, please check your Information and if you are sure update.</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog}>Cancel</Button>
+                        <Button onClick={handleUpdateReport}>Update</Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
+            <Dialog open={hasError} onClose={() => setHasError(false)}>
+                <div id={'error-dialog'}>
+                    <DialogTitle>There was a Error</DialogTitle>
+                    <DialogContent>
+                        <Typography variant="body1">{error}</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="error" variant="contained" onClick={() => setHasError(false)}>Close</Button>
+                    </DialogActions>
+                </div>
+            </Dialog>
         </div>
     )
 }

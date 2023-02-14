@@ -394,6 +394,163 @@ class VISORApi {
             }
         }
     }
+
+    @wrapInit
+    public async updateReport(
+        orgToken: string,
+        userToken: string,
+        id: string,
+        report: IVISORInput
+    ): Promise<{success: boolean, message: string, id?: string}> {
+        try {
+            const { data } = await VISORApi.endpoint.post(`/visor/update?id=${id}`,
+            report,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                id: data.data.id,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async approveReport(
+        orgToken: string,
+        userToken: string,
+        id: string,
+        approverHandle: string,
+        approveReason: string
+    ): Promise<{success: boolean, message: string}> {
+        try {
+            const body = {
+                id,
+                approverHandle,
+                approveReason
+            }
+            const { data } = await VISORApi.endpoint.post(`/visor/approve`,
+            body,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async deleteReport(
+        orgToken: string,
+        userToken: string,
+        id: string,
+        deletionReason: string
+    ): Promise<{success: boolean, message: string}> {
+        try {
+            const body = {
+                id,
+                deletionReason,
+            }
+            const { data } = await VISORApi.endpoint.post(`/visor/delete`,
+            body,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async getImages(
+        orgToken: string,
+        userToken: string,
+        id: string
+    ): Promise<{success: boolean, message: string, images?: string[]}> {
+        try {
+            const { data } = await VISORApi.endpoint.get(`/visor/images?id=${id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+                images: data.data.links,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async uploadImage(
+        orgToken: string,
+        userToken: string,
+        id: string,
+        imageData: File
+    ): Promise<{success: boolean, message: string}> {
+        try {
+            var formData = new FormData();
+            formData.append('image', imageData);
+            const { data } = await VISORApi.endpoint.post(`/visor/image?id=${id}`,
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
 }
 
 export default new VISORApi();

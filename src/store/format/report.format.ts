@@ -40,19 +40,6 @@ export interface IVISORVirs {
     consoles: IVISORVirsConsoles;
 }
 
-export interface IVISORFuelConsumptionPoint {
-    name: string;
-}
-
-export interface IVISORFuelConsumption {
-    ship: string;
-    drive: string;
-    fuelConsumption: number;
-    distance: number;
-    pointA: IVISORFuelConsumptionPoint;
-    pointB: IVISORFuelConsumptionPoint;
-}
-
 export interface IVISORNavigationStation {
     name: string;
     distance: number;
@@ -138,7 +125,6 @@ export interface IVISORReport {
     reportMeta: IVISORReportMeta;
     locationDetails: IVISORLocationDetails;
     navigation: IVISORNavigation;
-    fuelConsumptions?: IVISORFuelConsumption[];
     virs?: IVISORVirs;
     screenShots?: string[];
     keywords?: string[];
@@ -151,7 +137,6 @@ export interface IVISORInput {
     reportMeta: IVISORReportMeta;
     locationDetails: IVISORLocationDetails;
     navigation: IVISORNavigation;
-    fuelConsumptions?: IVISORFuelConsumption[];
     virs?: IVISORVirs;
     keywords?: string[];
 }

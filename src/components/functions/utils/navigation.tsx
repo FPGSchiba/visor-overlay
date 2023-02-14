@@ -1,41 +1,10 @@
-import { Button, FilledInput, FormControl, FormLabel, InputAdornment, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { IVISORFuelConsumption, IVISORNavigationGround, IVISORNavigationStation } from "../../../store/format/report.format";
+import { FilledInput, FormControl, FormLabel, InputAdornment, TextField, Typography } from "@mui/material";
+import React, { useEffect } from "react";
+import { IVISORNavigationGround, IVISORNavigationStation } from "../../../store/format/report.format";
 import StraightLineOmsHelper from "./straight-om-helper";
 
 export function Navigation(props: {formik: any, updating: boolean}) {
     const { formik, updating } = props;
-
-    const [pointA, setPointA] = useState('');
-    const [pointB, setPointB] = useState('');
-    const [ship, setShip] = useState('');
-    const [drive, setDrive] = useState('');
-    const [distance, setDistance] = useState(0);
-    const [consumption, setConsumption] = useState(0);
-
-    const handleAdd = () => {
-        if (pointA != '' && pointB != '' && ship != '' && distance != 0) {
-            const value: IVISORFuelConsumption = {
-                pointA: {
-                    name: pointA
-                },
-                pointB: {
-                    name: pointB
-                },
-                drive,
-                ship,
-                distance,
-                fuelConsumption: consumption
-            }
-            if (formik.values.fuelConsumptions && formik.values.fuelConsumptions.length > 0) {
-                const temp = formik.values.fuelConsumptions;
-                temp.push(value);
-                formik.setFieldValue('fuelConsumptions', temp);
-            } else {
-                formik.setFieldValue('fuelConsumptions', [value]);
-            }
-        }
-    }
  
     useEffect(() => {
         if (!formik.values.navigation.refuelingGroundPoi) {
@@ -222,114 +191,6 @@ export function Navigation(props: {formik: any, updating: boolean}) {
                         />
                         <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om6">Ground POI Bearing</FormLabel>
                     </FormControl>
-                </div>
-            </div>
-            <div className="helper helper-nav helper-nav__fuel-wrapper">
-                <Typography variant="h5" color={updating ? '#fff' : '#aaa'} className="helper helper-nav helper-nav__fuel-header" >Fuel Consumptions</Typography>
-                <div className="helper helper-nav helper-nav__fuel-input">
-                    <TextField 
-                        label={"Point A"}
-                        value={pointA}
-                        onChange={(event) => setPointA(event.target.value)}
-                        className='helper helper-nav helper-nav__textfield pointA'
-                        disabled={!updating}
-                    />
-                    <TextField 
-                        label={"Point B"}
-                        value={pointB}
-                        onChange={(event) => setPointB(event.target.value)}
-                        className='helper helper-nav helper-nav__textfield pointB'
-                        disabled={!updating}
-                    />
-                    <TextField 
-                        label={"Ship"}
-                        value={ship}
-                        onChange={(event) => setShip(event.target.value)}
-                        className='helper helper-nav helper-nav__textfield'
-                        disabled={!updating}
-                    />
-                    <TextField 
-                        label={"Quantum Drive"}
-                        value={drive}
-                        onChange={(event) => setDrive(event.target.value)}
-                        className='helper helper-nav helper-nav__textfield drive'
-                        disabled={!updating}
-                    />
-                    <FormControl variant="filled" className="helper helper-nav helper-nav__fuel-distance">
-                        <FilledInput
-                            id="filled-adornment-weight"
-                            endAdornment={<InputAdornment id={ updating ? "adornment-update" : "adornment-view"} position="end">{"km"}</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text-om6"
-                            inputProps={{
-                                'aria-label': 'distance',
-                            }}
-                            type="number"
-                            onChange={(event) => setDistance(+event.target.value)}
-                            value={distance}
-                            disabled={!updating}
-                        />
-                        <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om6">Distance</FormLabel>
-                    </FormControl>
-                    <FormControl variant="filled" className="helper helper-nav helper-nav__consumption">
-                        <FilledInput
-                            id="filled-adornment-weight"
-                            endAdornment={<InputAdornment id={ updating ? "adornment-update" : "adornment-view"} position="end">{"SCU"}</InputAdornment>}
-                            aria-describedby="filled-weight-helper-text-om6"
-                            inputProps={{
-                                'aria-label': 'distance',
-                            }}
-                            type="number"
-                            onChange={(event) => setConsumption(+event.target.value)}
-                            value={consumption}
-                            disabled={!updating}
-                        />
-                        <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om6">Fuel Consumption</FormLabel>
-                    </FormControl>
-                    <div className="helper helper-nav helper-nav__add-wrapper">
-                        <Button variant="contained" className="helper helper-nav helper-nav__add" onClick={handleAdd} disabled={!updating} >Add</Button>
-                    </div>
-                </div>
-                <div className="helper helper-nav helper-nav__fuel-view">
-                    <Table className="helper helper-nav helper-nav__fuel-table" stickyHeader>
-                        <TableHead>
-                            <TableRow sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                    Point A
-                                </TableCell>
-                                <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                    Point B
-                                </TableCell>
-                                <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                    Distance
-                                </TableCell>
-                                <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                    Fuel Consumption
-                                </TableCell>
-                                <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                    Ship
-                                </TableCell>
-                                <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                    Quantum Drive
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {formik.values.fuelConsumptions && formik.values.fuelConsumptions.length > 0 ? (
-                                <>
-                                    { formik.values.fuelConsumptions.map((value: IVISORFuelConsumption, index: number) => (
-                                        <TableRow key={index} sx={updating ? {color: '#fff'} : {color: '#aaa'}}>
-                                            <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>{value.pointA.name}</TableCell>
-                                            <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>{value.pointB.name}</TableCell>
-                                            <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>{value.distance}</TableCell>
-                                            <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>{value.fuelConsumption}</TableCell>
-                                            <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>{value.ship}</TableCell>
-                                            <TableCell sx={updating ? {color: '#fff'} : {color: '#aaa'}}>{value.drive}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </>
-                            ) : null }
-                        </TableBody>
-                    </Table>
                 </div>
             </div>
         </div>

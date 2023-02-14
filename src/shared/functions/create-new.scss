@@ -9,6 +9,7 @@
     .mReport-form {
         &.mReport-form__wrapper {
             height: 100%;
+            overflow: scroll;
         }
 
         &.mReport-form__navigation {

@@ -1,7 +1,7 @@
-import { Alert, Backdrop, Button, CircularProgress, Pagination, Typography } from "@mui/material";
+import { Alert, Backdrop, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Pagination, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listReports, openReport, setUpdatingReport } from "../../store/actions/reports";
+import { approveReport, deleteReport, listReports, openReport, setUpdatingReport } from "../../store/actions/reports";
 import { AppState } from "../../store/format";
 import { ISearchFilter, IVISORSmall } from "../../store/format/report.format";
 import { FilterHelper } from "./utils/filter-helper";
@@ -44,9 +44,15 @@ export function ListAll() {
     const [reports, setReports] = useState<IVISORSmall[]>([])
     const [error, setError] = useState('');
     const [hasError, setHasError] = useState(false);
+    const [approveDialog, setApproveDialog] = useState(false);
+    const [deleteDialog, setDeleteDialog] = useState(false);
+    const [approveReason, setApproveReason] = useState('');
+    const [deleteReason, setDeleteReason] = useState('');
+    const [selectedId, setSelectedId] = useState('');
     
     const dispatch = useDispatch();
     const reportOpen = useSelector((state: AppState) => state.reportState.updateState.open);
+    const handle = useSelector((state: AppState) => state.authState.currentUser.handle);
     const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
     const userToken = useSelector((state: AppState) => state.authState.currentUser.token);
 
@@ -76,10 +82,54 @@ export function ListAll() {
     }
 
     const handleApproveReport = (id: string) => {
-        console.log(`Approve Report: ${id}`);
+        setSelectedId(id);
+        setApproveDialog(true);
     }
+
+    const dialogApproveReport = () => {
+        if (approveReason != '') {
+            setLoading(true);
+            setApproveDialog(false);
+            dispatch(approveReport(orgToken, userToken, selectedId, handle, approveReason, (err) => {
+                if (err) {
+                    setError(err.message);
+                    setHasError(true);
+                    handleSearch(false);
+                } else {
+                    setLoading(false);
+                    handleSearch(false);
+                }
+            }))
+        }
+    }
+
     const handleDeleteReport = (id: string) => {
-        console.log(`Delete Report: ${id}`);
+        setSelectedId(id);
+        setDeleteDialog(true);
+    }
+
+    const dialogDeleteReport = () => {
+        if (deleteReason != '') {
+            setLoading(true);
+            setApproveDialog(false);
+            dispatch(deleteReport(orgToken, userToken, selectedId, deleteReason, (err) => {
+                if (err) {
+                    setError(err.message);
+                    setHasError(true);
+                    handleSearch(false);
+                } else {
+                    setLoading(false);
+                    handleSearch(false);
+                }
+            }))
+        }
+    }
+
+    const checkPageAfterSearch = (total: number) => {
+        const pageCount = Math.ceil(total / length) == 0 ? 1 : Math.ceil(total / length);
+        if (pageCount < page) {
+            handlePageChange(null, 1);
+        }
     }
 
     useEffect(() => {
@@ -98,6 +148,7 @@ export function ListAll() {
                 if(!err && list && total) {
                     setTotal(total);
                     setReports(list);
+                    checkPageAfterSearch(total);
                     setLoading(false);
                 } else {
                     setError(err.message);
@@ -118,6 +169,7 @@ export function ListAll() {
                 if(!err) {
                     setTotal(total);
                     setReports(list);
+                    checkPageAfterSearch(total);
                     setLoading(false);
                 } else {
                     setError(err.message);
@@ -157,19 +209,75 @@ export function ListAll() {
             <div className="listAll listAll-pagination listAll-pagination__wrapper">
                 <Pagination siblingCount={0} count={getPageCount()} page={page} onChange={handlePageChange} showFirstButton showLastButton className="listAll listAll-pagination listAll-pagination__pagination" />
                 <Typography variant="body1" className="listAll listAll-pagination listAll-pagination__total">Total: {total}</Typography>
-                <Button variant="contained" onClick={() => handleSearch(false)} className="listAll listAll-pagination listAll-pagination__search">Search</Button>
+                <Button variant="contained" onClick={() => handleSearch(false)} className="listAll listAll-pagination listAll-pagination__search">Refresh</Button>
             </div>
             <Backdrop
                     open={loading}
                 >
                     <CircularProgress />
             </Backdrop>
-            <Backdrop
-                    open={hasError}
-                    onClick={() => setHasError(false)}
-                >
-                    <Alert severity="error">{error}</Alert>
-                </Backdrop>
+            <Dialog open={hasError} onClose={() => setHasError(false)}>
+                <div id={'error-dialog'}>
+                    <DialogTitle>There was a Error</DialogTitle>
+                    <DialogContent>
+                        <Typography variant="body1">{error}</Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button color="error" variant="contained" onClick={() => setHasError(false)}>Close</Button>
+                    </DialogActions>
+                </div>
+            </Dialog>
+            <Dialog open={approveDialog} onClose={() => {setApproveDialog(false); setSelectedId('')}}>
+                <form>
+                    <DialogTitle>Confirmation</DialogTitle>
+                    <DialogContent>
+                        <Typography variant="body1">Are you sure you want to Approve this Report?</Typography>
+                        <Typography variant="body2">This cannot be undone and you will not be able to edit or delete this report ever again. Please think twice about this.</Typography>
+                        <TextField 
+                            label={"Approve Reason"}
+                            required
+                            value={approveReason}
+                            onChange={(event) => setApproveReason(event.target.value)}
+                            className='listAll listAll-approve listAll-approve__textfield'
+                        />
+                        <TextField 
+                            label={"Report ID"}
+                            value={selectedId}
+                            className='listAll listAll-approve listAll-approve__textfield'
+                            disabled={true}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {setApproveDialog(false); setSelectedId('')}}>Cancel</Button>
+                        <Button onClick={dialogApproveReport}>Approve</Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
+            <Dialog open={deleteDialog} onClose={() => {setDeleteDialog(false); setSelectedId('')}}>
+                <form>
+                    <DialogTitle>Confirmation</DialogTitle>
+                    <DialogContent>
+                        <Typography variant="body1">Are you sure you want to Delete this Report?</Typography>
+                        <TextField 
+                            label={"Delete Reason"}
+                            required
+                            value={deleteReason}
+                            onChange={(event) => setDeleteReason(event.target.value)}
+                            className='listAll listAll-delete listAll-delete__textfield'
+                        />
+                        <TextField 
+                            label={"Report ID"}
+                            value={selectedId}
+                            className='listAll listAll-delete listAll-delete__textfield'
+                            disabled={true}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {setDeleteDialog(false); setSelectedId('')}}>Cancel</Button>
+                        <Button onClick={dialogDeleteReport}>Delete</Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
         </div>
     )
 }

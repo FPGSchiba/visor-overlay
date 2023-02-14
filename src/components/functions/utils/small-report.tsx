@@ -46,6 +46,7 @@ export function SmallReport(props: {report: IVISORSmall, handleOpenReport: (id: 
                     <IconButton
                         className="listAll listAll-sReport listAll-sReport__header-approve"
                         onClick={() => handleApproveReport(report.id)}
+                        id={role == 'Editor' || report.approved ? 'icon-disabled' : ''}
                         size="small"
                         disabled={role == 'Editor' || report.approved}
                     >
@@ -54,6 +55,7 @@ export function SmallReport(props: {report: IVISORSmall, handleOpenReport: (id: 
                     <IconButton
                         className="listAll listAll-sReport listAll-sReport__header-delete"
                         onClick={() => handleDeleteReport(report.id)}
+                        id={role == 'Editor' || report.approved ? 'icon-disabled' : ''}
                         size="small"
                         disabled={role == 'Editor' || report.approved}
                     >
@@ -78,22 +80,22 @@ export function SmallReport(props: {report: IVISORSmall, handleOpenReport: (id: 
                         <Tooltip title={`This Report was Approved.`}>
                             <CheckCircleIcon  className="listAll listAll-sReport listAll-sReport__icon approved" />
                         </Tooltip>
-                    ) : <div></div>}
+                    ) : <div style={{display: 'inline-block'}}></div>}
                     { report.published ? (
                         <Tooltip title={`Publicly visible Report.`}>
                             <PublicIcon className="listAll listAll-sReport listAll-sReport__icon published" />
                         </Tooltip>
-                    ) : <div></div>}
+                    ) : <div style={{display: 'inline-block'}}></div>}
                     { report.reportMeta.followupDiscovery ? (
                         <Tooltip title={`Followup for Discovery requested: ${report.reportMeta.followupJustification}`}>
                             <ScienceIcon className="listAll listAll-sReport listAll-sReport__icon init" />
                         </Tooltip>
-                    ): <div></div>}
+                    ): <div style={{display: 'inline-block'}}></div>}
                     { report.reportMeta.followupTrailblazers ? (
                         <Tooltip title={`Followup for Trailblazers requested: ${report.reportMeta.followupJustification}`}>
                             <ExploreIcon className="listAll listAll-sReport listAll-sReport__icon init" />
                         </Tooltip>
-                    ): <div className="listAll listAll-sReport listAll-sReport__filler"></div>}
+                    ): <div style={{display: 'inline-block'}} className="listAll listAll-sReport listAll-sReport__filler"></div>}
                 </div>
             }
           >

@@ -41,11 +41,7 @@ function a11yProps(index: number) {
 
 export interface IFormikValues {
     name: string,
-    published: boolean,
-    approved: boolean,
     keyword: string,
-    followupDiscovery: boolean,
-    followupTrailblazers: boolean,
     visorCode: number,
     scVersion: string,
     rsiHandle: string,
@@ -85,18 +81,18 @@ function getLocation(values: IFormikValues, initialValues: IFormikValues): ILoca
     }
 }
 
-function getMeta(values: IFormikValues, initialValues: IFormikValues): IMetaFilter | undefined {
+function getMeta(values: IFormikValues, initialValues: IFormikValues, discovery: boolean, notDiscovery: boolean, trailblazers: boolean, notTrailblazers: boolean): IMetaFilter | undefined {
     let filter: IMetaFilter = {};
-    if (values.followupDiscovery != initialValues.followupDiscovery ||
-        values.followupTrailblazers != initialValues.followupTrailblazers ||
+    if (discovery || notDiscovery ||
+        trailblazers || notTrailblazers ||
         values.visorCode != initialValues.visorCode ||
         values.scVersion != initialValues.scVersion ||
         values.rsiHandle != initialValues.rsiHandle) {
-        if (values.followupDiscovery != initialValues.followupDiscovery) {
-            filter.followupDiscovery = `${values.followupDiscovery}`;
+        if (discovery || notDiscovery) {
+            filter.followupDiscovery = discovery ? 'true' : notDiscovery ? 'false' : 'undefined';
         }
-        if (values.followupTrailblazers != initialValues.followupTrailblazers) {
-            filter.followupTrailblazers = `${values.followupTrailblazers}`;
+        if (trailblazers || notTrailblazers) {
+            filter.followupTrailblazers = trailblazers ? 'true' : notTrailblazers ? 'false' : 'undefined';
         }
         if (values.visorCode != initialValues.visorCode) {
             filter.visorCode = `${values.visorCode}`;
@@ -118,14 +114,18 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
     const {filter, setFilter} = props;
     const [tabValue, setTabValue] = useState(0);
     const [open, setOpen] = useState(false);
+    const [published, setPublished] = useState(false);
+    const [notPublished, setNotPublished] = useState(false);
+    const [approved, setApproved] = useState(false);
+    const [notApproved, setNotApproved] = useState(false);
+    const [discovery, setDiscovery] = useState(false);
+    const [notDiscovery, setNotDiscovery] = useState(false);
+    const [trailblazers, setTrailblazers] = useState(false);
+    const [notTrailblazers, setNotTrailblazers] = useState(false);
 
     const initialValues: IFormikValues = {
         name: '',
-        published: false,
-        approved: false,
         keyword: '',
-        followupDiscovery: false,
-        followupTrailblazers: false,
         visorCode: 0,
         scVersion: '',
         rsiHandle: '',
@@ -137,16 +137,20 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
     }
 
     const handleFilterChange = (values: IFormikValues) => {
-        if (values != initialValues) {
+        if (published || notPublished ||
+            approved || notApproved ||
+            discovery || notDiscovery ||
+            trailblazers || notTrailblazers ||
+            values != initialValues) {
             const newFilter: ISearchFilter = {}
             if (values.name != initialValues.name) {
                 newFilter.name = values.name;
             }
-            if (values.published != initialValues.published) {
-                newFilter.published = `${values.published}`;
+            if (published || notPublished) {
+                newFilter.published = published ? 'true' : notPublished ? 'false' : 'undefined';
             }
-            if (values.approved != initialValues.approved) {
-                newFilter.approved = `${values.approved}`;
+            if (approved || notApproved) {
+                newFilter.approved = approved ? 'true' : notApproved ? 'false' : 'undefined';
             }
             if (values.keyword != initialValues.keyword) {
                 newFilter.keyword = values.keyword;
@@ -154,11 +158,12 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
             if (getLocation(values, initialValues)) {
                 newFilter.location = getLocation(values, initialValues);
             }
-            if (getMeta(values, initialValues)) {
-                newFilter.meta = getMeta(values, initialValues);
+            if (getMeta(values, initialValues, discovery, notDiscovery, trailblazers, notTrailblazers)) {
+                newFilter.meta = getMeta(values, initialValues, discovery, notDiscovery, trailblazers, notTrailblazers);
             }
             setFilter(newFilter);
         } else {
+            console.log('Nothing changed!')
             setFilter({});
         }
     }
@@ -168,8 +173,6 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
     };
-
-    // TODO: Implement not Published & not Approved && not Followups
 
     const codes = data.dropDown.visorCodes;
 
@@ -200,63 +203,56 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                     </Box>
                     <form onSubmit={formik.handleSubmit}>
                         <TabPanel value={tabValue} index={0} className="listAll listAll-filter listAll-filter__tab basic">
-                            <TextField 
-                                label={"Report Name"}
-                                name='name'
-                                value={formik.values.name}
-                                onChange={formik.handleChange}
-                                error={formik.touched.name && Boolean(formik.errors.name)}
-                                helperText={formik.errors.name}
-                                className='listAll listAll-filter listAll-filter__textfield name'
-                            />
-                            <div className="listAll listAll-filter listAll-filter__checkboxes">
-                                <FormControlLabel control={<Checkbox name="published" value={formik.values.published} onChange={formik.handleChange} />} label="Published" />
-                                <FormControlLabel control={<Checkbox name="approved" value={formik.values.approved} onChange={formik.handleChange} />} label="Approved" />
+                            <div className="listAll listAll-filter listAll-filter__tab-wrapper">
+                                <TextField 
+                                    label={"Report Name"}
+                                    name='name'
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    helperText={formik.errors.name}
+                                    className='listAll listAll-filter listAll-filter__textfield name'
+                                />
+                                <div className="listAll listAll-filter listAll-filter__checkboxes meta">
+                                    <FormControlLabel control={<Checkbox value={notPublished} onChange={() => setNotPublished(!notPublished)} checked={notPublished} disabled={published} />} label="Not Published" />
+                                    <FormControlLabel control={<Checkbox value={published} onChange={() => setPublished(!published)} checked={published} disabled={notPublished} />} label="Published" />
+                                    <FormControlLabel control={<Checkbox value={notApproved} onChange={() => setNotApproved(!notApproved)} checked={notApproved} disabled={approved} />} label="Not Approved" />
+                                    <FormControlLabel control={<Checkbox value={approved} onChange={() => setApproved(!approved)} checked={approved} disabled={notApproved} />} label="Approved" />
+                                </div>
+                                <TextField 
+                                    label={"Keyword"}
+                                    name='keyword'
+                                    value={formik.values.keyword}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.keyword && Boolean(formik.errors.keyword)}
+                                    helperText={formik.errors.keyword}
+                                    className='listAll listAll-filter listAll-filter__textfield keyword'
+                                />
+                                <TextField 
+                                    label={"Star Citizen Version"}
+                                    name='scVersion'
+                                    value={formik.values.scVersion}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.scVersion && Boolean(formik.errors.scVersion)}
+                                    helperText={formik.errors.scVersion}
+                                    className='listAll listAll-filter listAll-filter__textfield scVersion'
+                                />
+                                <div className="listAll listAll-filter listAll-filter__checkboxes followup">
+                                    <FormControlLabel control={<Checkbox value={notDiscovery} onChange={() => setNotDiscovery(!notDiscovery)} checked={notDiscovery} disabled={discovery} />} label="Not Followup Discovery" />
+                                    <FormControlLabel control={<Checkbox value={discovery} onChange={() => setDiscovery(!discovery)} checked={discovery} disabled={notDiscovery} />} label="Followup Discovery" />
+                                    <FormControlLabel control={<Checkbox value={notTrailblazers} onChange={() => setNotTrailblazers(!notTrailblazers)} checked={notTrailblazers} disabled={trailblazers} />} label="Not Followup Trailblazers" />
+                                    <FormControlLabel control={<Checkbox value={trailblazers} onChange={() => setTrailblazers(!trailblazers)} checked={trailblazers} disabled={notTrailblazers} />} label="Followup Trailblazers" />
+                                </div>
+                                <TextField 
+                                    label={"RSI Handle"}
+                                    name='rsiHandle'
+                                    value={formik.values.rsiHandle}
+                                    onChange={formik.handleChange}
+                                    error={formik.touched.rsiHandle && Boolean(formik.errors.rsiHandle)}
+                                    helperText={formik.errors.rsiHandle}
+                                    className='listAll listAll-filter listAll-filter__textfield rsiHandle'
+                                />
                             </div>
-                            <TextField 
-                                label={"Keyword"}
-                                name='keyword'
-                                value={formik.values.keyword}
-                                onChange={formik.handleChange}
-                                error={formik.touched.keyword && Boolean(formik.errors.keyword)}
-                                helperText={formik.errors.keyword}
-                                className='listAll listAll-filter listAll-filter__textfield keyword'
-                            />
-                            <div className="listAll listAll-filter listAll-filter__checkboxes">
-                                <FormControlLabel control={<Checkbox name="followupDiscovery" value={formik.values.followupDiscovery} onChange={formik.handleChange} />} label="Followup Discovery" />
-                                <FormControlLabel control={<Checkbox name="followupTrailblazers" value={formik.values.followupTrailblazers} onChange={formik.handleChange} />} label="Followup Trailblazers" />
-                            </div>
-                            <Select
-                                className="listAll listAll-filter listAll-filter__select visorCode"
-                                value={formik.values.visorCode}
-                                labelId="visor-code-label"
-                                label="VISOR Code"
-                                name="visorCode"
-                                onChange={formik.handleChange}
-                            >
-                                <MenuItem key={0} value={0}>{'[0] No filter'}</MenuItem>
-                                { codes.map((value) => {
-                                    return (<MenuItem key={value.code} value={value.code}>{`[${value.code}] ${value.name}`}</MenuItem>)
-                                })}
-                            </Select>
-                            <TextField 
-                                label={"Star Citizen Version"}
-                                name='scVersion'
-                                value={formik.values.scVersion}
-                                onChange={formik.handleChange}
-                                error={formik.touched.scVersion && Boolean(formik.errors.scVersion)}
-                                helperText={formik.errors.scVersion}
-                                className='listAll listAll-filter listAll-filter__textfield scVersion'
-                            />
-                            <TextField 
-                                label={"RSI Handle"}
-                                name='rsiHandle'
-                                value={formik.values.rsiHandle}
-                                onChange={formik.handleChange}
-                                error={formik.touched.rsiHandle && Boolean(formik.errors.rsiHandle)}
-                                helperText={formik.errors.rsiHandle}
-                                className='listAll listAll-filter listAll-filter__textfield rsiHandle'
-                            />
                         </TabPanel>
                         <TabPanel value={tabValue} index={1} className="listAll listAll-filter listAll-filter__tab location">
                             <TextField 
@@ -304,6 +300,19 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                 helperText={formik.errors.jurisdiction}
                                 className='listAll listAll-filter listAll-filter__textfield jurisdiction'
                             />
+                            <Select
+                                    className="listAll listAll-filter listAll-filter__select visorCode"
+                                    value={formik.values.visorCode}
+                                    labelId="visor-code-label"
+                                    label="VISOR Code"
+                                    name="visorCode"
+                                    onChange={formik.handleChange}
+                                >
+                                    <MenuItem key={0} value={0}>{'[0] No filter'}</MenuItem>
+                                    { codes.map((value) => {
+                                        return (<MenuItem key={value.code} value={value.code}>{`[${value.code}] ${value.name}`}</MenuItem>)
+                                    })}
+                                </Select>
                         </TabPanel>
                         { tabValue != 0 ? (
                             <Button variant="contained" onClick={() => setTabValue((value) => {return value - 1;})} className="listAll listAll-filter listAll-filter__button">Back</Button>

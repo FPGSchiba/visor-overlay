@@ -14,7 +14,7 @@ import { FollowUpHelper } from "../functions/utils/followups-helper";
 import { OMHelper } from "../functions/utils/om-helper";
 import { ZonesHelper } from "../functions/utils/zones-helper";
 import { IVISORInput } from "../../store/format/report.format";
-import { createReport } from "../../store/actions/reports";
+import { checkOMSimilarity, createReport, openReport } from "../../store/actions/reports";
 import { useNavigate } from "react-router-dom";
 
 interface TabPanelProps {
@@ -50,6 +50,12 @@ function a11yProps(index: number) {
     };
 }
 
+interface FormikValues {
+    published: boolean; reportName: string; jurisdiction: string; rsiHandle: string; visorCode: number; visorCodeJustification: string; scVersion: string; date: number; followUpTrailblazers: boolean; followUpDiscovery: boolean; followUpJustification: string; om1: number; om2: number; om3: number; om4: number; om5: number; om6: number; classification: string; surroundings: string; trade: string; services: string; hostiles: string; defenses: string; occupants: string; lethalForce: string; remainingOccupants: string; noFly: boolean; armistice: boolean; restricted: boolean; other: string; keywords: string[]; resetForm: () => void
+}
+
+
+
 export function CreateNewMandatory() {
     const [system, setSystem] = useState<SystemOptionType | undefined>(undefined);
     const [systemId, setSystemId] = useState('');
@@ -67,6 +73,10 @@ export function CreateNewMandatory() {
     const [errorOpen, setErrorOpen] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+    const [duplicate, setDuplicate] = useState(false);
+    const [duplicates, setDuplicates] = useState([]);
+    const [values, setValues] = useState<FormikValues>({} as FormikValues);
+    const [formikHelpers, setFormikHelpers] = useState<FormikHelpers<FormikValues>>({} as FormikHelpers<FormikValues>);
     const navigate = useNavigate();
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -152,12 +162,26 @@ export function CreateNewMandatory() {
         keywords: [] as string[]
     };
 
-    const handleCreation = (values: {
-        published: boolean; reportName: string; jurisdiction: string; rsiHandle: string; visorCode: number; visorCodeJustification: string; scVersion: string; date: number; followUpTrailblazers: boolean; followUpDiscovery: boolean; followUpJustification: string; om1: number; om2: number; om3: number; om4: number; om5: number; om6: number; classification: string; surroundings: string; trade: string; services: string; hostiles: string; defenses: string; occupants: string; lethalForce: string; remainingOccupants: string; noFly: boolean; armistice: boolean; restricted: boolean; other: string; keywords: string[]; resetForm: () => void
-    }, formikHelpers: FormikHelpers<{
-        keywords: any;
-            published: boolean; reportName: string; jurisdiction: string; rsiHandle: string; visorCode: number; visorCodeJustification: string; scVersion: string; date: number; followUpTrailblazers: boolean; followUpDiscovery: boolean; followUpJustification: string; om1: number; om2: number; om3: number; om4: number; om5: number; om6: number; classification: string; surroundings: string; trade: string; services: string; hostiles: string; defenses: string; occupants: string; lethalForce: string; remainingOccupants: string; noFly: boolean; armistice: boolean; restricted: boolean; other: string; 
-    }>) => {
+    const handleSubmit = (values: FormikValues, formikHelpers: FormikHelpers<FormikValues>) => {
+        setLoading(true);
+        dispatch(
+            checkOMSimilarity(orgToken, userToken, [values.om1, values.om2, values.om3, values.om4, values.om5 ,values.om6], system.label, object.label, hasPlanetLevelObject ? plo.label : undefined, (err, reports) => {
+                if (reports) {
+                    // If OMs => fill information => open Dialog => Open or Create
+                    setDuplicates(reports);
+                    setValues(values);
+                    setFormikHelpers(formikHelpers);
+                    setDuplicate(true);
+                    setLoading(false);
+                } else {
+                    // IF no OMs => handleCreation
+                    handleCreation(values, formikHelpers);
+                }
+            })
+        )
+    }
+
+    const handleCreation = (values: FormikValues, formikHelpers: FormikHelpers<FormikValues>) => {
         setLoading(true);
         const { reportName, published, jurisdiction, rsiHandle, visorCode, visorCodeJustification, scVersion, date, followUpTrailblazers: followupTrailblazers, followUpDiscovery: followupDiscovery, followUpJustification: followupJustification, om1, om2, om3, om4, om5, om6, classification, surroundings, trade, services, hostiles, defenses, occupants, lethalForce, remainingOccupants, noFly, armistice, restricted, other, keywords, resetForm } = values;
 
@@ -238,8 +262,27 @@ export function CreateNewMandatory() {
             resetForm();
         }))
     }
+
+    const handleOpenReport = (id: string) => {
+        dispatch(
+            openReport(orgToken, userToken, false, id, (err) => {
+                if (err) {
+                    setError(err.message);
+                    setErrorOpen(true);
+                }
+                setLoading(false);
+            })
+        )
+    }
+
+    const handleCloseDuplicate = () => {
+        setValues({} as FormikValues);
+        setFormikHelpers({} as FormikHelpers<FormikValues>);
+        setDuplicates([]);
+        setDuplicate(false);
+    }
     
-    const formik = useFormik({ initialValues, onSubmit: handleCreation, validationSchema });
+    const formik = useFormik({ initialValues, onSubmit: handleSubmit, validationSchema });
     return (
         <div className="mReport" style={{height: '100%'}}>
             <form className="mReport mReport-form" onSubmit={formik.handleSubmit}>
@@ -480,6 +523,26 @@ export function CreateNewMandatory() {
                         </DialogActions>
                     </div>
                 </Dialog>
+                <Dialog open={duplicate} onClose={handleCloseDuplicate}>
+                    <div>
+                        <DialogTitle>Possible Duplicate report detected</DialogTitle>
+                        <DialogContent>
+                            <Typography variant="body1">The Navigational Information you just entered, is very close to an existing report.</Typography>
+                            <Typography variant="body2">Would you still like to create this report or take a look at the existing report?</Typography>
+                            <Typography variant="h5">Reports found:</Typography>
+                            <div className="mReport mReport-dialog mReport-dialog__reports-wrapper">
+                                { duplicates.map((value, index) => (
+                                    <Button className="mReport mReport-dialog mReport-dialog__reports-button" variant="contained" key={index} onClick={() => handleOpenReport(value)} >{value}</Button>
+                                ))}
+                            </div>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button variant="contained" onClick={handleCloseDuplicate}>Close</Button>
+                            <Button variant="contained" onClick={() => {handleCreation(values, formikHelpers); handleCloseDuplicate()}}>Create</Button>
+                        </DialogActions>
+                    </div>
+                </Dialog>
+                
             </form>
         </div>
     )

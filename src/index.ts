@@ -1,9 +1,7 @@
-import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain, autoUpdater, dialog } from 'electron';
 import { overlayWindow } from 'electron-overlay-window';
 import path from 'path';
 import * as fs from 'fs';
-import { IVISORReport } from './store/format/report.format';
-import { PathOrFileDescriptor } from 'original-fs';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
@@ -16,6 +14,15 @@ app.disableHardwareAcceleration();
 
 let window: BrowserWindow;
 
+const server = 'https://visor-updater.vercel.app/' 
+const url = `${server}/update/${process.platform}/${app.getVersion()}`
+autoUpdater.setFeedURL({ url })
+
+const UPDATE_CHECK_INTERVAL = 10 * 60 * 1000
+setInterval(() => {
+  autoUpdater.checkForUpdates()
+}, UPDATE_CHECK_INTERVAL)
+
 const createWindow = (): void => {
   window = new BrowserWindow({
     height: 900,
@@ -23,7 +30,6 @@ const createWindow = (): void => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-      preload: path.resolve('./src/preload.ts'),
       webSecurity: false
     },
     ...overlayWindow.WINDOW_OPTS,
@@ -33,17 +39,18 @@ const createWindow = (): void => {
 
   window.setIgnoreMouseEvents(false);
 
+  overlayWindow.attachTo(window, 'Star Citizen')
+
   makeDemoInteractive();
 
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-
-  overlayWindow.attachTo(window, 'Star Citizen')
 };
 
 
 function makeDemoInteractive () {
   let isIntractable = true;
   let isVisible = true;
+  overlayWindow.activateOverlay();
 
   function toggleOverlayState () {
     if (isIntractable) {
@@ -142,30 +149,20 @@ ipcMain.on('removeLoginFile', (event) => {
 	})
 });
 
-// Local Reports
-function getLocalDirectory() {
-  const localDir =  path.join(getDataDir(), 'local-reports');
-  fs.access(localDir, (error) => {
-    if (error) {
-      fs.mkdir(localDir, (error) => {
-        if (error) {
-          console.error(error);
-          return '';
-        }
-      });
-    }
-  });
-  return localDir;
-}
+autoUpdater.on('error', (message) => {
+  console.error('There was a problem updating the application')
+  console.error(message)
+})
 
-ipcMain.on('localGetAllReports', (event) => {
-  const dir = getLocalDirectory();
-});
-
-ipcMain.on('localGetReportByName', (event, name: string) => {
-  const dir = getLocalDirectory();
-});
-
-ipcMain.on('localSaveReport', (event, name: string, report: IVISORReport) => {
-  const dir = getLocalDirectory();
-});
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+  }
+dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+})

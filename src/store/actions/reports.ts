@@ -4,7 +4,7 @@ import visorBackend from "../../services/visor.backend";
 import { AppState } from "../format";
 import { ICompleteSystem, ISystem, ISystemSmall } from "../format/system.format";
 import { ErrorResponse } from "./shared";
-import { IVISORInput, IVISORReport, IVISORSmall, ISearchFilter } from "../format/report.format";
+import { IVISORInput, IVISORReport, IVISORSmall, ISearchFilter, IVISORImage } from "../format/report.format";
 import { GET_UPDATING_REPORT, GET_VIEW_HELPER_OPEN, GET_VIEW_HELPER_UPDATING } from "../constants/reports";
 
 export interface GetUpdatingReportAction extends Action<typeof GET_UPDATING_REPORT> {
@@ -155,9 +155,9 @@ export function approveReport(orgToken: string, userToken: string, id: string, h
 	}
 }
 
-export function uploadImage(orgToken: string, userToken: string, id: string, image: File, callback: (err: ErrorResponse) => void): ThunkResult<void> {
+export function uploadImage(orgToken: string, userToken: string, id: string, description: string, image: File, callback: (err: ErrorResponse) => void): ThunkResult<void> {
 	return async function (dispatch: (arg0: any) => void) {
-		const result = await visorBackend.uploadImage(orgToken, userToken, id, image);
+		const result = await visorBackend.uploadImage(orgToken, userToken, id, image, description);
 		if (result.success) {
 			callback(null)
 		} else {
@@ -166,11 +166,44 @@ export function uploadImage(orgToken: string, userToken: string, id: string, ima
 	}
 }
 
-export function getImages(orgToken: string, userToken: string, id: string, callback: (err: ErrorResponse, images?: string[]) => void): ThunkResult<void> {
+export function getImages(orgToken: string, userToken: string, id: string, callback: (err: ErrorResponse, images?: IVISORImage[]) => void): ThunkResult<void> {
 	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.getImages(orgToken, userToken, id);
 		if (result.success && result.images) {
 			callback(null, result.images);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function updateImageDescription(orgToken: string, userToken: string, name: string, description: string, callback: (err: ErrorResponse) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.updateImageDescription(orgToken, userToken, name, description);
+		if (result.success) {
+			callback(null);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function checkOMSimilarity(orgToken: string, userToken: string, oms: number[], system: string, stellarObject: string, planetLevelObject: string | undefined, callback: (err: ErrorResponse, reports?: string[]) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.checkOMSimilarity(orgToken, userToken, oms, system, stellarObject, planetLevelObject);
+		if (result.success && result.reports) {
+			callback({message: result.message}, result.reports);
+		} else {
+			callback({message: result.message});
+		}
+	}
+}
+
+export function deleteImage(orgToken: string, userToken: string, name: string, callback: (err: ErrorResponse, reports?: string[]) => void): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.deleteImage(orgToken, userToken, name);
+		if (result.success) {
+			callback(null);
 		} else {
 			callback({message: result.message});
 		}

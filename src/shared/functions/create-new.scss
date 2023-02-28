@@ -124,6 +124,21 @@
             margin-left: 10px;
         }
     }
+
+    &.mReport-dialog {
+        &.mReport-dialog__reports-wrapper {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        &.mReport-dialog__reports-button {
+            display: inline-block;
+            height: 3.5rem;
+            width: calc(50% - 10px);
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+    }
 }
 
 .MuiCalendarOrClockPicker-root {

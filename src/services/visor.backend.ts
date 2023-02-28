@@ -2,7 +2,7 @@
 import axios, { AxiosInstance } from "axios";
 import https from 'https';
 import { IUser } from "../store/format";
-import { ISearchFilter, IVISORInput, IVISORReport, IVISORSmall } from "../store/format/report.format";
+import { ISearchFilter, IVISORImage, IVISORInput, IVISORReport, IVISORSmall } from "../store/format/report.format";
 import { ICompleteSystem, ISystem, ISystemSmall } from "../store/format/system.format";
 const UNAUTHORIZED_CODE = 401;
 
@@ -498,7 +498,7 @@ class VISORApi {
         orgToken: string,
         userToken: string,
         id: string
-    ): Promise<{success: boolean, message: string, images?: string[]}> {
+    ): Promise<{success: boolean, message: string, images?: IVISORImage[]}> {
         try {
             const { data } = await VISORApi.endpoint.get(`/visor/images?id=${id}`,
             {
@@ -511,7 +511,7 @@ class VISORApi {
             return {
                 message: data.message,
                 success: true,
-                images: data.data.links,
+                images: data.data.images,
             };
         } catch (reason) {
             return {
@@ -526,16 +526,123 @@ class VISORApi {
         orgToken: string,
         userToken: string,
         id: string,
-        imageData: File
+        imageData: File,
+        description: string
     ): Promise<{success: boolean, message: string}> {
         try {
             var formData = new FormData();
             formData.append('image', imageData);
+            formData.append('description', description)
             const { data } = await VISORApi.endpoint.post(`/visor/image?id=${id}`,
             formData,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async updateImageDescription(
+        orgToken: string,
+        userToken: string,
+        name: string,
+        description: string
+    ): Promise<{success: boolean, message: string}> {
+        try {
+            const { data } = await VISORApi.endpoint.post(`/visor/image-desc?name=${name}`,
+            {
+                description
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            return {
+                message: data.message,
+                success: true,
+            };
+        } catch (reason) {
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async checkOMSimilarity(
+        orgToken: string,
+        userToken: string,
+        oms: number[],
+        system: string,
+        stellarObject: string,
+        planetLevelObject?: string
+    ): Promise<{success: boolean, message: string, reports?: string[]}> {
+        try {
+            const body: {[key: string]: any} = {
+                oms: oms,
+                system,
+                stellarObject
+            }
+            if (typeof(planetLevelObject) == 'string') {
+                body.planetLevelObject = planetLevelObject;
+            }
+            const { data } = await VISORApi.endpoint.post(`/visor/om-similarity`,
+            JSON.parse(JSON.stringify(body)),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VISOR-Org-Key': orgToken,
+                    'X-VISOR-User-Key': userToken
+                },
+            });
+            const reports = typeof(data.similarReports) == 'object' ? data.similarReports : undefined;
+            return {
+                message: data.message,
+                success: true,
+                reports
+            };
+        } catch (reason) {
+            if (reason.response.status == 404) {
+                return {
+                    success: true,
+                    message: reason.response.data.message
+                }
+            }
+            return {
+                success: false,
+                message: reason.response.data.message,
+            }
+        }
+    }
+
+    @wrapInit
+    public async deleteImage(
+        orgToken: string,
+        userToken: string,
+        name: string
+    ): Promise<{success: boolean, message: string}> {
+        try {
+            const { data } = await VISORApi.endpoint.delete(`/visor/image?name=${name}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
                     'X-VISOR-Org-Key': orgToken,
                     'X-VISOR-User-Key': userToken
                 },

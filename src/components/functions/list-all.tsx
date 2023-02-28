@@ -94,9 +94,11 @@ export function ListAll() {
                 if (err) {
                     setError(err.message);
                     setHasError(true);
+                    setSelectedId('');
                     handleSearch(false);
                 } else {
                     setLoading(false);
+                    setSelectedId('');
                     handleSearch(false);
                 }
             }))
@@ -111,14 +113,16 @@ export function ListAll() {
     const dialogDeleteReport = () => {
         if (deleteReason != '') {
             setLoading(true);
-            setApproveDialog(false);
+            setDeleteDialog(false);
             dispatch(deleteReport(orgToken, userToken, selectedId, deleteReason, (err) => {
                 if (err) {
                     setError(err.message);
+                    setSelectedId('');
                     setHasError(true);
                     handleSearch(false);
                 } else {
                     setLoading(false);
+                    setSelectedId('');
                     handleSearch(false);
                 }
             }))

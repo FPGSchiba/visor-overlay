@@ -18,28 +18,45 @@
   },
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./resources/visor.ico",
+        "platform": "win32"
+      },
+      "rebuildConfig": {
+        "extraModules": [
+          "electron-overlay-window"
+        ],
+        "onlyModules": [
+          "electron-overlay-window"
+        ]
+      },
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "FPGSchiba",
+              "name": "visor-overlay"
+            },
+            "prerelease": true
+          }
+        }
+      ],
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "visor_overlay"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
           "platforms": [
-            "darwin",
             "win32"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
+          ],
+          "config": {
+            "name": "visor_overlay",
+            "authors": "FPG Schiba",
+            "owners": "FPG Schiba",
+            "description": "A Game Overlay for Star Citizen, used to enter Navigational Points of interest into a managed Database.",
+            "icon": "./resources/visor.ico",
+            "setupIcon": "./resources/visor.ico",
+            "loadingGif": "./resources/vngd.gif"
+          }
         }
       ],
       "plugins": [
@@ -71,23 +88,24 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.66",
     "@electron-forge/maker-zip": "^6.0.0-beta.66",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.66",
+    "@electron-forge/publisher-github": "^6.0.5",
     "@types/js-cookie": "^3.0.2",
     "@types/mousetrap": "^1.6.9",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
-    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "css-loader": "^6.7.1",
-    "electron": "^23.0.0",
     "eslint": "^8.23.1",
     "eslint-plugin-import": "^2.26.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "typescript": "^4.5.5",
+    "electron": "^23.0.0",
+    "webpack-node-externals": "^3.0.0",
+    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "node-loader": "^2.0.0",
     "style-loader": "^3.3.1",
-    "ts-loader": "^9.3.1",
-    "typescript": "^4.5.5",
-    "webpack-node-externals": "^3.0.0"
+    "ts-loader": "^9.3.1"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -95,6 +113,12 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.7",
     "@mui/x-date-pickers": "^5.0.16",
+    "electron": "^23.0.0",
+    "webpack-node-externals": "^3.0.0",
+    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.1",
     "axios": "^1.2.2",
     "electron-overlay-window": "^2.0.1",
     "electron-squirrel-startup": "^1.0.0",
@@ -111,6 +135,7 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.54.9",
     "sass-loader": "^13.0.2",
+    "update-electron-app": "^2.0.1",
     "url-loader": "^4.1.1",
     "yup": "^0.32.11"
   }

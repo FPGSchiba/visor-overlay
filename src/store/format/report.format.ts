@@ -178,3 +178,9 @@ export interface ISearchFilter {
     from?: number;
     to?: number;
 }
+
+export interface IVISORImage {
+    url: string;
+    description: string;
+    name: string;
+}

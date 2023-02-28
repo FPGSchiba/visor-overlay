@@ -1,12 +1,28 @@
 .listAll {
     &.listAll-filter {
         &.listAll-filter__checkboxes {
-            display: inline-block;
-            width: 14rem;
             margin-left: 10px;
 
             label {
                 height: 20px;
+                
+                span {
+                    font-size: 0.9rem;
+                }
+            }
+
+            &.meta {
+                grid-column-start: 2;
+                grid-column-end: 2;
+                grid-row-start: row1;
+                grid-row-end: row3;
+            }
+
+            &.followup {
+                grid-column-start: 2;
+                grid-column-end: 2;
+                grid-row-start: row3;
+                grid-row-end: row4;
             }
         }
 
@@ -19,6 +35,12 @@
             height: 16rem;
             padding: 10px;
             margin-top: 10px;
+        }
+
+        &.listAll-filter__tab-wrapper {
+            display: grid;
+            grid-template-columns: [first] 14rem [second] 14rem [end];
+            grid-template-rows: [row1] 4rem [row2] 4rem [row3] 4rem [row4] 4rem [end];
         }
 
         &.listAll-filter__wrapper {
@@ -82,7 +104,7 @@
 
         &.listAll-filter__select {
             width: 14rem;
-            margin-right: 10px;
+            margin-left: 10px;
         }
     }
 
@@ -211,6 +233,20 @@
 
         &.listAll-sReport__cell {
             border-bottom: 1px solid $color-divider;
+        }
+    }
+
+    &.listAll-delete {
+        &.listAll-delete__textfield {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+
+    &.listAll-approve {
+        &.listAll-approve__textfield {
+            width: 100%;
+            margin-top: 10px;
         }
     }
 }

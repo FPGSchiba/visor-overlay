@@ -19,8 +19,6 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
   const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
   const userToken = useSelector((state: AppState) => state.authState.currentUser.token);
 
-  console.log(value);
-
   useEffect(() => {
     dispatch(getSystems(orgToken, userToken, (err: any, data: ISystemSmall[]) => {
       if (err) {

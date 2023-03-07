@@ -55,21 +55,6 @@
             "distance": 1278.12
         }
     },
-    "fuelConsumptions": [ // Optional
-        {
-            "ship": "someship",
-            "drive": "somedrive",
-            "fuelConsumption": 1234.123,
-            "pointA": {
-                "name": "somename",
-                "distance": 1234.12
-            },
-            "pointB": {
-                "name": "somename",
-                "distance": 123.12
-            }
-        }
-    ],
     "virs": {
         "temperatureMeasures": [ // optional
             12.23,

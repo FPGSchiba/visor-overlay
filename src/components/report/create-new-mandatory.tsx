@@ -83,49 +83,80 @@ export function CreateNewMandatory() {
         setValue(newValue);
     };
     const validationSchema = Yup.object().shape({
-        reportName: Yup.string().required('You need to give your Report a unique Name!'),
-        published: Yup.bool(),
-        jurisdiction: Yup.string(),
-        rsiHandle: Yup.string(),
-        visorCode: Yup.number().required('You need to select a VISOR Code!'),
-        visorCodeJustification: Yup.string().when('visorCode', {
-            is: (visorCode: number) => visorCode === 5 || visorCode === 6,
-            then: Yup.string().required('You need to enter a reason, for Visor Code: 5 & 6!'),
-            otherwise: Yup.string()
+      reportName: Yup.string().required(
+        "You need to give your Report a unique Name!"
+      ),
+      published: Yup.bool(),
+      jurisdiction: Yup.string(),
+      rsiHandle: Yup.string(),
+      visorCode: Yup.number().required("You need to select a VISOR Code!"),
+      visorCodeJustification: Yup.string().when("visorCode", {
+        is: (visorCode: number) => visorCode === 5 || visorCode === 6,
+        then: Yup.string().required(
+          "You need to enter a reason, for Visor Code: 5 & 6!"
+        ),
+        otherwise: Yup.string(),
+      }),
+      scVersion: Yup.string()
+        .required("Specify a Star Citizen Version.")
+        .matches(
+          /^(\d{1,2}|\d{1,2}\.\d{1,3}|\d{1,2}\.\d{1,3}\.\d{1,3})$/,
+          `Please enter a valid Star Citizen Version, like: ${version}`
+        ),
+      date: Yup.number(),
+      followUpTrailblazers: Yup.bool(),
+      followUpDiscovery: Yup.bool(),
+      followUpJustification: Yup.string()
+        .when("followUpTrailblazers", {
+          is: (followUpTrailblazers: boolean) => followUpTrailblazers == true,
+          then: Yup.string().required(
+            "You need to enter a reason, for a Trailblazers followup!"
+          ),
+          otherwise: Yup.string(),
+        })
+        .when("followUpDiscovery", {
+          is: (followUpDiscovery: boolean) => followUpDiscovery == true,
+          then: Yup.string().required(
+            "You need to enter a reason, for a Discovery followup!"
+          ),
+          otherwise: Yup.string(),
         }),
-        scVersion: Yup.string().required('Specify a Star Citizen Version.').matches(/^(\d{1,2}|\d{1,2}\.\d{1,3}|\d{1,2}\.\d{1,3}\.\d{1,3})$/, `Please enter a valid Star Citizen Version, like: ${version}`),
-        date: Yup.number(),
-        followUpTrailblazers: Yup.bool(),
-        followUpDiscovery: Yup.bool(),
-        followUpJustification: Yup.string().when('followUpTrailblazers', {
-            is: (followUpTrailblazers: boolean) => followUpTrailblazers == true,
-            then: Yup.string().required('You need to enter a reason, for a Trailblazers followup!'),
-            otherwise: Yup.string()
-        }).when('followUpDiscovery', {
-            is: (followUpDiscovery: boolean) => followUpDiscovery == true,
-            then: Yup.string().required('You need to enter a reason, for a Discovery followup!'),
-            otherwise: Yup.string()
-        }),
-        om1: Yup.number().required('Please enter all Orbital Markers!'),
-        om2: Yup.number().required('Please enter all Orbital Markers!'),
-        om3: Yup.number().required('Please enter all Orbital Markers!'),
-        om4: Yup.number().required('Please enter all Orbital Markers!'),
-        om5: Yup.number().required('Please enter all Orbital Markers!'),
-        om6: Yup.number().required('Please enter all Orbital Markers!'),
-        classification: Yup.string().required('Enter a description of the location you have surveyed!'),
-        surroundings: Yup.string().required('Enter a description of the surroundings you have surveyed!'),
-        trade:  Yup.string(),
-        services:  Yup.string(),
-        hostiles:  Yup.string(),
-        defenses:  Yup.string(),
-        occupants:  Yup.string(),
-        lethalForce:  Yup.string(),
-        remainingOccupants: Yup.string(),
-        noFly: Yup.bool(),
-        armistice: Yup.bool(),
-        restricted: Yup.bool(),
-        other:  Yup.string(),
-        keywords: Yup.array(Yup.string())
+      om1: Yup.number()
+        .min(1, "The distance from a OM has to be greater than 1.")
+        .required("Please enter all Orbital Markers!"),
+      om2: Yup.number()
+        .min(1, "The distance from a OM has to be greater than 1.")
+        .required("Please enter all Orbital Markers!"),
+      om3: Yup.number()
+        .min(1, "The distance from a OM has to be greater than 1.")
+        .required("Please enter all Orbital Markers!"),
+      om4: Yup.number()
+        .min(1, "The distance from a OM has to be greater than 1.")
+        .required("Please enter all Orbital Markers!"),
+      om5: Yup.number()
+        .min(1, "The distance from a OM has to be greater than 1.")
+        .required("Please enter all Orbital Markers!"),
+      om6: Yup.number()
+        .min(1, "The distance from a OM has to be greater than 1.")
+        .required("Please enter all Orbital Markers!"),
+      classification: Yup.string().required(
+        "Enter a description of the location you have surveyed!"
+      ),
+      surroundings: Yup.string().required(
+        "Enter a description of the surroundings you have surveyed!"
+      ),
+      trade: Yup.string(),
+      services: Yup.string(),
+      hostiles: Yup.string(),
+      defenses: Yup.string(),
+      occupants: Yup.string(),
+      lethalForce: Yup.string(),
+      remainingOccupants: Yup.string(),
+      noFly: Yup.bool(),
+      armistice: Yup.bool(),
+      restricted: Yup.bool(),
+      other: Yup.string(),
+      keywords: Yup.array(Yup.string()),
     });
 
     const initialValues = {

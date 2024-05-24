@@ -1,7 +1,9 @@
-import { app, BrowserWindow, globalShortcut, ipcMain, autoUpdater, dialog } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain, autoUpdater, dialog, Menu, Tray } from 'electron';
+
 import { overlayWindow } from 'electron-overlay-window';
 import path from 'path';
 import * as fs from 'fs';
+import MessageBoxOptions = Electron.MessageBoxOptions;
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
@@ -13,6 +15,9 @@ if (require('electron-squirrel-startup')) {
 app.disableHardwareAcceleration();
 
 let window: BrowserWindow;
+let tray: Tray = null
+let isIntractable = true;
+let isVisible = true;
 
 const server = 'https://visor-updater.vercel.app/' 
 const url = `${server}/update/${process.platform}/${app.getVersion()}`
@@ -27,6 +32,7 @@ const createWindow = (): void => {
   window = new BrowserWindow({
     height: 900,
     width: 500,
+    alwaysOnTop: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -46,25 +52,46 @@ const createWindow = (): void => {
   window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 };
 
+function toggleOverlayState (): void {
+  if (isIntractable) {
+    window.setIgnoreMouseEvents(true);
+    isIntractable = false;
+    overlayWindow.focusTarget();
+    window.webContents.send('focus-change', false);
+  } else {
+    window.setIgnoreMouseEvents(false);
+    isIntractable = true;
+    overlayWindow.activateOverlay();
+    window.webContents.send('focus-change', true);
+  }
+}
+
+function getContextMenu() {
+  return Menu.buildFromTemplate([
+    { label: isIntractable ? 'Disable' : 'Enable', type: 'normal', click: () => { toggleOverlayState(); tray.setContextMenu(getContextMenu()); } },
+    { label: isVisible ? 'Hide' : 'Show', type: 'normal', click: () => {
+        if (isVisible) {
+          window.hide();
+        } else {
+          window.show();
+        }
+        isVisible = !isVisible;
+        tray.setContextMenu(getContextMenu());
+      } },
+    { label: 'Exit', type: 'normal', click: () => app.quit() }
+  ])
+}
+
+app.whenReady().then(() => {
+  //add your path
+  tray = new Tray(path.join(app.getAppPath(), 'src', 'resources', 'logo.png'))
+  const contextMenu = getContextMenu();
+  tray.setToolTip('Vanguard VISOR')
+  tray.setContextMenu(contextMenu)
+})
 
 function makeDemoInteractive () {
-  let isIntractable = true;
-  let isVisible = true;
   overlayWindow.activateOverlay();
-
-  function toggleOverlayState () {
-    if (isIntractable) {
-      window.setIgnoreMouseEvents(true);
-      isIntractable = false;
-      overlayWindow.focusTarget();
-      window.webContents.send('focus-change', false);
-    } else {
-      window.setIgnoreMouseEvents(false);
-      isIntractable = true;
-      overlayWindow.activateOverlay();
-      window.webContents.send('focus-change', true);
-    }
-  }
 
   globalShortcut.register('Alt+I', toggleOverlayState);
 
@@ -155,14 +182,14 @@ autoUpdater.on('error', (message) => {
 })
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-  const dialogOpts = {
+  const dialogOpts: MessageBoxOptions = {
     type: 'info',
     buttons: ['Restart', 'Later'],
     title: 'Application Update',
     message: process.platform === 'win32' ? releaseNotes : releaseName,
     detail: 'A new version has been downloaded. Restart the application to apply the updates.'
   }
-dialog.showMessageBox(dialogOpts).then((returnValue) => {
+  dialog.showMessageBox(window, dialogOpts).then((returnValue) => {
     if (returnValue.response === 0) autoUpdater.quitAndInstall()
   })
 })

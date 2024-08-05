@@ -1,6 +1,6 @@
 import { app, BrowserWindow, globalShortcut, ipcMain, autoUpdater, dialog, Menu, Tray } from 'electron';
 
-import { overlayWindow } from 'electron-overlay-window';
+import { OverlayController, OVERLAY_WINDOW_OPTS } from 'electron-overlay-window';
 import path from 'path';
 import * as fs from 'fs';
 import MessageBoxOptions = Electron.MessageBoxOptions;
@@ -19,7 +19,10 @@ let tray: Tray = null
 let isIntractable = true;
 let isVisible = true;
 
-const server = 'https://visor-updater.vercel.app/' 
+const toggleMouseKey = 'Alt + I'
+const toggleShowKey = 'Alt + V'
+
+const server = 'https://visor-updater.vercel.app/'
 const url = `${server}/update/${process.platform}/${app.getVersion()}`
 autoUpdater.setFeedURL({ url })
 
@@ -30,38 +33,47 @@ setInterval(() => {
 
 const createWindow = (): void => {
   window = new BrowserWindow({
-    height: 900,
-    width: 500,
-    alwaysOnTop: true,
+    width: 400,
+    height: 300,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
-      webSecurity: false
+      contextIsolation: false
     },
-    ...overlayWindow.WINDOW_OPTS,
+    fullscreenable: true,
+    skipTaskbar: true,
+    frame: false,
+    show: true,
+    transparent: true,
+    // let Chromium to accept any size changes from OS
+    resizable: true,
+    // disable shadow for Mac OS
+    hasShadow: false,
+    // float above all windows on Mac OS
+    alwaysOnTop: true
   });
 
-  window.webContents.openDevTools({ mode: 'detach', activate: true });
+  window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  window.setIgnoreMouseEvents(false);
-
-  overlayWindow.attachTo(window, 'Star Citizen')
+  window.webContents.openDevTools({ mode: 'detach', activate: false })
 
   makeDemoInteractive();
 
-  window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  window.setAlwaysOnTop(true, "screen-saver", 1);
+  window.setVisibleOnAllWorkspaces(true, {visibleOnFullScreen: true});
+  window.setFullScreenable(false);
+  window.maximize()
+
+  window.setIgnoreMouseEvents(false);
 };
 
 function toggleOverlayState (): void {
   if (isIntractable) {
     window.setIgnoreMouseEvents(true);
     isIntractable = false;
-    overlayWindow.focusTarget();
     window.webContents.send('focus-change', false);
   } else {
     window.setIgnoreMouseEvents(false);
     isIntractable = true;
-    overlayWindow.activateOverlay();
     window.webContents.send('focus-change', true);
   }
 }
@@ -84,31 +96,31 @@ function getContextMenu() {
 
 app.whenReady().then(() => {
   //add your path
-  tray = new Tray(path.join(app.getAppPath(), 'src', 'resources', 'logo.png'))
+  tray = new Tray(path.join(app.getAppPath(), 'resources', 'visor.ico'))
   const contextMenu = getContextMenu();
   tray.setToolTip('Vanguard VISOR')
   tray.setContextMenu(contextMenu)
 })
 
 function makeDemoInteractive () {
-  overlayWindow.activateOverlay();
+  globalShortcut.register(toggleMouseKey, toggleOverlayState)
 
-  globalShortcut.register('Alt+I', toggleOverlayState);
-
-  globalShortcut.register('Alt+V', () => {
+  globalShortcut.register(toggleShowKey, () => {
     if (isVisible) {
       window.hide();
     } else {
       window.show();
     }
     isVisible = !isVisible;
+    tray.setContextMenu(getContextMenu());
   })
 }
 
+
 app.on('ready', () => {
   setTimeout(
-    createWindow,
-    process.platform === 'linux' ? 1000 : 0 // https://github.com/electron/electron/issues/16809
+      createWindow,
+      process.platform === 'linux' ? 1000 : 0 // https://github.com/electron/electron/issues/16809
   )
 });
 
@@ -127,7 +139,7 @@ function getDataDir() {
   });
   return dataDir;
 }
- 
+
 ipcMain.on('saveLogin', (event, user: {userToken: string, orgToken: string}) => {
   const loginFile = path.join(getDataDir(), 'login.json');
 
@@ -151,29 +163,29 @@ ipcMain.on('hasLoginFile', (event) => {
 });
 
 ipcMain.on('getLoginFromFile', (event) => {
-	const loginFile = path.join(getDataDir(), 'login.json');
+  const loginFile = path.join(getDataDir(), 'login.json');
 
-	fs.readFile(loginFile, { encoding: 'utf-8'}, (err: NodeJS.ErrnoException, data: Buffer) => {
-		if (!err) {
-			event.returnValue = JSON.parse(data.toString());
-		} else {
-			console.error(err);
-			event.returnValue = {};
-		}
-	})
+  fs.readFile(loginFile, { encoding: 'utf-8'}, (err: NodeJS.ErrnoException, data: Buffer) => {
+    if (!err) {
+      event.returnValue = JSON.parse(data.toString());
+    } else {
+      console.error(err);
+      event.returnValue = {};
+    }
+  })
 });
 
 ipcMain.on('removeLoginFile', (event) => {
-	const loginFile = path.join(getDataDir(), 'login.json');
+  const loginFile = path.join(getDataDir(), 'login.json');
 
-	fs.rm(loginFile, (err: NodeJS.ErrnoException) => {
-		if (err) {
-			console.error(err);
+  fs.rm(loginFile, (err: NodeJS.ErrnoException) => {
+    if (err) {
+      console.error(err);
       event.returnValue = false;
-		} else {
+    } else {
       event.returnValue = true;
     }
-	})
+  })
 });
 
 autoUpdater.on('error', (message) => {

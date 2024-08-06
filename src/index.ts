@@ -1,9 +1,17 @@
 import { app, BrowserWindow, globalShortcut, ipcMain, autoUpdater, dialog, Menu, Tray } from 'electron';
 
-import { OverlayController, OVERLAY_WINDOW_OPTS } from 'electron-overlay-window';
+import ActiveWindow from '@paymoapp/active-window';
+
 import path from 'path';
 import * as fs from 'fs';
 import MessageBoxOptions = Electron.MessageBoxOptions;
+
+ActiveWindow.initialize();
+
+if (!ActiveWindow.requestPermissions()) {
+  console.log('Error: You need to grant screen recording permission in System Preferences > Security & Privacy > Privacy > Screen Recording');
+  process.exit(0);
+}
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
@@ -18,6 +26,7 @@ let window: BrowserWindow;
 let tray: Tray = null
 let isIntractable = true;
 let isVisible = true;
+let isOpen = false;
 
 const toggleMouseKey = 'Alt + I'
 const toggleShowKey = 'Alt + V'
@@ -67,14 +76,16 @@ const createWindow = (): void => {
 };
 
 function toggleOverlayState (): void {
-  if (isIntractable) {
-    window.setIgnoreMouseEvents(true);
-    isIntractable = false;
-    window.webContents.send('focus-change', false);
-  } else {
-    window.setIgnoreMouseEvents(false);
-    isIntractable = true;
-    window.webContents.send('focus-change', true);
+  if (isOpen) {
+    if (isIntractable) {
+      window.setIgnoreMouseEvents(true);
+      isIntractable = false;
+      window.webContents.send('focus-change', false);
+    } else {
+      window.setIgnoreMouseEvents(false);
+      isIntractable = true;
+      window.webContents.send('focus-change', true);
+    }
   }
 }
 
@@ -82,13 +93,15 @@ function getContextMenu() {
   return Menu.buildFromTemplate([
     { label: isIntractable ? 'Disable' : 'Enable', type: 'normal', click: () => { toggleOverlayState(); tray.setContextMenu(getContextMenu()); } },
     { label: isVisible ? 'Hide' : 'Show', type: 'normal', click: () => {
-        if (isVisible) {
-          window.hide();
-        } else {
-          window.show();
+        if (isOpen) {
+          if (isVisible) {
+            window.hide();
+          } else {
+            window.show();
+          }
+          isVisible = !isVisible;
+          tray.setContextMenu(getContextMenu());
         }
-        isVisible = !isVisible;
-        tray.setContextMenu(getContextMenu());
       } },
     { label: 'Exit', type: 'normal', click: () => app.quit() }
   ])
@@ -100,6 +113,16 @@ app.whenReady().then(() => {
   const contextMenu = getContextMenu();
   tray.setToolTip('Vanguard VISOR')
   tray.setContextMenu(contextMenu)
+})
+
+ActiveWindow.subscribe((windowInfo) => {
+  if (windowInfo.application == "StarCitizen.exe") {
+    window.show();
+    isOpen = true;
+  } else {
+    window.hide();
+    isOpen = false;
+  }
 })
 
 function makeDemoInteractive () {

@@ -69,7 +69,7 @@ const createWindow = (): void => {
 
   window.setAlwaysOnTop(true, "screen-saver", 1);
   window.setVisibleOnAllWorkspaces(true, {visibleOnFullScreen: true});
-  window.setFullScreenable(false);
+  window.setFullScreenable(true);
   window.maximize()
 
   window.setIgnoreMouseEvents(false);
@@ -103,7 +103,11 @@ function getContextMenu() {
           tray.setContextMenu(getContextMenu());
         }
       } },
-    { label: 'Exit', type: 'normal', click: () => app.quit() }
+    { label: 'Exit', type: 'normal', click: () => {
+        ActiveWindow.unsubscribe(0);
+        app.quit();
+      }
+    }
   ])
 }
 
@@ -115,7 +119,7 @@ app.whenReady().then(() => {
   tray.setContextMenu(contextMenu)
 })
 
-ActiveWindow.subscribe((windowInfo) => {
+ActiveWindow.subscribe((windowInfo) => { // TODO: Unsubscribe when app is closing
   if (windowInfo.application == "StarCitizen.exe") {
     window.show();
     isOpen = true;

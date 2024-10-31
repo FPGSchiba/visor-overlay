@@ -22,31 +22,31 @@ interface TabPanelProps {
     index: number;
     value: number;
     className?: string;
-  }
-  
+}
+
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, className, ...other } = props;
-  
+
     return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        className={className}
-        {...other}
-      >
-        {value === index && (
-          <>{children}</>
-        )}
-      </div>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            className={className}
+            {...other}
+        >
+            {value === index && (
+                <>{children}</>
+            )}
+        </div>
     );
 }
-  
+
 function a11yProps(index: number) {
     return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
     };
 }
 
@@ -83,80 +83,80 @@ export function CreateNewMandatory() {
         setValue(newValue);
     };
     const validationSchema = Yup.object().shape({
-      reportName: Yup.string().required(
-        "You need to give your Report a unique Name!"
-      ),
-      published: Yup.bool(),
-      jurisdiction: Yup.string(),
-      rsiHandle: Yup.string(),
-      visorCode: Yup.number().required("You need to select a VISOR Code!"),
-      visorCodeJustification: Yup.string().when("visorCode", {
-        is: (visorCode: number) => visorCode === 5 || visorCode === 6,
-        then: Yup.string().required(
-          "You need to enter a reason, for Visor Code: 5 & 6!"
+        reportName: Yup.string().required(
+            "You need to give your Report a unique Name!"
         ),
-        otherwise: Yup.string(),
-      }),
-      scVersion: Yup.string()
-        .required("Specify a Star Citizen Version.")
-        .matches(
-          /^(\d{1,2}|\d{1,2}\.\d{1,3}|\d{1,2}\.\d{1,3}\.\d{1,3})$/,
-          `Please enter a valid Star Citizen Version, like: ${version}`
-        ),
-      date: Yup.number(),
-      followUpTrailblazers: Yup.bool(),
-      followUpDiscovery: Yup.bool(),
-      followUpJustification: Yup.string()
-        .when("followUpTrailblazers", {
-          is: (followUpTrailblazers: boolean) => followUpTrailblazers == true,
-          then: Yup.string().required(
-            "You need to enter a reason, for a Trailblazers followup!"
-          ),
-          otherwise: Yup.string(),
-        })
-        .when("followUpDiscovery", {
-          is: (followUpDiscovery: boolean) => followUpDiscovery == true,
-          then: Yup.string().required(
-            "You need to enter a reason, for a Discovery followup!"
-          ),
-          otherwise: Yup.string(),
+        published: Yup.bool(),
+        jurisdiction: Yup.string(),
+        rsiHandle: Yup.string(),
+        visorCode: Yup.number().required("You need to select a VISOR Code!"),
+        visorCodeJustification: Yup.string().when("visorCode", {
+            is: (visorCode: number) => visorCode === 5 || visorCode === 6,
+            then: Yup.string().required(
+                "You need to enter a reason, for Visor Code: 5 & 6!"
+            ),
+            otherwise: Yup.string(),
         }),
-      om1: Yup.number()
-        .min(1, "The distance from a OM has to be greater than 1.")
-        .required("Please enter all Orbital Markers!"),
-      om2: Yup.number()
-        .min(1, "The distance from a OM has to be greater than 1.")
-        .required("Please enter all Orbital Markers!"),
-      om3: Yup.number()
-        .min(1, "The distance from a OM has to be greater than 1.")
-        .required("Please enter all Orbital Markers!"),
-      om4: Yup.number()
-        .min(1, "The distance from a OM has to be greater than 1.")
-        .required("Please enter all Orbital Markers!"),
-      om5: Yup.number()
-        .min(1, "The distance from a OM has to be greater than 1.")
-        .required("Please enter all Orbital Markers!"),
-      om6: Yup.number()
-        .min(1, "The distance from a OM has to be greater than 1.")
-        .required("Please enter all Orbital Markers!"),
-      classification: Yup.string().required(
-        "Enter a description of the location you have surveyed!"
-      ),
-      surroundings: Yup.string().required(
-        "Enter a description of the surroundings you have surveyed!"
-      ),
-      trade: Yup.string(),
-      services: Yup.string(),
-      hostiles: Yup.string(),
-      defenses: Yup.string(),
-      occupants: Yup.string(),
-      lethalForce: Yup.string(),
-      remainingOccupants: Yup.string(),
-      noFly: Yup.bool(),
-      armistice: Yup.bool(),
-      restricted: Yup.bool(),
-      other: Yup.string(),
-      keywords: Yup.array(Yup.string()),
+        scVersion: Yup.string()
+            .required("Specify a Star Citizen Version.")
+            .matches(
+                /^(\d{1,2}|\d{1,2}\.\d{1,3}|\d{1,2}\.\d{1,3}\.\d{1,3})$/,
+                `Please enter a valid Star Citizen Version, like: ${version}`
+            ),
+        date: Yup.number(),
+        followUpTrailblazers: Yup.bool(),
+        followUpDiscovery: Yup.bool(),
+        followUpJustification: Yup.string()
+            .when("followUpTrailblazers", {
+                is: (followUpTrailblazers: boolean) => followUpTrailblazers == true,
+                then: Yup.string().required(
+                    "You need to enter a reason, for a Trailblazers followup!"
+                ),
+                otherwise: Yup.string(),
+            })
+            .when("followUpDiscovery", {
+                is: (followUpDiscovery: boolean) => followUpDiscovery == true,
+                then: Yup.string().required(
+                    "You need to enter a reason, for a Discovery followup!"
+                ),
+                otherwise: Yup.string(),
+            }),
+        om1: Yup.number()
+            .min(1, "The distance from a OM has to be greater than 1.")
+            .required("Please enter all Orbital Markers!"),
+        om2: Yup.number()
+            .min(1, "The distance from a OM has to be greater than 1.")
+            .required("Please enter all Orbital Markers!"),
+        om3: Yup.number()
+            .min(1, "The distance from a OM has to be greater than 1.")
+            .required("Please enter all Orbital Markers!"),
+        om4: Yup.number()
+            .min(1, "The distance from a OM has to be greater than 1.")
+            .required("Please enter all Orbital Markers!"),
+        om5: Yup.number()
+            .min(1, "The distance from a OM has to be greater than 1.")
+            .required("Please enter all Orbital Markers!"),
+        om6: Yup.number()
+            .min(1, "The distance from a OM has to be greater than 1.")
+            .required("Please enter all Orbital Markers!"),
+        classification: Yup.string().required(
+            "Enter a description of the location you have surveyed!"
+        ),
+        surroundings: Yup.string().required(
+            "Enter a description of the surroundings you have surveyed!"
+        ),
+        trade: Yup.string(),
+        services: Yup.string(),
+        hostiles: Yup.string(),
+        defenses: Yup.string(),
+        occupants: Yup.string(),
+        lethalForce: Yup.string(),
+        remainingOccupants: Yup.string(),
+        noFly: Yup.bool(),
+        armistice: Yup.bool(),
+        restricted: Yup.bool(),
+        other: Yup.string(),
+        keywords: Yup.array(Yup.string()),
     });
 
     const initialValues = {
@@ -196,7 +196,7 @@ export function CreateNewMandatory() {
     const handleSubmit = (values: FormikValues, formikHelpers: FormikHelpers<FormikValues>) => {
         setLoading(true);
         dispatch(
-            checkOMSimilarity(orgToken, userToken, [values.om1, values.om2, values.om3, values.om4, values.om5 ,values.om6], system.label, object.label, hasPlanetLevelObject ? plo.label : undefined, (err, reports) => {
+            checkOMSimilarity(orgToken, userToken, [values.om1, values.om2, values.om3, values.om4, values.om5, values.om6], system.label, object.label, hasPlanetLevelObject ? plo.label : undefined, (err, reports) => {
                 if (reports) {
                     // If OMs => fill information => open Dialog => Open or Create
                     setDuplicates(reports);
@@ -238,7 +238,7 @@ export function CreateNewMandatory() {
             visorLocation: {
                 system: system.label,
                 stellarObject: object.label,
-                planetLevelObject: typeof(plo) == 'object' ? plo.label : undefined,
+                planetLevelObject: typeof (plo) == 'object' ? plo.label : undefined,
                 poiType: poiType.label,
                 jurisdiction
             },
@@ -312,10 +312,10 @@ export function CreateNewMandatory() {
         setDuplicates([]);
         setDuplicate(false);
     }
-    
+
     const formik = useFormik({ initialValues, onSubmit: handleSubmit, validationSchema });
     return (
-        <div className="mReport" style={{height: '100%'}}>
+        <div className="mReport" style={{ height: '100%' }}>
             <form className="mReport mReport-form" onSubmit={formik.handleSubmit}>
                 <div className="mReport mReport-form mReport-form__wrapper">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="mReport mReport-form mReport-form__navigation">
@@ -326,7 +326,7 @@ export function CreateNewMandatory() {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0} className="mReport mReport-form mReport-form__tab basic">
-                        <TextField 
+                        <TextField
                             label={"Report Name*"}
                             name='reportName'
                             value={formik.values.reportName}
@@ -336,39 +336,39 @@ export function CreateNewMandatory() {
                             className='mReport mReport-form mReport-form__textfield name'
                         />
                         <FormControlLabel className="mReport mReport-form mReport-form__published" control={<Checkbox name="published" value={formik.values.published} onChange={formik.handleChange} />} label="Public Report?" />
-                        <TextField 
-                                label={"RSI Handle*"}
-                                name='rsiHandle'
-                                value={formik.values.rsiHandle}
-                                onChange={formik.handleChange}
-                                error={formik.touched.rsiHandle && Boolean(formik.errors.rsiHandle)}
-                                helperText={formik.errors.rsiHandle}
-                                className='mReport mReport-form mReport-form__textfield'
-                                disabled={handle != ''}
+                        <TextField
+                            label={"RSI Handle*"}
+                            name='rsiHandle'
+                            value={formik.values.rsiHandle}
+                            onChange={formik.handleChange}
+                            error={formik.touched.rsiHandle && Boolean(formik.errors.rsiHandle)}
+                            helperText={formik.errors.rsiHandle}
+                            className='mReport mReport-form mReport-form__textfield'
+                            disabled={handle != ''}
                         />
-                        <VISORCodeSelect formik={formik}/>
-                        <TextField 
-                                label={"Star Citizen Version*"}
-                                name='scVersion'
-                                value={formik.values.scVersion}
-                                onChange={formik.handleChange}
-                                error={formik.touched.scVersion && Boolean(formik.errors.scVersion)}
-                                helperText={formik.errors.scVersion}
-                                className='mReport mReport-form mReport-form__textfield version'
+                        <VISORCodeSelect formik={formik} />
+                        <TextField
+                            label={"Star Citizen Version*"}
+                            name='scVersion'
+                            value={formik.values.scVersion}
+                            onChange={formik.handleChange}
+                            error={formik.touched.scVersion && Boolean(formik.errors.scVersion)}
+                            helperText={formik.errors.scVersion}
+                            className='mReport mReport-form mReport-form__textfield version'
                         />
                         <DatePicker
-                                onChange={(value: any) => formik.setFieldValue("date", value, true)}
-                                value={formik.values.date}
-                                renderInput={(params) => (
-                                    <TextField
-                                        error={Boolean(formik.touched.date && formik.errors.date)}
-                                        helperText={formik.touched.date && formik.errors.date}
-                                        label="Date*"
-                                        name="date"
-                                        {...params}
-                                    />
-                                )}
-                                className="mReport mReport-form mReport-form__date"
+                            onChange={(value: any) => formik.setFieldValue("date", value, true)}
+                            value={formik.values.date}
+                            renderInput={(params) => (
+                                <TextField
+                                    error={Boolean(formik.touched.date && formik.errors.date)}
+                                    helperText={formik.touched.date && formik.errors.date}
+                                    label="Date*"
+                                    name="date"
+                                    {...params}
+                                />
+                            )}
+                            className="mReport mReport-form mReport-form__date"
                         />
                         <FollowUpHelper formik={formik} />
                         <Tooltip title="Enter a Keyword and press 'Enter' to add it.">
@@ -400,11 +400,11 @@ export function CreateNewMandatory() {
                         <SystemSelect disabled={false} className="mReport mReport-form mReport-form__systems" value={system} setValue={setSystem} setId={setSystemId} />
                         <PlanetLevelOverwrite disabled={false} hasPlanetLevelObject={hasPlanetLevelObject} setHasPlanetLevelObject={setHasPlanetLevelObject} />
                         <ObjectSelect disabled={false} className="mReport mReport-form mReport-form__objects" value={object} setValue={setObject} selectedSystem={system} selectedId={systemId} setPlanetLevelObject={setHasPlanetLevelObject} />
-                        { hasPlanetLevelObject ? (
+                        {hasPlanetLevelObject ? (
                             <PLOSelect disabled={false} className="mReport mReport-form mReport-form__plo" value={plo} setValue={setPLO} selectedId={systemId} selectedStellarObject={object} />
                         ) : <div className="mReport mReport-form mReport-form__filler"></div>}
                         <POITypeSelect disabled={false} className="mReport mReport-form mReport-form__poi" value={poiType} setValue={setPoiType} />
-                        <TextField 
+                        <TextField
                             label={"Jurisdiction"}
                             name='jurisdiction'
                             value={formik.values.jurisdiction}
@@ -417,7 +417,7 @@ export function CreateNewMandatory() {
                     </TabPanel>
                     <TabPanel value={value} index={2} className="mReport mReport-form mReport-form__tab surroundings">
                         <Tooltip title={classification} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Location Classification*"}
                                 name='classification'
                                 value={formik.values.classification}
@@ -428,7 +428,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={surroundings} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Surroundings*"}
                                 name='surroundings'
                                 value={formik.values.surroundings}
@@ -439,7 +439,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={trade} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Trade Details"}
                                 name='trade'
                                 value={formik.values.trade}
@@ -450,7 +450,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={services} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Services"}
                                 name='services'
                                 value={formik.values.services}
@@ -461,7 +461,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={hostiles} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Hostiles"}
                                 name='hostiles'
                                 value={formik.values.hostiles}
@@ -472,7 +472,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={defenses} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Defenses"}
                                 name='defenses'
                                 value={formik.values.defenses}
@@ -483,7 +483,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={occupants} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Occupants"}
                                 name='occupants'
                                 value={formik.values.occupants}
@@ -494,7 +494,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={lethalForce} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Lethal Force"}
                                 name='lethalForce'
                                 value={formik.values.lethalForce}
@@ -505,7 +505,7 @@ export function CreateNewMandatory() {
                             />
                         </Tooltip>
                         <Tooltip title={remainingOccupants} arrow placement="right">
-                            <TextField 
+                            <TextField
                                 label={"Remaining Occupants"}
                                 name='remainingOccupants'
                                 value={formik.values.remainingOccupants}
@@ -519,10 +519,10 @@ export function CreateNewMandatory() {
                     </TabPanel>
                 </div>
                 <div className="mReport mReport-form mReport-form__submit-wrapper">
-                    { value != 0 ? (
+                    {value != 0 ? (
                         <Button variant="contained" onClick={() => setValue((value) => { return value - 1; })} className="mReport mReport-form mReport-form__submit-button">Back</Button>
-                    ) : null }
-                    { value >= 2 ? (
+                    ) : null}
+                    {value >= 2 ? (
                         <Button variant="contained" type="submit" className="mReport mReport-form mReport-form__submit-button">Create</Button>
                     ) : <Button variant="contained" onClick={() => setValue((value) => { return value + 1; })} className="mReport mReport-form mReport-form__submit-button">Next</Button>}
                 </div>
@@ -562,18 +562,18 @@ export function CreateNewMandatory() {
                             <Typography variant="body2">Would you still like to create this report or take a look at the existing report?</Typography>
                             <Typography variant="h5">Reports found:</Typography>
                             <div className="mReport mReport-dialog mReport-dialog__reports-wrapper">
-                                { duplicates.map((value, index) => (
+                                {duplicates.map((value, index) => (
                                     <Button className="mReport mReport-dialog mReport-dialog__reports-button" variant="contained" key={index} onClick={() => handleOpenReport(value)} >{value}</Button>
                                 ))}
                             </div>
                         </DialogContent>
                         <DialogActions>
                             <Button variant="contained" onClick={handleCloseDuplicate}>Close</Button>
-                            <Button variant="contained" onClick={() => {handleCreation(values, formikHelpers); handleCloseDuplicate()}}>Create</Button>
+                            <Button variant="contained" onClick={() => { handleCreation(values, formikHelpers); handleCloseDuplicate() }}>Create</Button>
                         </DialogActions>
                     </div>
                 </Dialog>
-                
+
             </form>
         </div>
     )

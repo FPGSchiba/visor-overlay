@@ -14,8 +14,8 @@ interface NavigationStraightOMType extends IVISORNavigationStraightOM {
   inputValue?: string;
 }
 
-export default function StraightLineOmsHelper(props: {formik: any, disabled: boolean}) {
-  const {formik, disabled} = props;
+export default function StraightLineOmsHelper(props: { formik: any, disabled: boolean }) {
+  const { formik, disabled } = props;
   const [open, toggleOpen] = React.useState(false);
 
   const oms = [
@@ -58,7 +58,7 @@ export default function StraightLineOmsHelper(props: {formik: any, disabled: boo
         multiple
         onChange={(event, newValue: NavigationStraightOMType[]) => {
           if (newValue.filter((value) => value.om == 'Insert OM').length == 1) {
-            setDialogValue({om: 'om1', distance: 0});
+            setDialogValue({ om: 'om1', distance: 0 });
             toggleOpen(true);
           } else {
             formik.setFieldValue('navigation.straightLineOms', newValue);
@@ -69,7 +69,7 @@ export default function StraightLineOmsHelper(props: {formik: any, disabled: boo
         }}
         renderTags={(value: NavigationStraightOMType[], getTagProps) =>
           value.map((option: NavigationStraightOMType, index: number) => (
-              <Chip variant="outlined" label={`${option.om} (${option.distance} km)`} {...getTagProps({ index })} />
+            <Chip variant="outlined" label={`${option.om} (${option.distance} km)`} {...getTagProps({ index })} />
           ))
         }
         options={[{
@@ -83,10 +83,10 @@ export default function StraightLineOmsHelper(props: {formik: any, disabled: boo
         freeSolo
         renderInput={(params) => (
           <TextField
-              {...params}
-              variant="outlined"
-              label="Straight Line OMs"
-              placeholder="Select: Insert OM"
+            {...params}
+            variant="outlined"
+            label="Straight Line OMs"
+            placeholder="Select: Insert OM"
           />
         )}
         disabled={disabled}
@@ -97,19 +97,19 @@ export default function StraightLineOmsHelper(props: {formik: any, disabled: boo
           <DialogTitle>Add a straight Line Orbital Marker</DialogTitle>
           <DialogContent>
             <Select
-                value={dialogValue.om}
-                label="Orbital Marker"
-                onChange={(event) =>
-                  setDialogValue({
-                    ...dialogValue,
-                    om: event.target.value,
-                  })
-                }
-                className="helper helper-nav helper-nav__om-select"
+              value={dialogValue.om}
+              label="Orbital Marker"
+              onChange={(event) =>
+                setDialogValue({
+                  ...dialogValue,
+                  om: event.target.value,
+                })
+              }
+              className="helper helper-nav helper-nav__om-select"
             >
-                { oms.map((value) => {
-                    return (<MenuItem key={value} value={value}>{`${value}`}</MenuItem>)
-                })}
+              {oms.map((value) => {
+                return (<MenuItem key={value} value={value}>{`${value}`}</MenuItem>)
+              })}
             </Select>
             <FormControl variant="filled" className="helper helper-nav helper-nav__distance">
               <FilledInput

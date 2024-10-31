@@ -9,7 +9,7 @@ import { getSystem, getSystems } from '../../../store/actions/reports';
 
 const filter = createFilterOptions<SystemOptionType>();
 
-export default function SystemSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, setId: (id: string) => void, disabled: boolean }) {
+export default function SystemSelect(props: { className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, setId: (id: string) => void, disabled: boolean }) {
   const { value, setValue, setId, disabled } = props;
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ export default function SystemSelect(props: {className: string, value: SystemOpt
         setRemoteSystems(data);
         let temp: SystemOptionType[] = [];
         data.map((value) => {
-          temp.push({label: `${value.name}`});
+          temp.push({ label: `${value.name}` });
         });
         setSystems(temp);
       }
@@ -103,7 +103,7 @@ export interface SystemOptionType {
 }
 
 
-export function ObjectSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedSystem: SystemOptionType, selectedId: string, setPlanetLevelObject: (has: boolean) => void, disabled: boolean }) {
+export function ObjectSelect(props: { className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedSystem: SystemOptionType, selectedId: string, setPlanetLevelObject: (has: boolean) => void, disabled: boolean }) {
   const { value, setValue, selectedSystem, selectedId, setPlanetLevelObject, disabled } = props;
   const dispatch = useDispatch();
   const [system, setSystem] = useState<ICompleteSystem>();
@@ -122,7 +122,7 @@ export function ObjectSelect(props: {className: string, value: SystemOptionType 
           if (data && data.stellarObjects.length > 0) {
             let temp: SystemOptionType[] = [];
             data.stellarObjects.map((value) => {
-              temp.push({label: `${value.name} (${value.type})`})
+              temp.push({ label: `${value.name} (${value.type})` })
             });
             setObjects(temp);
           }
@@ -148,7 +148,7 @@ export function ObjectSelect(props: {className: string, value: SystemOptionType 
           setPlanetLevelObject(false);
         } else {
           if (newValue != null) {
-            setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
+            setValue({ ...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '') });
             if (newValue.label) {
               if (system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects && system.stellarObjects.filter((value) => `${value.name} (${value.type})` == newValue.label)[0].planetLevelObjects.length > 0) {
                 setPlanetLevelObject(true);
@@ -203,8 +203,8 @@ export function ObjectSelect(props: {className: string, value: SystemOptionType 
   );
 }
 
-export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boolean) => void, hasPlanetLevelObject: boolean, disabled: boolean}) {
-  const {hasPlanetLevelObject, setHasPlanetLevelObject, disabled} = props;
+export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boolean) => void, hasPlanetLevelObject: boolean, disabled: boolean }) {
+  const { hasPlanetLevelObject, setHasPlanetLevelObject, disabled } = props;
   const [value, setValue] = useState(false);
 
   const handleChange = (event: any) => {
@@ -217,7 +217,7 @@ export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boo
 
   return (
     <div className='mReport mReport-form mReport-form__plo-wrapper'>
-      <Typography color={ disabled ? '#aaa' : '#fff'} className='mReport mReport-form mReport-form__plo-text' variant='body1' >POI is a Planet Level Object</Typography>
+      <Typography color={disabled ? '#aaa' : '#fff'} className='mReport mReport-form mReport-form__plo-text' variant='body1' >POI is a Planet Level Object</Typography>
       <Checkbox
         onChange={handleChange}
         value={value}
@@ -229,7 +229,7 @@ export function PlanetLevelOverwrite(props: { setHasPlanetLevelObject: (has: boo
   )
 }
 
-export function PLOSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedId: string, selectedStellarObject: SystemOptionType, disabled: boolean }) {
+export function PLOSelect(props: { className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, selectedId: string, selectedStellarObject: SystemOptionType, disabled: boolean }) {
   const { value, setValue, selectedId, selectedStellarObject, disabled } = props;
   const dispatch = useDispatch();
   const [objects, setObjects] = useState<SystemOptionType[]>([]);
@@ -247,7 +247,7 @@ export function PLOSelect(props: {className: string, value: SystemOptionType | n
             data.stellarObjects.map((value) => {
               if (selectedStellarObject && selectedStellarObject.label.match(value.name) && value.planetLevelObjects && value.planetLevelObjects.length > 0) {
                 value.planetLevelObjects.map((plo) => {
-                  temp.push({label: `${plo.name} (${plo.type})`});
+                  temp.push({ label: `${plo.name} (${plo.type})` });
                 })
               }
             });
@@ -272,7 +272,7 @@ export function PLOSelect(props: {className: string, value: SystemOptionType | n
           });
         } else {
           if (newValue != null) {
-            setValue({...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '')});
+            setValue({ ...newValue, label: newValue.label.replace(/\s\(\w+\)$/, '') });
           } else {
             setValue(undefined);
           }

@@ -1,7 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import * as React from 'react';
-import * as ReactDOMClient from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { Routes, Route, HashRouter as Router } from "react-router-dom";
 import { CollapseWrapper } from './components/collapase-wrapper';
@@ -18,13 +17,13 @@ import { theme } from './shared/theme';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import store from './store';
 
-function AppWithCallbackAfterRender() {
+export default function Page() {
   return (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterMoment}>
-        <Router >
-          <React.StrictMode>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          <Router >
+            <React.StrictMode>
               <CollapseWrapper>
                 <div className='content-wrapper-left'>
                   <Routes>
@@ -43,13 +42,10 @@ function AppWithCallbackAfterRender() {
                   </Routes>
                 </div>
               </CollapseWrapper>
-          </React.StrictMode>
-        </Router>
-      </LocalizationProvider>
-    </ThemeProvider>
-  </Provider>);
+            </React.StrictMode>
+          </Router>
+        </LocalizationProvider>
+      </ThemeProvider>
+    </Provider>
+  );
 }
-
-const container = document.getElementById('app');
-const root = ReactDOMClient.createRoot(container);
-root.render(<AppWithCallbackAfterRender />);

@@ -1,5 +1,5 @@
 /* eslint-disable no-useless-escape */
-import  React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IconButton, Slide, Box, FormControlLabel, Button } from '@mui/material';
 import Logo from '../resources/logo.png';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -37,8 +37,8 @@ export function CollapseWrapper(props: any) {
         <Box className='slider slider-wrapper'>
             <FormControlLabel
                 className='slider slider-label'
-                control={<IconButton aria-label="collapse" onClick={handleChange}><img src={`${Logo}`} className='slider slider-image'alt={'Visor 2.0 Logo'} loading="eager" /></IconButton>} 
-                label={''} 
+                control={<IconButton aria-label="collapse" onClick={handleChange}><img src={`${Logo}`} className='slider slider-image' alt={'Visor 2.0 Logo'} loading="eager" /></IconButton>}
+                label={''}
             />
             <Slide direction="down" in={checked && showUserInfo} mountOnEnter unmountOnExit className='slider slider-user-slide'>
                 <div>

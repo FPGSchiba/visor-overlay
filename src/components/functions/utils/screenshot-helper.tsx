@@ -7,8 +7,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { IVISORImage } from "../../../store/format/report.format";
 
-export function Screenshots(props: {formik: any, updating: boolean}) {
-    const {formik, updating} = props;
+export function Screenshots(props: { formik: any, updating: boolean }) {
+    const { formik, updating } = props;
     const dispatch = useDispatch();
 
     const orgToken = useSelector((state: AppState) => state.authState.currentOrg.token);
@@ -18,7 +18,7 @@ export function Screenshots(props: {formik: any, updating: boolean}) {
     const [loading, setLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [error, setError] = useState('');
-    const [filesToUpload, setFilesToUpload] = useState<{file: File, description?: string}[]>([]);
+    const [filesToUpload, setFilesToUpload] = useState<{ file: File, description?: string }[]>([]);
     const [imageOpen, setImageOpen] = useState(false);
     const [image, setImage] = useState<IVISORImage>({} as IVISORImage);
     const [updateDescription, setUpdateDescription] = useState('');
@@ -29,12 +29,12 @@ export function Screenshots(props: {formik: any, updating: boolean}) {
         setImageOpen(true);
     }
 
-    const handleFilesChange = (event:  React.ChangeEvent<HTMLInputElement>) => {
+    const handleFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(event.target.files);
         const temp = [...filesToUpload];
         files.map((value) => {
             if (temp.filter((tempValue) => tempValue.file.name === value.name).length == 0) {
-                temp.push({file: value, description: ''})
+                temp.push({ file: value, description: '' })
             }
         })
         setFilesToUpload(temp);
@@ -55,7 +55,7 @@ export function Screenshots(props: {formik: any, updating: boolean}) {
     }
 
     const removeImage = (index: number) => {
-        const temp = filesToUpload.filter((_, i) => { return i !== index});
+        const temp = filesToUpload.filter((_, i) => { return i !== index });
         setFilesToUpload(temp);
     }
 
@@ -153,7 +153,7 @@ export function Screenshots(props: {formik: any, updating: boolean}) {
         }
     }, [formik, orgToken, userToken]);
 
-    return(
+    return (
         <div className="helper helper-image helper-image__wrapper">
             <div className="helper helper-image helper-image__upload-wrapper">
                 <div className="helper helper-image helper-image__selected-wrapper">
@@ -174,43 +174,43 @@ export function Screenshots(props: {formik: any, updating: boolean}) {
                         />
                     </Button>
                     <div className="helper helper-image helper-image__selected-item empty"></div>
-                    { filesToUpload && filesToUpload.length > 0 ? (
+                    {filesToUpload && filesToUpload.length > 0 ? (
                         <>
-                            { filesToUpload.map((value: {file: File, description: string}, index: number) => (
-                                    <div key={index} className="helper helper-image helper-image__selected-item">
-                                        <p>{value.file.name}</p>
-                                        <IconButton disabled={!updating} className="helper helper-image helper-image__selected-button" onClick={() => removeImage(index)}><CloseIcon /></IconButton>
-                                        <Tooltip title="Please do not enter any Special characters here. Special Characters do not work!">
-                                            <TextField
-                                                className="helper helper-image helper-image__selected-desc"
-                                                variant="outlined"
-                                                value={value.description}
-                                                onChange={(event) => {handleDescriptionChange(event, value.file.name)}}
-                                                label="Description"
-                                            />
-                                        </Tooltip>
-                                    </div>
-                                ))
+                            {filesToUpload.map((value: { file: File, description: string }, index: number) => (
+                                <div key={index} className="helper helper-image helper-image__selected-item">
+                                    <p>{value.file.name}</p>
+                                    <IconButton disabled={!updating} className="helper helper-image helper-image__selected-button" onClick={() => removeImage(index)}><CloseIcon /></IconButton>
+                                    <Tooltip title="Please do not enter any Special characters here. Special Characters do not work!">
+                                        <TextField
+                                            className="helper helper-image helper-image__selected-desc"
+                                            variant="outlined"
+                                            value={value.description}
+                                            onChange={(event) => { handleDescriptionChange(event, value.file.name) }}
+                                            label="Description"
+                                        />
+                                    </Tooltip>
+                                </div>
+                            ))
                             }
                         </>
-                    ) : null }
+                    ) : null}
                 </div>
                 <Button disabled={!updating} className="helper helper-image helper-image__submit-button" variant="contained" onClick={uploadFiles}>Upload</Button>
             </div>
             <div className="helper helper-image helper-image__list-wrapper">
-            { images.length > 0 ? ( images.map((value, index) => (
-                <div key={index} className="helper helper-image helper-image__image-wrapper">
-                    <Button className="helper helper-image helper-image__image-button" onClick={() => handleImageClick(value)}>
-                        <img className="helper helper-image helper-image__image" src={value.url} />
-                    </Button>
-                    <p className="helper helper-image helper-image__image-text">{value.description}</p>
-                </div>
-            ))) : null}
+                {images.length > 0 ? (images.map((value, index) => (
+                    <div key={index} className="helper helper-image helper-image__image-wrapper">
+                        <Button className="helper helper-image helper-image__image-button" onClick={() => handleImageClick(value)}>
+                            <img className="helper helper-image helper-image__image" src={value.url} />
+                        </Button>
+                        <p className="helper helper-image helper-image__image-text">{value.description}</p>
+                    </div>
+                ))) : null}
             </div>
             <Backdrop
-                    open={loading}
-                >
-                    <CircularProgress />
+                open={loading}
+            >
+                <CircularProgress />
             </Backdrop>
             <Dialog open={hasError} onClose={() => setHasError(false)}>
                 <div id={'error-dialog'}>
@@ -228,7 +228,7 @@ export function Screenshots(props: {formik: any, updating: boolean}) {
                     <DialogTitle>Updating Image: {image.name}</DialogTitle>
                     <DialogContent className="helper helper-image helper-image__dialog-content">
                         <img className="helper helper-image helper-image__dialog-image" src={image.url} />
-                        <TextField 
+                        <TextField
                             variant="outlined"
                             value={updateDescription}
                             onChange={(event) => setUpdateDescription(event.target.value)}

@@ -18,23 +18,23 @@ interface TabPanelProps {
     value: number;
     className?: string;
 }
-  
+
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, className, ...other } = props;
-  
+
     return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        className={className}
-        {...other}
-      >
-        {value === index && (
-          <>{children}</>
-        )}
-      </div>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            className={className}
+            {...other}
+        >
+            {value === index && (
+                <>{children}</>
+            )}
+        </div>
     );
 }
 
@@ -51,7 +51,7 @@ export function ViewHelper() {
         setUpdateDialog(true);
     }
 
-    const formik = useFormik({initialValues, onSubmit: handleSubmit});
+    const formik = useFormik({ initialValues, onSubmit: handleSubmit });
     const [value, setValue] = useState(0);
     const [updateDialog, setUpdateDialog] = useState(false);
     const [updateValues, setUpdateValues] = useState({ ...formik.values } as IVISORReport);

@@ -5,10 +5,9 @@ import visorBackend from '../../services/visor.backend';
 import { GET_USER_SUCCESS, GET_ORG_SUCCESS } from '../constants/user';
 import { AppState, IOrg, IUser } from '../format';
 import { ErrorResponse } from './shared';
-const { ipcRenderer } = window.require("electron");
 
 export interface GetUserSuccessAction extends Action<typeof GET_USER_SUCCESS> {
-    user: IUser;
+	user: IUser;
 }
 
 export interface GetOrgSuccessAction extends Action<typeof GET_ORG_SUCCESS> {
@@ -16,8 +15,8 @@ export interface GetOrgSuccessAction extends Action<typeof GET_ORG_SUCCESS> {
 }
 
 export type UserActionTypes =
-  | GetUserSuccessAction
-  | GetOrgSuccessAction;
+	| GetUserSuccessAction
+	| GetOrgSuccessAction;
 
 type ThunkResult<R> = ThunkAction<R, AppState, undefined, UserActionTypes>;
 
@@ -43,99 +42,100 @@ export function getOrgSuccess(name: string, token: string): GetOrgSuccessAction 
 }
 
 export function doLogin(
-    orgToken: string,
-    userToken: string,
-    remember: boolean,
-    callback: (
-      err?: ErrorResponse,
-    ) => void,
-  ): ThunkResult<void> {
-    return async function (dispatch: (arg0: any) => void) {
-      try {
-        const result = await visorBackend.getUserInfo(orgToken, userToken);
-        if (result.success) {
-			if (remember) {
-				ipcRenderer.send('saveLogin', {userToken, orgToken});
-			}
-			if (result.handle && result.role && result.orgName) {
-				dispatch(getUserSuccess(result.handle, userToken, result.role));
-				dispatch(getOrgSuccess(result.orgName, orgToken));
-				const org: IOrg = {
-					name: result.orgName,
-					token: orgToken,
+	orgToken: string,
+	userToken: string,
+	remember: boolean,
+	callback: (
+		err?: ErrorResponse,
+	) => void,
+): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		try {
+			const result = await visorBackend.getUserInfo(orgToken, userToken);
+			if (result.success) {
+				if (remember) {
+					// TODO: Reimplement this in Tauri
+					// ipcRenderer.send('saveLogin', { userToken, orgToken });
 				}
-				const user: IUser = {
-					handle: result.handle,
-					role: result.role,
-					token: userToken,
+				if (result.handle && result.role && result.orgName) {
+					dispatch(getUserSuccess(result.handle, userToken, result.role));
+					dispatch(getOrgSuccess(result.orgName, orgToken));
+					const org: IOrg = {
+						name: result.orgName,
+						token: orgToken,
+					}
+					const user: IUser = {
+						handle: result.handle,
+						role: result.role,
+						token: userToken,
+					}
+					setUserInfoToCookies({ org, user });
+					callback(null);
+				} else {
+					callback({ message: result.message })
 				}
-				setUserInfoToCookies({org, user});
-				callback(null);
 			} else {
 				callback({ message: result.message })
 			}
-        } else {
-			callback({ message: result.message })
+		} catch (err: any) {
+			const error = err.response?.data || err;
+			callback(error);
 		}
-      } catch (err: any) {
-        const error = err.response?.data || err;
-        callback(error);
-      }
-    };
+	};
 }
 
-export function updateUserInfo(): ThunkResult<void>{
+export function updateUserInfo(): ThunkResult<void> {
 	return async function (dispatch: (arg0: any) => void) {
-	  const currentAuth = await getUserInfoFromCookies();
-	  if (currentAuth) {
-		const {user, org} = currentAuth;
-		if (user) dispatch(getUserSuccess(user.handle, user.token, user.role));
-		if (org) dispatch(getOrgSuccess(org.name, org.token));
-	  }
+		const currentAuth = await getUserInfoFromCookies();
+		if (currentAuth) {
+			const { user, org } = currentAuth;
+			if (user) dispatch(getUserSuccess(user.handle, user.token, user.role));
+			if (org) dispatch(getOrgSuccess(org.name, org.token));
+		}
 	}
 }
 
 export function getUsersList(orgToken: string, userToken: string, callback: (err?: ErrorResponse, data?: IUser[]) => void): ThunkResult<void> {
-	return async function (dispatch: (arg0:any) => void) {
+	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.listUsers(orgToken, userToken);
 		if (result.success && result.users) {
 			callback(null, result.users);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
 
 export function getSpecificUser(orgToken: string, userToken: string, handle: string, callback: (err?: ErrorResponse, data?: IUser) => void) {
-	return async function (dispatch: (arg0:any) => void) {
+	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.getUser(orgToken, userToken, handle);
 		if (result.success && result.user) {
 			callback(null, result.user);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
 
-export function clearUser() {
-	return async function (dispatch: (arg0:any) => void) {
+export function clearUser(): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
 		dispatch(getOrgSuccess('', ''));
 		dispatch(getUserSuccess('', '', ''));
 	}
 }
 
 export function updateUser(
-		orgToken: string,
-		userToken: string,
-		data: {handle: string, role: string},
-		callback: (err: ErrorResponse) => void
-	): ThunkResult<void> {
-	return async function (dispatch: (arg0:any) => void) {
+	orgToken: string,
+	userToken: string,
+	data: { handle: string, role: string },
+	callback: (err: ErrorResponse) => void
+): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.updateUser(orgToken, userToken, data.handle, data.role);
 		if (result.success) {
 			callback(null);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -143,14 +143,14 @@ export function updateUser(
 export function createUser(
 	orgToken: string,
 	userToken: string,
-	data: {handle: string, role: string},
+	data: { handle: string, role: string },
 	callback: (err: ErrorResponse, userKey?: string) => void): ThunkResult<void> {
-	return async function (dispatch: (arg0:any) => void) {
+	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.createUser(orgToken, userToken, data.handle, data.role);
 		if (result.success && result.userKey) {
 			callback(null, result.userKey);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -161,12 +161,12 @@ export function deleteUser(
 	token: string,
 	reason: string,
 	callback: (err: ErrorResponse) => void): ThunkResult<void> {
-		return async function (dispatch: (arg0:any) => void) {
+	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.deleteUser(orgToken, userToken, token, reason);
 		if (result.success) {
 			callback(null);
-		 } else {
-			callback({message: result.message});
+		} else {
+			callback({ message: result.message });
 		}
 	}
 }

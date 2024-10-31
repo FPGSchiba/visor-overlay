@@ -2,10 +2,10 @@ import { Autocomplete, Checkbox, Chip, FilledInput, FormControl, FormControlLabe
 import React from "react";
 import { IVISORVirs } from "../../../store/format/report.format";
 
-export function VIRS(props: { formik: any, updating: boolean}) {
-    const {formik, updating} = props;
+export function VIRS(props: { formik: any, updating: boolean }) {
+    const { formik, updating } = props;
 
-    if (!formik.values.virs && typeof(formik.values.virs) != 'object') {
+    if (!formik.values.virs && typeof (formik.values.virs) != 'object') {
         const virs: IVISORVirs = {
             temperatureMeasures: [],
             breathable: false,
@@ -81,7 +81,7 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                 <FormControl variant="filled" className="helper helper-virs helper-virs__atmo-input">
                     <FilledInput
                         id="filled-adornment-weight"
-                        endAdornment={<InputAdornment id={ updating ? "adornment-update" : "adornment-view"} position="end">ATM (Atmospheric Pressure)</InputAdornment>}
+                        endAdornment={<InputAdornment id={updating ? "adornment-update" : "adornment-view"} position="end">ATM (Atmospheric Pressure)</InputAdornment>}
                         aria-describedby="filled-weight-helper-text-om5"
                         inputProps={{
                             'aria-label': 'pressure',
@@ -92,10 +92,10 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                         value={formik.values.virs && formik.values.virs.externalPressure ? formik.values.virs.externalPressure : 0}
                         disabled={!updating}
                     />
-                    <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om5">External Pressure</FormLabel>
+                    <FormLabel sx={updating ? { color: '#fff' } : { color: '#aaa' }} id="filled-weight-helper-text-om5">External Pressure</FormLabel>
                 </FormControl>
                 <Tooltip title="Enter the External Atmo Composition, like: 'N: 77.4%, O2: 21.1%, H20: 1.5%'">
-                    <TextField 
+                    <TextField
                         label={"External Atmo Composition"}
                         name='virs.composition'
                         value={formik.values.virs && formik.values.virs.composition ? formik.values.virs.composition : ''}
@@ -110,7 +110,7 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                 <FormControl variant="filled" className="helper helper-virs helper-virs__basic-input">
                     <FilledInput
                         id="filled-adornment-weight"
-                        endAdornment={<InputAdornment id={ updating ? "adornment-update" : "adornment-view"} position="end">m</InputAdornment>}
+                        endAdornment={<InputAdornment id={updating ? "adornment-update" : "adornment-view"} position="end">m</InputAdornment>}
                         aria-describedby="filled-weight-helper-text-om5"
                         inputProps={{
                             'aria-label': 'distance',
@@ -121,12 +121,12 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                         value={formik.values.virs && formik.values.virs.surfaceElevation ? formik.values.virs.surfaceElevation : 0}
                         disabled={!updating}
                     />
-                    <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om5">Surface Elevation</FormLabel>
+                    <FormLabel sx={updating ? { color: '#fff' } : { color: '#aaa' }} id="filled-weight-helper-text-om5">Surface Elevation</FormLabel>
                 </FormControl>
                 <FormControl variant="filled" className="helper helper-virs helper-virs__basic-input">
                     <FilledInput
                         id="filled-adornment-weight"
-                        endAdornment={<InputAdornment id={ updating ? "adornment-update" : "adornment-view"} position="end">rad</InputAdornment>}
+                        endAdornment={<InputAdornment id={updating ? "adornment-update" : "adornment-view"} position="end">rad</InputAdornment>}
                         aria-describedby="filled-weight-helper-text-om5"
                         inputProps={{
                             'aria-label': 'radiation',
@@ -137,12 +137,12 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                         value={formik.values.virs && formik.values.virs.radiation ? formik.values.virs.radiation : 0}
                         disabled={!updating}
                     />
-                    <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om5">Radiation</FormLabel>
+                    <FormLabel sx={updating ? { color: '#fff' } : { color: '#aaa' }} id="filled-weight-helper-text-om5">Radiation</FormLabel>
                 </FormControl>
                 <FormControl variant="filled" className="helper helper-virs helper-virs__basic-input">
                     <FilledInput
                         id="filled-adornment-weight"
-                        endAdornment={<InputAdornment id={ updating ? "adornment-update" : "adornment-view"} position="end">N/kg</InputAdornment>}
+                        endAdornment={<InputAdornment id={updating ? "adornment-update" : "adornment-view"} position="end">N/kg</InputAdornment>}
                         aria-describedby="filled-weight-helper-text-om5"
                         inputProps={{
                             'aria-label': 'pressure',
@@ -153,7 +153,7 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                         value={formik.values.virs && formik.values.virs.gravity ? formik.values.virs.gravity : 0}
                         disabled={!updating}
                     />
-                    <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om5">Gravity</FormLabel>
+                    <FormLabel sx={updating ? { color: '#fff' } : { color: '#aaa' }} id="filled-weight-helper-text-om5">Gravity</FormLabel>
                 </FormControl>
             </div>
             <div className="helper helper-virs helper-virs__pads-wrapper">
@@ -168,7 +168,7 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                         value={formik.values.virs && formik.values.virs.pads ? formik.values.virs.pads.ship : 0}
                         disabled={!updating}
                     />
-                    <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om5">Ship Pads</FormLabel>
+                    <FormLabel sx={updating ? { color: '#fff' } : { color: '#aaa' }} id="filled-weight-helper-text-om5">Ship Pads</FormLabel>
                 </FormControl>
                 <FormControl variant="filled" className="helper helper-virs helper-virs__pads-input">
                     <FilledInput
@@ -183,7 +183,7 @@ export function VIRS(props: { formik: any, updating: boolean}) {
                         value={formik.values.virs && formik.values.virs.pads ? formik.values.virs.pads.ground : 0}
                         disabled={!updating}
                     />
-                    <FormLabel sx={updating ? {color: '#fff'} : {color: '#aaa'}} id="filled-weight-helper-text-om5">Ground Pads</FormLabel>
+                    <FormLabel sx={updating ? { color: '#fff' } : { color: '#aaa' }} id="filled-weight-helper-text-om5">Ground Pads</FormLabel>
                 </FormControl>
             </div>
             <div className="helper helper-virs helper-virs__consoles-wrapper">

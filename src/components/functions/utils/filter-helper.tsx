@@ -15,27 +15,27 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, className, ...other } = props;
-  
+
     return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        className={className}
-        {...other}
-      >
-        {value === index && (
-          <>{children}</>
-        )}
-      </div>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            className={className}
+            {...other}
+        >
+            {value === index && (
+                <>{children}</>
+            )}
+        </div>
     );
-  }
-  
+}
+
 function a11yProps(index: number) {
     return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
     };
 }
 
@@ -108,10 +108,10 @@ function getMeta(values: IFormikValues, initialValues: IFormikValues, discovery:
     } else {
         return undefined;
     }
-} 
+}
 
-export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilter: (filter?: ISearchFilter) => void }) {
-    const {filter, setFilter} = props;
+export function FilterHelper(props: { filter: ISearchFilter | undefined, setFilter: (filter?: ISearchFilter) => void }) {
+    const { filter, setFilter } = props;
     const [tabValue, setTabValue] = useState(0);
     const [open, setOpen] = useState(false);
     const [published, setPublished] = useState(false);
@@ -168,7 +168,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
         }
     }
 
-    const formik = useFormik({initialValues, onSubmit: handleFilterChange})
+    const formik = useFormik({ initialValues, onSubmit: handleFilterChange })
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
@@ -178,21 +178,21 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
 
     return (
         <Card className={`listAll listAll-filter listAll-filter__wrapper ${open}`}>
-          <CardHeader
-            title="Filter"
-            className="listAll listAll-filter listAll-filter__header"
-            action={
-              <IconButton
-                className="listAll listAll-filter listAll-filter__icon"
-                onClick={() => setOpen(!open)}
-                aria-label="expand"
-                size="small"
-              >
-                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-              </IconButton>
-            }
-          >
-          </CardHeader>
+            <CardHeader
+                title="Filter"
+                className="listAll listAll-filter listAll-filter__header"
+                action={
+                    <IconButton
+                        className="listAll listAll-filter listAll-filter__icon"
+                        onClick={() => setOpen(!open)}
+                        aria-label="expand"
+                        size="small"
+                    >
+                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                    </IconButton>
+                }
+            >
+            </CardHeader>
             <div className="listAll listAll-filter listAll-filter__content" >
                 <Collapse in={open} timeout="auto" unmountOnExit className="listAll listAll-filter listAll-filter__collapse">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="listAll listAll-filter listAll-filter__navigation">
@@ -204,7 +204,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                     <form onSubmit={formik.handleSubmit}>
                         <TabPanel value={tabValue} index={0} className="listAll listAll-filter listAll-filter__tab basic">
                             <div className="listAll listAll-filter listAll-filter__tab-wrapper">
-                                <TextField 
+                                <TextField
                                     label={"Report Name"}
                                     name='name'
                                     value={formik.values.name}
@@ -219,7 +219,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                     <FormControlLabel control={<Checkbox value={notApproved} onChange={() => setNotApproved(!notApproved)} checked={notApproved} disabled={approved} />} label="Not Approved" />
                                     <FormControlLabel control={<Checkbox value={approved} onChange={() => setApproved(!approved)} checked={approved} disabled={notApproved} />} label="Approved" />
                                 </div>
-                                <TextField 
+                                <TextField
                                     label={"Keyword"}
                                     name='keyword'
                                     value={formik.values.keyword}
@@ -228,7 +228,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                     helperText={formik.errors.keyword}
                                     className='listAll listAll-filter listAll-filter__textfield keyword'
                                 />
-                                <TextField 
+                                <TextField
                                     label={"Star Citizen Version"}
                                     name='scVersion'
                                     value={formik.values.scVersion}
@@ -243,7 +243,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                     <FormControlLabel control={<Checkbox value={notTrailblazers} onChange={() => setNotTrailblazers(!notTrailblazers)} checked={notTrailblazers} disabled={trailblazers} />} label="Not Followup Trailblazers" />
                                     <FormControlLabel control={<Checkbox value={trailblazers} onChange={() => setTrailblazers(!trailblazers)} checked={trailblazers} disabled={notTrailblazers} />} label="Followup Trailblazers" />
                                 </div>
-                                <TextField 
+                                <TextField
                                     label={"RSI Handle"}
                                     name='rsiHandle'
                                     value={formik.values.rsiHandle}
@@ -255,7 +255,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                             </div>
                         </TabPanel>
                         <TabPanel value={tabValue} index={1} className="listAll listAll-filter listAll-filter__tab location">
-                            <TextField 
+                            <TextField
                                 label={"System"}
                                 name='system'
                                 value={formik.values.system}
@@ -264,7 +264,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                 helperText={formik.errors.system}
                                 className='listAll listAll-filter listAll-filter__textfield system'
                             />
-                            <TextField 
+                            <TextField
                                 label={"Stellar Object"}
                                 name='stellarObject'
                                 value={formik.values.stellarObject}
@@ -273,7 +273,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                 helperText={formik.errors.stellarObject}
                                 className='listAll listAll-filter listAll-filter__textfield stellarObject'
                             />
-                            <TextField 
+                            <TextField
                                 label={"Planet Level Object"}
                                 name='planetLevelObject'
                                 value={formik.values.planetLevelObject}
@@ -282,7 +282,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                 helperText={formik.errors.planetLevelObject}
                                 className='listAll listAll-filter listAll-filter__textfield planetLevelObject'
                             />
-                            <TextField 
+                            <TextField
                                 label={"POI Type"}
                                 name='poiType'
                                 value={formik.values.poiType}
@@ -291,7 +291,7 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                 helperText={formik.errors.poiType}
                                 className='listAll listAll-filter listAll-filter__textfield poiType'
                             />
-                            <TextField 
+                            <TextField
                                 label={"Jurisdiction"}
                                 name='jurisdiction'
                                 value={formik.values.jurisdiction}
@@ -301,22 +301,22 @@ export function FilterHelper(props: {filter: ISearchFilter | undefined, setFilte
                                 className='listAll listAll-filter listAll-filter__textfield jurisdiction'
                             />
                             <Select
-                                    className="listAll listAll-filter listAll-filter__select visorCode"
-                                    value={formik.values.visorCode}
-                                    labelId="visor-code-label"
-                                    label="VISOR Code"
-                                    name="visorCode"
-                                    onChange={formik.handleChange}
-                                >
-                                    <MenuItem key={0} value={0}>{'[0] No filter'}</MenuItem>
-                                    { codes.map((value) => {
-                                        return (<MenuItem key={value.code} value={value.code}>{`[${value.code}] ${value.name}`}</MenuItem>)
-                                    })}
-                                </Select>
+                                className="listAll listAll-filter listAll-filter__select visorCode"
+                                value={formik.values.visorCode}
+                                labelId="visor-code-label"
+                                label="VISOR Code"
+                                name="visorCode"
+                                onChange={formik.handleChange}
+                            >
+                                <MenuItem key={0} value={0}>{'[0] No filter'}</MenuItem>
+                                {codes.map((value) => {
+                                    return (<MenuItem key={value.code} value={value.code}>{`[${value.code}] ${value.name}`}</MenuItem>)
+                                })}
+                            </Select>
                         </TabPanel>
-                        { tabValue != 0 ? (
-                            <Button variant="contained" onClick={() => setTabValue((value) => {return value - 1;})} className="listAll listAll-filter listAll-filter__button">Back</Button>
-                        ): <Button variant="contained" onClick={() => setTabValue((value) => {return value + 1;})} className="listAll listAll-filter listAll-filter__button">Next</Button>}
+                        {tabValue != 0 ? (
+                            <Button variant="contained" onClick={() => setTabValue((value) => { return value - 1; })} className="listAll listAll-filter listAll-filter__button">Back</Button>
+                        ) : <Button variant="contained" onClick={() => setTabValue((value) => { return value + 1; })} className="listAll listAll-filter listAll-filter__button">Next</Button>}
                         <Button type="submit" variant="contained" className="listAll listAll-filter listAll-filter__search">Apply</Button>
                     </form>
                 </Collapse>

@@ -17,89 +17,89 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
 
 
-export function SmallReport(props: {report: IVISORSmall, handleOpenReport: (id: string, update: boolean) => void, handleApproveReport: (id: string) => void, handleDeleteReport: (id: string) => void}) {
-    const {report, handleOpenReport, handleApproveReport, handleDeleteReport} = props;
+export function SmallReport(props: { report: IVISORSmall, handleOpenReport: (id: string, update: boolean) => void, handleApproveReport: (id: string) => void, handleDeleteReport: (id: string) => void }) {
+    const { report, handleOpenReport, handleApproveReport, handleDeleteReport } = props;
     const [open, setOpen] = useState(false);
     const role = useSelector((state: AppState) => state.authState.currentUser.role);
     const codes = data.dropDown.visorCodes;
 
     return (
         <Card className="listAll listAll-sReport listAll-sReport__wrapper">
-          <CardHeader
-            title={
-                <div className="listAll listAll-sReport listAll-sReport__header-wrapper">
-                    <Typography variant="h4" className="listAll listAll-sReport listAll-sReport__heading">{report.reportName}</Typography>
+            <CardHeader
+                title={
+                    <div className="listAll listAll-sReport listAll-sReport__header-wrapper">
+                        <Typography variant="h4" className="listAll listAll-sReport listAll-sReport__heading">{report.reportName}</Typography>
+                        <IconButton
+                            className="listAll listAll-sReport listAll-sReport__header-info"
+                            onClick={() => handleOpenReport(report.id, false)}
+                            size="small"
+                        >
+                            <InfoIcon />
+                        </IconButton>
+                        <IconButton
+                            className="listAll listAll-sReport listAll-sReport__header-edit"
+                            onClick={() => handleOpenReport(report.id, true)}
+                            size="small"
+                        >
+                            <EditIcon />
+                        </IconButton>
+                        <IconButton
+                            className="listAll listAll-sReport listAll-sReport__header-approve"
+                            onClick={() => handleApproveReport(report.id)}
+                            id={role == 'Editor' || report.approved ? 'icon-disabled' : ''}
+                            size="small"
+                            disabled={role == 'Editor' || report.approved}
+                        >
+                            <DoneAllIcon />
+                        </IconButton>
+                        <IconButton
+                            className="listAll listAll-sReport listAll-sReport__header-delete"
+                            onClick={() => handleDeleteReport(report.id)}
+                            id={role == 'Editor' || report.approved ? 'icon-disabled' : ''}
+                            size="small"
+                            disabled={role == 'Editor' || report.approved}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </div>
+                }
+                className="listAll listAll-sReport listAll-sReport__header"
+                action={
                     <IconButton
-                        className="listAll listAll-sReport listAll-sReport__header-info"
-                        onClick={() => handleOpenReport(report.id, false)}
+                        className="listAll listAll-sReport listAll-sReport__header-icon"
+                        onClick={() => setOpen(!open)}
+                        aria-label="expand"
                         size="small"
                     >
-                        <InfoIcon />
+                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
-                    <IconButton
-                        className="listAll listAll-sReport listAll-sReport__header-edit"
-                        onClick={() => handleOpenReport(report.id, true)}
-                        size="small"
-                    >
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton
-                        className="listAll listAll-sReport listAll-sReport__header-approve"
-                        onClick={() => handleApproveReport(report.id)}
-                        id={role == 'Editor' || report.approved ? 'icon-disabled' : ''}
-                        size="small"
-                        disabled={role == 'Editor' || report.approved}
-                    >
-                        <DoneAllIcon />
-                    </IconButton>
-                    <IconButton
-                        className="listAll listAll-sReport listAll-sReport__header-delete"
-                        onClick={() => handleDeleteReport(report.id)}
-                        id={role == 'Editor' || report.approved ? 'icon-disabled' : ''}
-                        size="small"
-                        disabled={role == 'Editor' || report.approved}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
-                </div>
-            }
-            className="listAll listAll-sReport listAll-sReport__header"
-            action={
-              <IconButton
-                className="listAll listAll-sReport listAll-sReport__header-icon"
-                onClick={() => setOpen(!open)}
-                aria-label="expand"
-                size="small"
-              >
-                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-              </IconButton>
-            }
-            subheader={
-                <div className="listAll listAll-sReport listAll-sReport__icons">
-                    { report.approved ? (
-                        <Tooltip title={`This Report was Approved.`}>
-                            <CheckCircleIcon  className="listAll listAll-sReport listAll-sReport__icon approved" />
-                        </Tooltip>
-                    ) : <div style={{display: 'inline-block'}}></div>}
-                    { report.published ? (
-                        <Tooltip title={`Publicly visible Report.`}>
-                            <PublicIcon className="listAll listAll-sReport listAll-sReport__icon published" />
-                        </Tooltip>
-                    ) : <div style={{display: 'inline-block'}}></div>}
-                    { report.reportMeta.followupDiscovery ? (
-                        <Tooltip title={`Followup for Discovery requested: ${report.reportMeta.followupJustification}`}>
-                            <ScienceIcon className="listAll listAll-sReport listAll-sReport__icon init" />
-                        </Tooltip>
-                    ): <div style={{display: 'inline-block'}}></div>}
-                    { report.reportMeta.followupTrailblazers ? (
-                        <Tooltip title={`Followup for Trailblazers requested: ${report.reportMeta.followupJustification}`}>
-                            <ExploreIcon className="listAll listAll-sReport listAll-sReport__icon init" />
-                        </Tooltip>
-                    ): <div style={{display: 'inline-block'}} className="listAll listAll-sReport listAll-sReport__filler"></div>}
-                </div>
-            }
-          >
-          </CardHeader>
+                }
+                subheader={
+                    <div className="listAll listAll-sReport listAll-sReport__icons">
+                        {report.approved ? (
+                            <Tooltip title={`This Report was Approved.`}>
+                                <CheckCircleIcon className="listAll listAll-sReport listAll-sReport__icon approved" />
+                            </Tooltip>
+                        ) : <div style={{ display: 'inline-block' }}></div>}
+                        {report.published ? (
+                            <Tooltip title={`Publicly visible Report.`}>
+                                <PublicIcon className="listAll listAll-sReport listAll-sReport__icon published" />
+                            </Tooltip>
+                        ) : <div style={{ display: 'inline-block' }}></div>}
+                        {report.reportMeta.followupDiscovery ? (
+                            <Tooltip title={`Followup for Discovery requested: ${report.reportMeta.followupJustification}`}>
+                                <ScienceIcon className="listAll listAll-sReport listAll-sReport__icon init" />
+                            </Tooltip>
+                        ) : <div style={{ display: 'inline-block' }}></div>}
+                        {report.reportMeta.followupTrailblazers ? (
+                            <Tooltip title={`Followup for Trailblazers requested: ${report.reportMeta.followupJustification}`}>
+                                <ExploreIcon className="listAll listAll-sReport listAll-sReport__icon init" />
+                            </Tooltip>
+                        ) : <div style={{ display: 'inline-block' }} className="listAll listAll-sReport listAll-sReport__filler"></div>}
+                    </div>
+                }
+            >
+            </CardHeader>
             <div className="listAll listAll-sReport listAll-sReport__content" >
                 <Collapse in={open} timeout="auto" unmountOnExit className="listAll listAll-sReport listAll-sReport__collapse">
                     <Table>
@@ -110,7 +110,7 @@ export function SmallReport(props: {report: IVISORSmall, handleOpenReport: (id: 
                                     <TableCell className="listAll listAll-sReport listAll-sReport__cell"><Typography variant="body1" className="listAll listAll-sReport listAll-sReport__text">{report.reportMeta.rsiHandle}</Typography></TableCell>
                                 </TableRow>
                             </Tooltip>
-                            <Tooltip title={ report.reportMeta.visorCodeJustification ? `The Visor Code of the Report: ${report.reportMeta.visorCodeJustification}` : 'The VISOR Code for this report.'}>
+                            <Tooltip title={report.reportMeta.visorCodeJustification ? `The Visor Code of the Report: ${report.reportMeta.visorCodeJustification}` : 'The VISOR Code for this report.'}>
                                 <TableRow>
                                     <TableCell className="listAll listAll-sReport listAll-sReport__cell"><Typography variant="h6" className="listAll listAll-sReport listAll-sReport__text">VISOR Code:</Typography></TableCell>
                                     <TableCell className="listAll listAll-sReport listAll-sReport__cell"><Typography variant="body1" className="listAll listAll-sReport listAll-sReport__text">{`[${report.reportMeta.visorCode}]`} {codes.filter((value) => value.code == report.reportMeta.visorCode)[0].name}</Typography></TableCell>
@@ -146,15 +146,15 @@ export function SmallReport(props: {report: IVISORSmall, handleOpenReport: (id: 
                                     <TableCell className="listAll listAll-sReport listAll-sReport__cell"><Typography variant="body1" className="listAll listAll-sReport listAll-sReport__text">{report.visorLocation.stellarObject}</Typography></TableCell>
                                 </TableRow>
                             </Tooltip>
-                            { report.visorLocation.planetLevelObject ? (
+                            {report.visorLocation.planetLevelObject ? (
                                 <Tooltip title="The System this report is located in.">
                                     <TableRow>
                                         <TableCell className="listAll listAll-sReport listAll-sReport__cell"><Typography variant="h6" className="listAll listAll-sReport listAll-sReport__text">Planet Level Object:</Typography></TableCell>
                                         <TableCell className="listAll listAll-sReport listAll-sReport__cell"><Typography variant="body1" className="listAll listAll-sReport listAll-sReport__text">{report.visorLocation.system}</Typography></TableCell>
                                     </TableRow>
                                 </Tooltip>
-                            ): null }
-                            { report.keywords && report.keywords.length > 0 ? (
+                            ) : null}
+                            {report.keywords && report.keywords.length > 0 ? (
                                 <Tooltip title="The Keywords for this report.">
                                     <TableRow>
                                         <TableCell className="listAll listAll-sReport listAll-sReport__cell"><Typography variant="h6" className="listAll listAll-sReport listAll-sReport__text">Keywords:</Typography></TableCell>
@@ -163,9 +163,9 @@ export function SmallReport(props: {report: IVISORSmall, handleOpenReport: (id: 
                                         </TableCell>
                                     </TableRow>
                                 </Tooltip>
-                        ) : null}
+                            ) : null}
                         </TableBody>
-                    </Table>        
+                    </Table>
                 </Collapse>
             </div>
         </Card>

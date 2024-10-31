@@ -5,7 +5,7 @@ import { AppState } from "../../../store/format";
 import data from '../../../shared/data.json';
 import { DatePicker } from "@mui/x-date-pickers";
 
-export function BasicInfo(props: {formik: any, updating: boolean}) {
+export function BasicInfo(props: { formik: any, updating: boolean }) {
     const { formik, updating } = props;
     const handle = useSelector((state: AppState) => state.authState.currentUser.handle);
 
@@ -13,7 +13,7 @@ export function BasicInfo(props: {formik: any, updating: boolean}) {
 
     return (
         <div className="helper helper-basic helper-basic__wrapper">
-            <TextField 
+            <TextField
                 label={"Report Name"}
                 name='reportName'
                 value={formik.values.reportName}
@@ -23,7 +23,7 @@ export function BasicInfo(props: {formik: any, updating: boolean}) {
                 className='helper helper-basic helper-basic__textfield'
                 disabled={!updating}
             />
-            <TextField 
+            <TextField
                 label={"RSI Handle"}
                 name='reportMeta.rsiHandle'
                 value={formik.values.reportMeta.rsiHandle}
@@ -37,17 +37,17 @@ export function BasicInfo(props: {formik: any, updating: boolean}) {
                 labelId="visor-code-label"
                 label="VISOR Code"
                 name="reportMeta.visorCode"
-                onChange={(e) => { 
+                onChange={(e) => {
                     formik.values.visorCodeJustification = '';
                     formik.handleChange(e);
                 }}
                 disabled={!updating}
             >
-                { codes.map((value) => {
+                {codes.map((value) => {
                     return (<MenuItem key={value.code} value={value.code}>{`[${value.code}] ${value.name}`}</MenuItem>)
                 })}
             </Select>
-            <TextField 
+            <TextField
                 label={"VISOR Code Explanation"}
                 name='reportMeta.visorCodeJustification'
                 value={formik.values.reportMeta.visorCodeJustification}
@@ -55,7 +55,7 @@ export function BasicInfo(props: {formik: any, updating: boolean}) {
                 className='helper helper-basic helper-basic__textfield visorCode-explanation'
                 disabled={!(formik.values.reportMeta.visorCode == 5 || formik.values.reportMeta.visorCode == 6) || !updating}
             />
-            <TextField 
+            <TextField
                 label={"Star Citizen Version"}
                 name='reportMeta.scVersion'
                 value={formik.values.reportMeta.scVersion}
@@ -80,7 +80,7 @@ export function BasicInfo(props: {formik: any, updating: boolean}) {
                 <FormControlLabel control={<Checkbox name="reportMeta.followupDiscovery" value={formik.values.reportMeta.followupDiscovery} checked={formik.values.reportMeta.followupDiscovery} onChange={formik.handleChange} disabled={!updating} />} label="Followup Discovery" />
                 <FormControlLabel control={<Checkbox name="reportMeta.followupTrailblazers" value={formik.values.reportMeta.followupTrailblazers} checked={formik.values.reportMeta.followupTrailblazers} onChange={formik.handleChange} disabled={!updating} />} label="Followup Trailblazers" />
             </div>
-            <TextField 
+            <TextField
                 label={"Followup Justification"}
                 name='reportMeta.followupJustification'
                 value={formik.values.reportMeta.followupJustification}

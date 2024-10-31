@@ -8,9 +8,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../services/util";
 import { clearUser } from "../../store/actions/user";
-import { clipboard } from "electron";
 
-export function UserInfo(props: {setUserInfoOpen: (open: boolean) => void }) {
+export function UserInfo(props: { setUserInfoOpen: (open: boolean) => void }) {
     const { setUserInfoOpen } = props;
     const user = useSelector((state: AppState) => state.authState.currentUser);
     const org = useSelector((state: AppState) => state.authState.currentOrg);
@@ -34,7 +33,7 @@ export function UserInfo(props: {setUserInfoOpen: (open: boolean) => void }) {
 
     const handleCopyOrgToken = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
-        clipboard.writeText(org.token);
+        // TODO: Copy org token to clipboard
     }
 
     const handleClick = () => {

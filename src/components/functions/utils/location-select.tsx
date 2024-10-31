@@ -5,78 +5,78 @@ import { Typography } from '@mui/material';
 import data from "../../../shared/data.json";
 
 export interface SystemOptionType {
-    inputValue?: string;
-    label: string;
+  inputValue?: string;
+  label: string;
 }
 
 const filter = createFilterOptions<SystemOptionType>();
 
-export function POITypeSelect(props: {className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, disabled: boolean }) {
-    const { value, setValue, disabled } = props;
-    const [types, setTypes] = useState<SystemOptionType[]>([]);
-  
-    useEffect(() => {
-      let temp: SystemOptionType[] = [];
-      data.dropDown.pois.map((value) => {
-        temp.push({ label: `${value}`});
-      });
-      setTypes(temp);
-    }, [data])
-  
-    return (
-      <Autocomplete
-        value={value}
-        onChange={(event, newValue) => {
-          if (typeof newValue === 'string') {
-            setValue({
-              label: newValue,
-            });
-          } else if (newValue && newValue.inputValue) {
-            setValue({
-              label: newValue.inputValue,
-            });
-          } else {
-            setValue(newValue);
-            if (newValue.label) {
-              
-            }
+export function POITypeSelect(props: { className: string, value: SystemOptionType | null, setValue: React.Dispatch<React.SetStateAction<SystemOptionType>>, disabled: boolean }) {
+  const { value, setValue, disabled } = props;
+  const [types, setTypes] = useState<SystemOptionType[]>([]);
+
+  useEffect(() => {
+    let temp: SystemOptionType[] = [];
+    data.dropDown.pois.map((value) => {
+      temp.push({ label: `${value}` });
+    });
+    setTypes(temp);
+  }, [data])
+
+  return (
+    <Autocomplete
+      value={value}
+      onChange={(event, newValue) => {
+        if (typeof newValue === 'string') {
+          setValue({
+            label: newValue,
+          });
+        } else if (newValue && newValue.inputValue) {
+          setValue({
+            label: newValue.inputValue,
+          });
+        } else {
+          setValue(newValue);
+          if (newValue.label) {
+
           }
-        }}
-        filterOptions={(options, params) => {
-          const filtered = filter(options, params);
-  
-          const { inputValue } = params;
-          const isExisting = options.some((option) => inputValue === option.label);
-          if (inputValue !== '' && !isExisting) {
-            filtered.push({
-              inputValue,
-              label: `Add "${inputValue}"`,
-            });
-          }
-  
-          return filtered;
-        }}
-        selectOnFocus
-        clearOnBlur
-        handleHomeEndKeys
-        options={types}
-        getOptionLabel={(option) => {
-          if (typeof option === 'string') {
-            return option;
-          }
-          if (option.inputValue) {
-            return option.inputValue;
-          }
-          return option.label;
-        }}
-        renderOption={(props, option) => <Typography variant='body1' {...props}>{option.label}</Typography>}
-        sx={{ width: 300 }}
-        freeSolo
-        renderInput={(params) => (
-          <TextField {...params} label="POI Type*" />
-        )}
-        className={props.className}
-        disabled={disabled}
-      />
-    );
+        }
+      }}
+      filterOptions={(options, params) => {
+        const filtered = filter(options, params);
+
+        const { inputValue } = params;
+        const isExisting = options.some((option) => inputValue === option.label);
+        if (inputValue !== '' && !isExisting) {
+          filtered.push({
+            inputValue,
+            label: `Add "${inputValue}"`,
+          });
+        }
+
+        return filtered;
+      }}
+      selectOnFocus
+      clearOnBlur
+      handleHomeEndKeys
+      options={types}
+      getOptionLabel={(option) => {
+        if (typeof option === 'string') {
+          return option;
+        }
+        if (option.inputValue) {
+          return option.inputValue;
+        }
+        return option.label;
+      }}
+      renderOption={(props, option) => <Typography variant='body1' {...props}>{option.label}</Typography>}
+      sx={{ width: 300 }}
+      freeSolo
+      renderInput={(params) => (
+        <TextField {...params} label="POI Type*" />
+      )}
+      className={props.className}
+      disabled={disabled}
+    />
+  );
 }

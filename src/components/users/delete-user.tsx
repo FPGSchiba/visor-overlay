@@ -5,8 +5,8 @@ import { AppState, IUser } from "../../store/format";
 import CloseIcon from '@mui/icons-material/Close';
 import { deleteUser, getSpecificUser, updateUser } from "../../store/actions/user";
 
-export function DeleteUser(props: {handle: string, setOpen: (open: boolean) => void, fetchUserData: () => void}) {
-    const {setOpen, handle, fetchUserData} = props;
+export function DeleteUser(props: { handle: string, setOpen: (open: boolean) => void, fetchUserData: () => void }) {
+    const { setOpen, handle, fetchUserData } = props;
     const dispatch = useDispatch();
     const [reason, setReason] = useState('');
     const [deletionToken, setDeletionToken] = useState('');
@@ -69,7 +69,7 @@ export function DeleteUser(props: {handle: string, setOpen: (open: boolean) => v
 
     return (
         <>
-            { !loading ? (
+            {!loading ? (
                 <div className="userDelete userDelete-wrapper">
                     <Typography className="userDelete userDelete-heading" variant="h5" >Deleting User: {handle}</Typography>
                     <Typography className="userDelete userDelete-subheading" variant="h6">Please provide a reason for deletion</Typography>
@@ -83,7 +83,7 @@ export function DeleteUser(props: {handle: string, setOpen: (open: boolean) => v
                         />
                         <Button variant="contained" onClick={handleUpdate} className="userDelete userDelete-form userDelete-form__button">Delete</Button>
                     </div>
-                    { error ? (
+                    {error ? (
                         <div className="userDelete userDelete-error userDelete-error__wrapper">
                             <Typography className="userDelete userDelete-error userDelete-error__text" variant="h6">{errorText}</Typography>
                         </div>

@@ -22,9 +22,9 @@ const PermissionWrapper = memo<PermissionWrapperProps>((props: PermissionWrapper
 
     return (
         <>
-        { hasAccess ? (
-            cloneElement(children)
-        ) : null}
+            {hasAccess ? (
+                cloneElement(children)
+            ) : null}
         </>
     )
 });

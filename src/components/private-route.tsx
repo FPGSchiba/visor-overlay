@@ -23,7 +23,7 @@ const PrivateRoute = () => {
                 setVars(currentAuth);
             });
         }
-    
+
     }, [location])
 
     // If authorized, return an outlet that will render child elements

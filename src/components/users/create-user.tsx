@@ -7,8 +7,8 @@ import { createUser } from "../../store/actions/user";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 
-export function CreateUser(props: {setOpen: (open: boolean) => void, fetchUserData: () => void}) {
-    const {setOpen, fetchUserData} = props;
+export function CreateUser(props: { setOpen: (open: boolean) => void, fetchUserData: () => void }) {
+    const { setOpen, fetchUserData } = props;
     const dispatch = useDispatch();
     const validationSchema = Yup.object().shape({
         handle: Yup.string().required('This field is required!'),
@@ -29,7 +29,7 @@ export function CreateUser(props: {setOpen: (open: boolean) => void, fetchUserDa
 
     const handleCreate = (formValue: { handle: string, role: string }) => {
         dispatch(
-            createUser(orgToken, userToken, {handle: formValue.handle, role: formValue.role}, (err) => {
+            createUser(orgToken, userToken, { handle: formValue.handle, role: formValue.role }, (err) => {
                 if (!err) {
                     fetchUserData();
                     setOpen(false);
@@ -41,7 +41,7 @@ export function CreateUser(props: {setOpen: (open: boolean) => void, fetchUserDa
         );
     }
 
-    const formik = useFormik({initialValues, onSubmit: handleCreate, validationSchema});
+    const formik = useFormik({ initialValues, onSubmit: handleCreate, validationSchema });
 
     return (
         <div className="userCreate userCreate-wrapper">

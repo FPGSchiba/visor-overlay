@@ -2,7 +2,7 @@ import { MenuItem, Select, TextField } from "@mui/material";
 import React from "react";
 import data from "../../../shared/data.json";
 
-export function VISORCodeSelect(props: {formik: any}) {
+export function VISORCodeSelect(props: { formik: any }) {
     const { formik } = props;
     const codes = data.dropDown.visorCodes;
 
@@ -14,16 +14,16 @@ export function VISORCodeSelect(props: {formik: any}) {
                 labelId="visor-code-label"
                 label="VISOR Code"
                 name="visorCode"
-                onChange={(e) => { 
+                onChange={(e) => {
                     formik.values.visorCodeJustification = '';
                     formik.handleChange(e);
                 }}
             >
-                { codes.map((value) => {
+                {codes.map((value) => {
                     return (<MenuItem key={value.code} value={value.code}>{`[${value.code}] ${value.name}`}</MenuItem>)
                 })}
             </Select>
-            <TextField 
+            <TextField
                 label={"Explanation"}
                 name='visorCodeJustification'
                 value={formik.values.visorCodeJustification}

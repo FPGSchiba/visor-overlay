@@ -10,46 +10,46 @@ import { GET_UPDATING_REPORT, GET_VIEW_HELPER_OPEN, GET_VIEW_HELPER_UPDATING } f
 export interface GetUpdatingReportAction extends Action<typeof GET_UPDATING_REPORT> {
 	updating: boolean;
 	open: boolean;
-    report?: IVISORReport;
+	report?: IVISORReport;
 }
 
 
 
 export type ReportsActionTypes =
-  | GetUpdatingReportAction
+	| GetUpdatingReportAction
 
 type ThunkResult<R> = ThunkAction<R, AppState, undefined, ReportsActionTypes>;
 
 export function getSystems(
-		orgToken: string,
-		userToken: string,
-		callback: (err: ErrorResponse, data?: ISystemSmall[]) => void
-	): ThunkResult<void> {
-	return async function (dispatch: (arg0:any) => void) {
+	orgToken: string,
+	userToken: string,
+	callback: (err: ErrorResponse, data?: ISystemSmall[]) => void
+): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.getSystems(orgToken, userToken);
 		if (result.success) {
 			callback(null, result.systems);
-		 } else {
-			callback({message: result.message});
+		} else {
+			callback({ message: result.message });
 		}
 	}
 }
 
 export function getSystem(
-		orgToken: string,
-		userToken: string,
-		id: string,
-		callback: (err: ErrorResponse, data?: ICompleteSystem) => void
-	): ThunkResult<void> {
-		return async function (dispatch: (arg0:any) => void) {
-			const result = await visorBackend.getSystem(orgToken, userToken, id);
-			if (result.success) {
-				callback(null, result.system);
-			 } else {
-				callback({message: result.message});
-			}
+	orgToken: string,
+	userToken: string,
+	id: string,
+	callback: (err: ErrorResponse, data?: ICompleteSystem) => void
+): ThunkResult<void> {
+	return async function (dispatch: (arg0: any) => void) {
+		const result = await visorBackend.getSystem(orgToken, userToken, id);
+		if (result.success) {
+			callback(null, result.system);
+		} else {
+			callback({ message: result.message });
 		}
 	}
+}
 
 function getUpdatingReport(updating: boolean, open: boolean, report?: IVISORReport): GetUpdatingReportAction {
 	return {
@@ -61,7 +61,7 @@ function getUpdatingReport(updating: boolean, open: boolean, report?: IVISORRepo
 }
 
 export function createReport(orgToken: string, userToken: string, visor: IVISORInput, callback: (err: ErrorResponse) => void): ThunkResult<void> {
-	return async function (dispatch: (arg0:any) => void) {
+	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.createReport(orgToken, userToken, visor);
 		if (result.success && result.id) {
 			const data = await visorBackend.getReport(orgToken, userToken, result.id);
@@ -69,10 +69,10 @@ export function createReport(orgToken: string, userToken: string, visor: IVISORI
 				dispatch(getUpdatingReport(true, true, data.report));
 				callback(null);
 			} else {
-				callback({message: data.message});
+				callback({ message: data.message });
 			}
-		 } else {
-			callback({message: result.message});
+		} else {
+			callback({ message: result.message });
 		}
 	}
 }
@@ -83,7 +83,7 @@ export function listReports(orgToken: string, userToken: string, filter: ISearch
 		if (result.success && result.reports && result.count) {
 			callback(null, result.reports, result.count);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -95,7 +95,7 @@ export function openReport(orgToken: string, userToken: string, updating: boolea
 			dispatch(getUpdatingReport(updating, true, data.report));
 			callback(null);
 		} else {
-			callback({message: data.message});
+			callback({ message: data.message });
 		}
 	}
 }
@@ -118,17 +118,17 @@ export function setUpdatingReport(open: boolean, updating: boolean, report?: IVI
 
 export function updateReport(orgToken: string, userToken: string, id: string, report: IVISORReport, callback: (err: ErrorResponse, id?: string) => void): ThunkResult<void> {
 	return async function (dispatch: (arg0: any) => void) {
-		delete report.approved;
-		delete report.id;
+		report.approved = false;
+		report.id = '';
 		const input: IVISORInput = {
 			...report,
 			published: `${report.published}`
 		};
 		const result = await visorBackend.updateReport(orgToken, userToken, id, input);
 		if (result.success && result.id) {
-			callback(undefined, result.id);
+			callback(null, result.id);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -139,7 +139,7 @@ export function deleteReport(orgToken: string, userToken: string, id: string, re
 		if (result.success) {
 			callback(null);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -150,7 +150,7 @@ export function approveReport(orgToken: string, userToken: string, id: string, h
 		if (result.success) {
 			callback(null);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -161,7 +161,7 @@ export function uploadImage(orgToken: string, userToken: string, id: string, des
 		if (result.success) {
 			callback(null)
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -172,7 +172,7 @@ export function getImages(orgToken: string, userToken: string, id: string, callb
 		if (result.success && result.images) {
 			callback(null, result.images);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -183,7 +183,7 @@ export function updateImageDescription(orgToken: string, userToken: string, name
 		if (result.success) {
 			callback(null);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -192,9 +192,9 @@ export function checkOMSimilarity(orgToken: string, userToken: string, oms: numb
 	return async function (dispatch: (arg0: any) => void) {
 		const result = await visorBackend.checkOMSimilarity(orgToken, userToken, oms, system, stellarObject, planetLevelObject);
 		if (result.success && result.reports) {
-			callback({message: result.message}, result.reports);
+			callback({ message: result.message }, result.reports);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }
@@ -205,7 +205,7 @@ export function deleteImage(orgToken: string, userToken: string, name: string, c
 		if (result.success) {
 			callback(null);
 		} else {
-			callback({message: result.message});
+			callback({ message: result.message });
 		}
 	}
 }

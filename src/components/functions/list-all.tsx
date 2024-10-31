@@ -17,22 +17,22 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, className, ...other } = props;
-  
+
     return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        className={className}
-        {...other}
-      >
-        {value === index && (
-          <>{children}</>
-        )}
-      </div>
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            className={className}
+            {...other}
+        >
+            {value === index && (
+                <>{children}</>
+            )}
+        </div>
     );
-  }
+}
 export function ListAll() {
     const length = 6;
     const [filter, setFilter] = useState<ISearchFilter | undefined>(undefined);
@@ -49,7 +49,7 @@ export function ListAll() {
     const [approveReason, setApproveReason] = useState('');
     const [deleteReason, setDeleteReason] = useState('');
     const [selectedId, setSelectedId] = useState('');
-    
+
     const dispatch = useDispatch();
     const reportOpen = useSelector((state: AppState) => state.reportState.updateState.open);
     const handle = useSelector((state: AppState) => state.authState.currentUser.handle);
@@ -142,14 +142,14 @@ export function ListAll() {
 
     const handleSearch = (fromEffect?: boolean) => {
         setLoading(true);
-        if (typeof(filter) == 'undefined') {
+        if (typeof (filter) == 'undefined') {
             const newFilter: ISearchFilter = {
                 to,
                 from,
                 length
             }
             dispatch(listReports(orgToken, userToken, newFilter, (err, list, total) => {
-                if(!err && list && total) {
+                if (!err && list && total) {
                     setTotal(total);
                     setReports(list);
                     checkPageAfterSearch(total);
@@ -170,7 +170,7 @@ export function ListAll() {
                 length
             }
             dispatch(listReports(orgToken, userToken, newFilter, (err, list, total) => {
-                if(!err) {
+                if (!err) {
                     setTotal(total);
                     setReports(list);
                     checkPageAfterSearch(total);
@@ -202,7 +202,7 @@ export function ListAll() {
             <NavigationHeader header="List All" />
             <FilterHelper filter={filter} setFilter={setFilter} />
             <div className="listAll listAll-content listAll-content__wrapper">
-                { reports.length > 0 ? Array.from({length: getPageCount()}, (x, i) => i + 1).map((index) => (
+                {reports.length > 0 ? Array.from({ length: getPageCount() }, (x, i) => i + 1).map((index) => (
                     <TabPanel key={index} value={page} index={index} className="listAll listAll-content listAll-content__tab">
                         {reports.map((report, reportIndex) => (
                             <SmallReport key={reportIndex} report={report} handleOpenReport={handleOpenReport} handleApproveReport={handleApproveReport} handleDeleteReport={handleDeleteReport} />
@@ -216,9 +216,9 @@ export function ListAll() {
                 <Button variant="contained" onClick={() => handleSearch(false)} className="listAll listAll-pagination listAll-pagination__search">Refresh</Button>
             </div>
             <Backdrop
-                    open={loading}
-                >
-                    <CircularProgress />
+                open={loading}
+            >
+                <CircularProgress />
             </Backdrop>
             <Dialog open={hasError} onClose={() => setHasError(false)}>
                 <div id={'error-dialog'}>
@@ -231,20 +231,20 @@ export function ListAll() {
                     </DialogActions>
                 </div>
             </Dialog>
-            <Dialog open={approveDialog} onClose={() => {setApproveDialog(false); setSelectedId('')}}>
+            <Dialog open={approveDialog} onClose={() => { setApproveDialog(false); setSelectedId('') }}>
                 <form>
                     <DialogTitle>Confirmation</DialogTitle>
                     <DialogContent>
                         <Typography variant="body1">Are you sure you want to Approve this Report?</Typography>
                         <Typography variant="body2">This cannot be undone and you will not be able to edit or delete this report ever again. Please think twice about this.</Typography>
-                        <TextField 
+                        <TextField
                             label={"Approve Reason"}
                             required
                             value={approveReason}
                             onChange={(event) => setApproveReason(event.target.value)}
                             className='listAll listAll-approve listAll-approve__textfield'
                         />
-                        <TextField 
+                        <TextField
                             label={"Report ID"}
                             value={selectedId}
                             className='listAll listAll-approve listAll-approve__textfield'
@@ -252,24 +252,24 @@ export function ListAll() {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => {setApproveDialog(false); setSelectedId('')}}>Cancel</Button>
+                        <Button onClick={() => { setApproveDialog(false); setSelectedId('') }}>Cancel</Button>
                         <Button onClick={dialogApproveReport}>Approve</Button>
                     </DialogActions>
                 </form>
             </Dialog>
-            <Dialog open={deleteDialog} onClose={() => {setDeleteDialog(false); setSelectedId('')}}>
+            <Dialog open={deleteDialog} onClose={() => { setDeleteDialog(false); setSelectedId('') }}>
                 <form>
                     <DialogTitle>Confirmation</DialogTitle>
                     <DialogContent>
                         <Typography variant="body1">Are you sure you want to Delete this Report?</Typography>
-                        <TextField 
+                        <TextField
                             label={"Delete Reason"}
                             required
                             value={deleteReason}
                             onChange={(event) => setDeleteReason(event.target.value)}
                             className='listAll listAll-delete listAll-delete__textfield'
                         />
-                        <TextField 
+                        <TextField
                             label={"Report ID"}
                             value={selectedId}
                             className='listAll listAll-delete listAll-delete__textfield'
@@ -277,7 +277,7 @@ export function ListAll() {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => {setDeleteDialog(false); setSelectedId('')}}>Cancel</Button>
+                        <Button onClick={() => { setDeleteDialog(false); setSelectedId('') }}>Cancel</Button>
                         <Button onClick={dialogDeleteReport}>Delete</Button>
                     </DialogActions>
                 </form>

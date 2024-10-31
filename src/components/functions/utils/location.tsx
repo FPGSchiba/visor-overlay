@@ -2,8 +2,8 @@ import React from "react";
 import { Checkbox, FormControlLabel, TextField, Tooltip, Typography } from "@mui/material";
 import data from '../../../shared/data.json';
 
-export function Location(props: {formik: any, updating: boolean}) {
-    const {formik, updating} = props;
+export function Location(props: { formik: any, updating: boolean }) {
+    const { formik, updating } = props;
 
     const { classification, surroundings, trade, services, hostiles, defenses, occupants, lethalForce, remainingOccupants, other } = data.tooltips;
 
@@ -11,7 +11,7 @@ export function Location(props: {formik: any, updating: boolean}) {
         <div className="helper helper-loc helper-loc__wrapper">
             <div className="helper helper-loc helper-loc__basic-wrapper">
                 <Typography color={updating ? '#fff' : '#aaa'} variant='h4' className="helper helper-loc helper-loc__heading" >Basic</Typography>
-                <TextField 
+                <TextField
                     label={"System"}
                     name='visorLocation.system'
                     value={formik.values.visorLocation.system}
@@ -19,7 +19,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     className='helper helper-loc helper-loc__textfield'
                     disabled={!updating}
                 />
-                <TextField 
+                <TextField
                     label={"Stellar Object"}
                     name='visorLocation.planetLevelObject'
                     value={formik.values.visorLocation.stellarObject}
@@ -27,7 +27,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     className='helper helper-loc helper-loc__textfield right'
                     disabled={!updating}
                 />
-                <TextField 
+                <TextField
                     label={"Planet Level Object"}
                     name='visorLocation.planetLevelObject'
                     value={formik.values.visorLocation.planetLevelObject}
@@ -35,7 +35,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     className='helper helper-loc helper-loc__textfield'
                     disabled={!updating}
                 />
-                <TextField 
+                <TextField
                     label={"POI Type"}
                     name='visorLocation.poiType'
                     value={formik.values.visorLocation.poiType}
@@ -43,7 +43,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     className='helper helper-loc helper-loc__textfield right'
                     disabled={!updating}
                 />
-                <TextField 
+                <TextField
                     label={"Jurisdiction"}
                     name='visorLocation.jurisdiction'
                     value={formik.values.visorLocation.jurisdiction}
@@ -55,7 +55,7 @@ export function Location(props: {formik: any, updating: boolean}) {
             <div className="helper helper-loc helper-loc__detail-wrapper">
                 <Typography color={updating ? '#fff' : '#aaa'} variant='h4' className="helper helper-loc helper-loc__heading" >Details</Typography>
                 <Tooltip title={classification} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Location Classification"}
                         multiline
                         name='locationDetails.classification'
@@ -66,7 +66,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={surroundings} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Surroundings"}
                         multiline
                         name='locationDetails.surroundings'
@@ -77,7 +77,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={trade} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Trade Details"}
                         multiline
                         name='locationDetails.trade'
@@ -88,7 +88,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={services} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Services"}
                         multiline
                         name='locationDetails.services'
@@ -99,7 +99,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={hostiles} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Hostiles"}
                         multiline
                         name='locationDetails.hostiles'
@@ -110,7 +110,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={defenses} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Defenses"}
                         multiline
                         name='locationDetails.defenses'
@@ -121,7 +121,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={occupants} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Occupants"}
                         multiline
                         name='locationDetails.occupants'
@@ -132,7 +132,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={lethalForce} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Lethal Force"}
                         multiline
                         name='locationDetails.lethalForce'
@@ -143,7 +143,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={remainingOccupants} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Remaining Occupants"}
                         multiline
                         name='locationDetails.remainingOccupants'
@@ -154,7 +154,7 @@ export function Location(props: {formik: any, updating: boolean}) {
                     />
                 </Tooltip>
                 <Tooltip title={other} arrow placement="right">
-                    <TextField 
+                    <TextField
                         label={"Other zone"}
                         multiline
                         name='locationDetails.zones.other'

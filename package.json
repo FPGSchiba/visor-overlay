@@ -1,144 +1,51 @@
 {
   "name": "visor-overlay",
-  "productName": "visor-overlay",
   "version": "0.1.0",
-  "description": "A Game Overlay for Star Citzen, that connects to the vanguard visor database.",
-  "main": ".webpack/main",
+  "private": true,
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
-  },
-  "keywords": [],
-  "author": {
-    "name": "FPG Schiba",
-    "email": "craftzockerlp@gmail.com"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "icon": "./resources/visor.ico",
-        "platform": "win32"
-      },
-      "rebuildConfig": {
-        "extraModules": [
-          "electron-overlay-window"
-        ],
-        "onlyModules": [
-          "electron-overlay-window"
-        ]
-      },
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "FPGSchiba",
-              "name": "visor-overlay"
-            },
-            "prerelease": true,
-            "draft": true
-          }
-        }
-      ],
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "platforms": [
-            "win32"
-          ],
-          "config": {
-            "name": "visor_overlay",
-            "authors": "FPG Schiba",
-            "owners": "FPG Schiba",
-            "description": "A Game Overlay for Star Citizen, used to enter Navigational Points of interest into a managed Database.",
-            "icon": "./resources/visor.ico",
-            "setupIcon": "./resources/visor.ico",
-            "loadingGif": "./resources/vngd.gif"
-          }
-        }
-      ],
-      "plugins": [
-        {
-          "name": "@electron-forge/plugin-webpack",
-          "config": {
-            "devContentSecurityPolicy": "default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;",
-            "mainConfig": "./webpack.main.config.js",
-            "renderer": {
-              "config": "./webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.ts",
-                  "name": "main_window"
-                }
-              ]
-            },
-            "port": 3001
-          }
-        }
-      ]
-    }
-  },
-  "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.66",
-    "@electron-forge/maker-deb": "^6.0.0-beta.66",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.66",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.66",
-    "@electron-forge/maker-zip": "^6.0.0-beta.66",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.66",
-    "@electron-forge/publisher-github": "^6.0.5",
-    "@types/js-cookie": "^3.0.2",
-    "@types/mousetrap": "^1.6.9",
-    "@types/react": "^18.0.20",
-    "@types/react-dom": "^18.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.37.0",
-    "@typescript-eslint/parser": "^5.37.0",
-    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "css-loader": "^6.7.1",
-    "electron": "30.0.0-alpha.3",
-    "eslint": "^8.23.1",
-    "eslint-plugin-import": "^2.26.0",
-    "fork-ts-checker-webpack-plugin": "^7.2.13",
-    "node-loader": "^2.0.0",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.3.1",
-    "typescript": "^4.5.5",
-    "webpack-node-externals": "^3.0.0"
+    "dev": "node server.js",
+    "build": "node esbuild.mjs",
+    "start": "node server.js",
+    "tauri": "tauri"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
-    "@mui/icons-material": "^5.10.6",
-    "@mui/material": "^5.10.7",
-    "@mui/x-date-pickers": "^5.0.16",
-    "@paymoapp/active-window": "^2.1.1",
-    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
-    "axios": "^1.2.2",
-    "electron": "30.0.0-alpha.3",
-    "electron-squirrel-startup": "^1.0.0",
-    "formik": "^2.2.9",
-    "js-cookie": "^3.0.1",
-    "moment": "^2.29.4",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.6",
+    "@mui/material": "^6.1.6",
+    "@mui/x-date-pickers": "^7.22.0",
+    "axios": "^1.7.7",
+    "formik": "^2.4.6",
+    "js-cookie": "^3.0.5",
+    "moment": "^2.30.1",
     "mousetrap": "^1.6.5",
-    "node-abi": "^3.62.0",
+    "node-abi": "^3.71.0",
     "node-loader": "^2.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^7.2.6",
-    "react-router-dom": "^6.4.0",
-    "redux": "^4.1.2",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.1",
-    "sass": "^1.54.9",
-    "sass-loader": "^13.0.2",
-    "style-loader": "^3.3.1",
-    "ts-loader": "^9.3.1",
-    "update-electron-app": "^2.0.1",
-    "url-loader": "^4.1.1",
-    "webpack-node-externals": "^3.0.0",
-    "yup": "^0.32.11"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-redux": "^9.1.2",
+    "react-router-dom": "^6.27.0",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@redux-devtools/extension": "^3.3.0",
+    "@reduxjs/toolkit": "^2.3.0",
+    "@tauri-apps/cli": "^2.0.4",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^22",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.20",
+    "esbuild": "^0.24.0",
+    "esbuild-sass-plugin": "^3.3.1",
+    "esbuild-server": "^0.3.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.0.2",
+    "node-stdlib-browser": "^1.2.1",
+    "postcss": "^8.4.47",
+    "sass": "^1.80.5",
+    "typescript": "^5"
   }
 }

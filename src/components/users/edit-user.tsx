@@ -5,8 +5,8 @@ import { AppState, IUser } from "../../store/format";
 import CloseIcon from '@mui/icons-material/Close';
 import { getSpecificUser, updateUser } from "../../store/actions/user";
 
-export function EditUser(props: {handle: string, setOpen: (open: boolean) => void, fetchUserData: () => void}) {
-    const {setOpen, handle, fetchUserData} = props;
+export function EditUser(props: { handle: string, setOpen: (open: boolean) => void, fetchUserData: () => void }) {
+    const { setOpen, handle, fetchUserData } = props;
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [role, setRole] = useState('');
@@ -30,7 +30,7 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
 
     const handleUpdate = () => {
         dispatch(
-            updateUser(orgToken, userToken, {handle, role}, (err) => {
+            updateUser(orgToken, userToken, { handle, role }, (err) => {
                 if (!err) {
                     fetchUserData();
                     setOpen(false);
@@ -45,7 +45,7 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
     useEffect(() => {
         if (handle != '') {
             dispatch(getSpecificUser(orgToken, userToken, handle, (err, data) => {
-                if(!err && data) {
+                if (!err && data) {
                     setRole(data.role);
                     setLoading(false);
                 }
@@ -57,7 +57,7 @@ export function EditUser(props: {handle: string, setOpen: (open: boolean) => voi
         <div className="userEdit userEdit-wrapper">
             <Typography className="userEdit userEdit-heading" variant="h5" >Editing User: {handle}</Typography>
             <IconButton className="userEdit userEdit-button" onClick={handleClose}><CloseIcon /></IconButton>
-            { !loading ? (
+            {!loading ? (
                 <div className="userEdit userEdit-form">
                     <Select
                         value={role}
